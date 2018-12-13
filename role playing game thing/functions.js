@@ -26,11 +26,11 @@ function clog(g)
 {
 	$('#console').text(g);
 }
-function getRadian(degrees) 
+function getRadian(degrees)
 {
   return degrees * Math.PI / 180;
 };
-function getRotationDegrees(obj) 
+function getRotationDegrees(obj)
 {
   var matrix = obj.css("-webkit-transform") ||
   obj.css("-moz-transform")    ||
@@ -42,106 +42,117 @@ function getRotationDegrees(obj)
     var a = values[0];
     var b = values[1];
     var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
-  } else { var angle = 0; }
+  }
+	else
+	{
+		var angle = 0;
+	}
   return (angle < 0) ? angle +=360 : angle;
 }
 
-
 function get_aspects(ubject)
 {
-	var aspre =new Object();
+	var aspre = new Object();
 		aspre['width'] = $(ubject).outerWidth();
 		aspre['height'] = $(ubject).outerHeight();
 		//aspre['deg'] = getRotationDegrees($(ubject))
-		aspre['top'] = parseInt($(ubject).css('top')); + parseInt($(ubject).parent().css('top')); 
+		aspre['top'] = parseInt($(ubject).css('top')); + parseInt($(ubject).parent().css('top'));
 		aspre['left'] = parseInt($(ubject).css('left')); + parseInt($(ubject).parent().css('left'));
-		aspre['bottom'] = aspre['top']+aspre['height']
+		aspre['bottom'] = aspre['top']+aspre['height'];
 		aspre['right'] = aspre['left']+aspre['width'];
- 
-	return aspre
+
+	return aspre;
 }
-function isBetween(n,t,b)
+
+function outputAspects(object, aspect)
 {
-	if(n<=t && n>=b)
+		var character = get_aspects(object);
+		console.log(character[aspect]);
+
+}
+
+function isBetween(n, t, b)
+{
+	if(n <= t && n >= b)
 	{
-		return true
+		return true;
 	}
 	else
 	{
-		return false
+		return false;
 	}
 }
-function touching(thing1,thing2)
-{	
-	var isThereATouch = false
+function touching(thing1, thing2)
+{
+	var isThereATouch = false;
 	var blast = get_aspects(thing1);
-		
+
 	$(thing2).each(function(){
-			
+
 		var bad = get_aspects(this);
-		
+
 		// if(thing1 == '#you' && thing2 == '.item')
 		// {
 			// console.log(bad)
 			// console.log(blast)
-			
+
 		// }
-		
+
 		var hor = false;
 		var ver = false;
 		//if(blast['right']	>=bad['left'] 		&& blast['right']	<=bad['right'])
-		if(isBetween(blast['right'],bad['right'],bad['left']))
+		if(isBetween(blast['right'], bad['right'], bad['left']))
 		{
 			hor = true;
 			//console.log('hor1')
 		}
-		if(isBetween(blast['left'],bad['right'],bad['left']))
+		if(isBetween(blast['left'], bad['right'], bad['left']))
 		{
 			hor = true;
 			//console.log('hor2')
 		}
-		if(isBetween(bad['right'],blast['right'],blast['left']))
+		if(isBetween(bad['right'], blast['right'], blast['left']))
 		{
 			hor = true;
 			//console.log('hor3')
 		}
-		if(isBetween(bad['left'],blast['right'],blast['left']))
+		if(isBetween(bad['left'], blast['right'], blast['left']))
 		{
 			hor = true;
 			//console.log('hor4')
 		}
-		
-		if(isBetween(blast['bottom'],bad['bottom'],bad['top']))
+
+		if(isBetween(blast['bottom'], bad['bottom'], bad['top']))
 		{
 			ver = true;
 			//console.log('ver1')
 		}
-		if(isBetween(blast['top'],bad['bottom'],bad['top']))
+		if(isBetween(blast['top'], bad['bottom'], bad['top']))
 		{
 			ver = true;
 			//console.log('ver2')
-		}		
-		if(isBetween(bad['bottom'],blast['bottom'],blast['top']))
+		}
+		if(isBetween(bad['bottom'], blast['bottom'], blast['top']))
 		{
 			ver = true;
 			//console.log('ver3')
 		}
-		if(isBetween(bad['top'],blast['bottom'],blast['top']))
+		if(isBetween(bad['top'], blast['bottom'], blast['top']))
 		{
 			ver = true;
 			//console.log('ver4')
 		}
-		
-	
+
+
 		if(hor && ver)
 		{
 			isThereATouch = $(this);
 			//isThereATouch = bad;
 		}
 	});
-		
-		return isThereATouch
-	
+
+		return isThereATouch;
+
 }
 function get_px(toporleft,guy)
 {
@@ -156,7 +167,7 @@ function move(toporleft,speed,guy)
 	var maxheight=$(window).height()-guyasp['height'];
 
 	var oldvalpx = guyasp[toporleft];
-	if(	
+	if(
 		//CAN WE move up
 		(toporleft=='top' && speed<0 && oldvalpx>0) ||
 		//CAN WE move down
@@ -167,7 +178,7 @@ function move(toporleft,speed,guy)
 		(toporleft=='left' && speed>0 && oldvalpx<maxwidth)
 	)
 	{
-		$(guy).css(toporleft,(oldvalpx+speed)+'px')	
+		$(guy).css(toporleft,(oldvalpx+speed)+'px')
 	}
 };
 function move2(toporleft,speed,guy)
