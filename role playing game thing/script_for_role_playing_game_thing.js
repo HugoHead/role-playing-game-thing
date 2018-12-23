@@ -1,3 +1,4 @@
+var devmode = false;
 var frame_counter=0;
 var sprite_position = 0;
 var weirdoscript = new Array();
@@ -17,6 +18,9 @@ function count_frames()
 	{
 		frame_counter=0;
 	}
+}
+function devchange() {
+	devmode = true;
 }
 function custoalert(message)
 {
@@ -279,8 +283,15 @@ var animate = function()
 	{
 		moving();
 	}
+	if(devmode == true)
+	{
+		console.log(outputAspects("#bottom", "top"));
+                console.log(outputAspects("#you", "top"));
+		console.log("-----------------------------------------")
+	}
 	pickupitem();
 	count_frames();
+
 }
 $(document).ready(function()
 {
