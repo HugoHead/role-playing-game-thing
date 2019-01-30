@@ -57,7 +57,7 @@ div#inventory *
 }
 div#camera_movement *
 {
-	background-color: rgba(20,20,20,0.01);
+	background-color: rgba(20,20,20,0.0);
 }
 div#top
 {
@@ -95,6 +95,14 @@ div#bottom
 	bottom: 0px;
 	z-index: -1;
 }
+div#shadow
+{
+	position: absolute;
+	top: 300px;
+	left: 710px;
+	width: 48px;
+	height: 48px;
+}
 
 div.darn_obstacle
 {
@@ -103,65 +111,104 @@ div.darn_obstacle
 	/* background-color: green; */
 	display: inline-block;
 }
+div#cave
+{
+    top: 539px;
+    left: 449px;
+    width: 635px;
+    height: 198px;
+	z-index: -2;
+    background-color: green;
+    display: inline-block;
+}
 div#test_obstacle
 {
 	top: 100px;
 	left: 700px;
 	background-color: green;
+	width: 384px;
 }
 div#test_obstacle2
 {
 	top: 300px;
 	left: 1150px;
 	background-color: green;
+	width: 384px;
 }
 div#test_obstacle3
 {
 	top: 350px;
 	left: 350px;
 	background-color: green;
+	width: 384px;
 }
 div#test_obstacle4
 {
 	top: 350px;
 	left: 700px;
 	background-color: green;
+	width: 384px;
 }
 div#test_obstacle5
 {
-	top: 450px;
-	left: 200px;
-	background-color: green;
+    top: 246px;
+    left: 311px;
+    background-color: green;
+    width: 335px;
 }
 div#test_obstacle6
 {
-	top: 750px;
-	left: 400px;
-	background-color: green;
+    top: 732px;
+    left: 404px;
+    background-color: green;
+	width: 384px;
+}
+div#test_obstacle7
+{
+    top: 545px;
+    left: 1149px;
+    background-color: green;
+	width: 384px;
+}
+div#test_obstacle8
+{
+    top: 595px;
+    left: 766px;
+    background-color: green;
+}
+div#test_obstacle9
+{
+    top: 540px;
+    left: 174px;
+	height: 195px;
+    background-color: green;
+	width: 384px;
+}
+div#test_obstacle10
+{
+    top: -6px;
+    left: 337px;
+    background-color: green;
+	width: 384px;
 }
 div#edge_left
 {
 	top: 0;
 	left: 20px;
 	width: 10px;
-	height: 10000px;
+	height: 1000px;
 	background-color: green;
 }
-div#test_obstacle7
-{
-	top: 450px;
-	left: 200px;
-	background-color: green;
-}
+
 div#game_elements div#box
 {
 	top: 304;
-	left: 1014;	
+	left: 1014;
 }
 div#game_elements div#square
 {
 	top: 374;
-	left: 1094;	
+	left: 1094;
 }
 
 div#box
@@ -213,5 +260,5 @@ div#talkingguy
 	left: 10;
 	width: 300px;
 	height: 300px;
-	
+
 }
