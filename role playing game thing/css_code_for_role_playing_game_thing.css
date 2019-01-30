@@ -110,6 +110,7 @@ div.darn_obstacle
 	height: 192px;
 	/* background-color: green; */
 	display: inline-block;
+	position: relative;
 }
 div#cave
 {
@@ -261,4 +262,10 @@ div#talkingguy
 	width: 300px;
 	height: 300px;
 
+}
+#sword
+{
+	visibility: hidden;
+	width: 20px;
+	height: 20px;
 }

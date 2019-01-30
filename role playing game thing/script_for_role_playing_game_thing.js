@@ -1,6 +1,7 @@
 var devmode = false;
 var frame_counter=0;
 var sprite_position = 0;
+var swordPickedUp = false;
 var weirdoscript = new Array();
 	weirdoscript[0]= "weirdo: Good'ay person,<br> what yo' name";
 	weirdoscript[1]= "weirdo: I am very hairy";
@@ -86,6 +87,28 @@ function change_sprite()
 		sprite_position=0;
 	}
 }
+function toggleCave(on)
+{
+	if (on && !(swordPickedUp))
+	{
+		$("#cave").css("background-color","rgba(20,20,20,0.4)");
+		document.getElementById("sword").style.visibility = "visible";
+	}
+	else if (on && swordPickedUp)
+	{
+		$("#cave").css("background-color","rgba(20,20,20,0.4)");
+	}
+	else if (swordPickedUp)
+	{
+		$("#cave").css("background-color","green");
+	}
+	else 
+	{
+		$("#cave").css("background-color","green");
+		document.getElementById("sword").style.visibility = "hidden";
+	}
+	
+}
 function moving()
 {
 	//move foward
@@ -109,11 +132,11 @@ function moving()
 		}
 		if(touching("#you","#cave"))
 		{
-			$("#cave").css("background-color","rgba(20,20,20,0.4)")
+			toggleCave(true);
 		}
 		else
 		{
-			$("#cave").css("background-color","green")
+			toggleCave(false);
 		}
 		if(touching("#shadow","#top"))
 		{
@@ -139,11 +162,11 @@ function moving()
 		}
 		if(touching("#you","#cave"))
 		{
-			$("#cave").css("background-color","rgba(20,20,20,0.4)")
+			toggleCave(true);
 		}
 		else
 		{
-			$("#cave").css("background-color","green")
+			toggleCave(false);
 		}
 		if(touching("#shadow","#bottom"))
 		{
@@ -165,20 +188,20 @@ function moving()
 				talk(true);
 			}
 			move2('left',5,'#you');
-			move2('left',5,'#shadow')
+			move2('left',5,'#shadow');
 		}
 		if(touching("#you","#cave"))
 		{
-			$("#cave").css("background-color","rgba(20,20,20,0.4)")
+			toggleCave(true);
 		}
 		else
 		{
-			$("#cave").css("background-color","green")
+			toggleCave(false);
 		}
 		if(touching("#shadow","#left"))
 		{
 			move2('left',5,'#game_elements*');
-			move2('left',5,'#shadow')
+			move2('left',5,'#shadow');
 			// move2('left',5,'#you')
 		}
 	}
@@ -186,7 +209,7 @@ function moving()
 	{
 		move2('left',5,'#you');
 		move2('left',5,'#shadow');
-		$('#you').css('transform','rotate(270deg)')
+		$('#you').css('transform','rotate(270deg)');
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
@@ -194,16 +217,16 @@ function moving()
 			{
 				talk(true);
 			}
-			move2('left',-5,'#you')
-			move2('left',-5,'#shadow')
+			move2('left',-5,'#you');
+			move2('left',-5,'#shadow');
 		}
 		if(touching("#you","#cave"))
 		{
-			$("#cave").css("background-color","rgba(20,20,20,0.4)")
+			toggleCave(true);
 		}
 		else
 		{
-			$("#cave").css("background-color","green")
+			toggleCave(false);
 		}
 		if(touching("#shadow","#right"))
 		{
@@ -233,14 +256,14 @@ function hideInventory()
 }
 function pickupitem()
 {
-	var a = touching("#you","#game_elements .item");
-	//console.log(a)
+	var a = touching("#you", "#game_elements .item");
 	if(a)
 	{
-		a.remove()
-		custoalert("You have picked up a "+a.attr("id"));
+		a.remove();
+		custoalert("You have picked up a " + a.attr("id"));
 		$("#inventory").append(a);
 	}
+	return a;
 }
 var animate = function()
 {
@@ -252,8 +275,8 @@ var animate = function()
 	if(devmode == true)
 	{
 		console.log(outputAspects("#bottom", "top"));
-    console.log(outputAspects("#you", "top"));
-		console.log("-----------------------------------------")
+		console.log(outputAspects("#you", "top"));
+		console.log("-----------------------------------------");
 	}
 	pickupitem();
 	count_frames();
@@ -263,6 +286,9 @@ $(document).ready(function()
 {
 	hideInventory();
 	animate();
+	//move the sword into the cave
+	move("left", 200, document.getElementById("sword"));
+	move("top", 100, document.getElementById("sword"));
 
 });
 
@@ -273,4 +299,4 @@ $(document).on('keydown',function(evt)
 		toggleInventory();
 	}
 
-})
+});

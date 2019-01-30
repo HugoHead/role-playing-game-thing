@@ -85,7 +85,7 @@ function isBetween(n, t, b)
 function touching(thing1, thing2)
 {
 	var isThereATouch = false;
-	var blast = get_aspects(thing1);
+	var thing1Aspects = get_aspects(thing1);
 
 	$(thing2).each(function(){
 
@@ -101,43 +101,43 @@ function touching(thing1, thing2)
 		var hor = false;
 		var ver = false;
 		//if(blast['right']	>=bad['left'] 		&& blast['right']	<=bad['right'])
-		if(isBetween(blast['right'], bad['right'], bad['left']))
+		if(isBetween(thing1Aspects['right'], bad['right'], bad['left']))
 		{
 			hor = true;
 			//console.log('hor1')
 		}
-		if(isBetween(blast['left'], bad['right'], bad['left']))
+		if(isBetween(thing1Aspects['left'], bad['right'], bad['left']))
 		{
 			hor = true;
 			//console.log('hor2')
 		}
-		if(isBetween(bad['right'], blast['right'], blast['left']))
+		if(isBetween(bad['right'], thing1Aspects['right'], thing1Aspects['left']))
 		{
 			hor = true;
 			//console.log('hor3')
 		}
-		if(isBetween(bad['left'], blast['right'], blast['left']))
+		if(isBetween(bad['left'], thing1Aspects['right'], thing1Aspects['left']))
 		{
 			hor = true;
 			//console.log('hor4')
 		}
 
-		if(isBetween(blast['bottom'], bad['bottom'], bad['top']))
+		if(isBetween(thing1Aspects['bottom'], bad['bottom'], bad['top']))
 		{
 			ver = true;
 			//console.log('ver1')
 		}
-		if(isBetween(blast['top'], bad['bottom'], bad['top']))
+		if(isBetween(thing1Aspects['top'], bad['bottom'], bad['top']))
 		{
 			ver = true;
 			//console.log('ver2')
 		}
-		if(isBetween(bad['bottom'], blast['bottom'], blast['top']))
+		if(isBetween(bad['bottom'], thing1Aspects['bottom'], thing1Aspects['top']))
 		{
 			ver = true;
 			//console.log('ver3')
 		}
-		if(isBetween(bad['top'], blast['bottom'], blast['top']))
+		if(isBetween(bad['top'], thing1Aspects['bottom'], thing1Aspects['top']))
 		{
 			ver = true;
 			//console.log('ver4')
@@ -185,5 +185,5 @@ function move2(toporleft,speed,guy)
 {
 	var guyasp = get_aspects($(guy))
 	var oldvalpx = guyasp[toporleft];
-		$(guy).css(toporleft,(oldvalpx+speed)+'px')
+	$(guy).css(toporleft,(oldvalpx+speed)+'px')
 };
