@@ -32,7 +32,7 @@ function custoalert(message)
 	{
 		$("#talkingguy[data-num='"+milliseconds+"']").hide(500,function(){$("#talkingguy[data-num='"+milliseconds+"']").remove()});
 	}
-	,2000);
+	, 2000);
 }
 function talk(check)
 {
@@ -267,7 +267,8 @@ function pickupitem()
 }
 var animate = function()
 {
-	requestAnimationFrame(animate)
+	requestAnimationFrame(animate);
+    //check to see if the inventory is toggled by seeing if there is a bluf filter.
 	if(!($("#game_elements").hasClass("blurFilter")))
 	{
 		moving();
@@ -287,8 +288,8 @@ $(document).ready(function()
 	hideInventory();
 	animate();
 	//move the sword into the cave
-	move("left", 200, document.getElementById("sword"));
-	move("top", 100, document.getElementById("sword"));
+	move("left", 650, document.getElementById("sword"));
+	move("top", 630, document.getElementById("sword"));
 
 });
 
@@ -298,5 +299,4 @@ $(document).on('keydown',function(evt)
 	{
 		toggleInventory();
 	}
-
 });
