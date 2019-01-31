@@ -142,10 +142,11 @@ div#test_obstacle2
 }
 div#test_obstacle3
 {
-	top: 350px;
-	left: 350px;
-	background-color: green;
-	width: 384px;
+    top: 372px;
+    left: 350px;
+    background-color: green;
+    width: 384px;
+    height: 169px;
 }
 div#test_obstacle4
 {
