@@ -49,6 +49,7 @@ div#weirdoguy
 	padding-top: 54px;
 	padding-left: 134px;
 }
+
 div#inventory *
 {
 	position: relative;
@@ -201,6 +202,11 @@ div#edge_left
 	background-color: green;
 }
 
+div#game_elements div#sword
+{
+	top: 630px;
+	left: 650px;
+}
 div#game_elements div#box
 {
 	top: 304;
@@ -218,6 +224,17 @@ div#box
 	height: 40;
 	display: inline-block;
 	background-color: gray;
+}
+#sword
+{
+	width: 64px;
+	height: 49px;
+	top: 630px;
+	left: 650px;
+	background-image: url('sword.png');
+	background-size: cover;
+	z-index: -4;
+	display: inline-block;
 }
 div#square
 {
@@ -241,8 +258,8 @@ div#talkingguy
 }
 .blurFilter
 {
-	width: 100%;
-	height: 100%;
+	width: 1220%;
+	height: 1220%;
 	filter: blur(10px);
 	-webkit-filter: blur(10px);
 	-moz-filter: blur(10px);
@@ -262,10 +279,4 @@ div#talkingguy
 	width: 300px;
 	height: 300px;
 
-}
-#sword
-{
-	visibility: hidden;
-	width: 30px;
-	height: 30px;
 }

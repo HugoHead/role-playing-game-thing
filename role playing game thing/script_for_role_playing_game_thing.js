@@ -1,14 +1,5 @@
-var devmode = false;
 var frame_counter=0;
 var sprite_position = 0;
-var swordPickedUp = false;
-var weirdoscript = new Array();
-	weirdoscript[0]= "weirdo: Good'ay person,<br> what yo' name";
-	weirdoscript[1]= "weirdo: I am very hairy";
-	weirdoscript[2]= "weirdo: I need conditioner";
-	weirdoscript[3]= "weirdo: There is only one <br>guy with conditioner";
-	weirdoscript[4]= "weirdo: He'll trade a square<br> and a box for conditioner";
-	weirdoscript[5]= "weirdo: Could you help me";
 function count_frames()
 {
 	if(frame_counter<59)
@@ -20,9 +11,7 @@ function count_frames()
 		frame_counter=0;
 	}
 }
-function devchange() {
-	devmode = true;
-}
+
 function custoalert(message)
 {
 	var milliseconds = (new Date).getTime();
@@ -36,6 +25,13 @@ function custoalert(message)
 }
 function talk(check)
 {
+	var weirdoscript = new Array();
+		weirdoscript[0]= "weirdo: Good'ay person,<br> what yo' name";
+		weirdoscript[1]= "weirdo: I am very hairy";
+		weirdoscript[2]= "weirdo: I need conditioner";
+		weirdoscript[3]= "weirdo: There is only one <br>guy with conditioner";
+		weirdoscript[4]= "weirdo: He'll trade a square<br> and a box for conditioner";
+		weirdoscript[5]= "weirdo: Could you help me";
 	if(check)
 	{
 		custoalert(weirdoscript[0]);
@@ -87,28 +83,19 @@ function change_sprite()
 		sprite_position=0;
 	}
 }
-function toggleCave(on)
+function togglecave()
 {
-	if (on && !(swordPickedUp))
-	{
-		$("#cave").css("background-color","rgba(20,20,20,0.4)");
-		document.getElementById("sword").style.visibility = "visible";
-	}
-	else if (on && swordPickedUp)
-	{
-		$("#cave").css("background-color","rgba(20,20,20,0.4)");
-	}
-	else if (swordPickedUp)
-	{
-		$("#cave").css("background-color","green");
-	}
-	else 
-	{
-		$("#cave").css("background-color","green");
-		document.getElementById("sword").style.visibility = "hidden";
-	}
+	 if(touching("#you","#cave"))
+		{
+			$("#cave").css("background-color","rgba(20,20,20,0.4)");
+		}
+	else
+		{
+			$("#cave").css("background-color","green");
+		}
 	
 }
+
 function moving()
 {
 	//move foward
@@ -129,14 +116,6 @@ function moving()
 
 			move2('top',5,'#you');
 			move2('top',5,'#shadow');
-		}
-		if(touching("#you","#cave"))
-		{
-			toggleCave(true);
-		}
-		else
-		{
-			toggleCave(false);
 		}
 		if(touching("#shadow","#top"))
 		{
@@ -160,14 +139,6 @@ function moving()
 			move2('top',-5,'#you');
 			move2('top',-5,'#shadow');
 		}
-		if(touching("#you","#cave"))
-		{
-			toggleCave(true);
-		}
-		else
-		{
-			toggleCave(false);
-		}
 		if(touching("#shadow","#bottom"))
 		{
 			move2('top',-5,'#game_elements*');
@@ -190,14 +161,6 @@ function moving()
 			move2('left',5,'#you');
 			move2('left',5,'#shadow');
 		}
-		if(touching("#you","#cave"))
-		{
-			toggleCave(true);
-		}
-		else
-		{
-			toggleCave(false);
-		}
 		if(touching("#shadow","#left"))
 		{
 			move2('left',5,'#game_elements*');
@@ -219,14 +182,6 @@ function moving()
 			}
 			move2('left',-5,'#you');
 			move2('left',-5,'#shadow');
-		}
-		if(touching("#you","#cave"))
-		{
-			toggleCave(true);
-		}
-		else
-		{
-			toggleCave(false);
 		}
 		if(touching("#shadow","#right"))
 		{
@@ -272,12 +227,7 @@ var animate = function()
 	if(!($("#game_elements").hasClass("blurFilter")))
 	{
 		moving();
-	}
-	if(devmode == true)
-	{
-		console.log(outputAspects("#bottom", "top"));
-		console.log(outputAspects("#you", "top"));
-		console.log("-----------------------------------------");
+		togglecave();
 	}
 	pickupitem();
 	count_frames();
@@ -288,9 +238,9 @@ $(document).ready(function()
 	hideInventory();
 	animate();
 	//move the sword into the cave
-	move("left", 650, document.getElementById("sword"));
+	/*move("left", 650, document.getElementById("sword"));
 	move("top", 630, document.getElementById("sword"));
-
+*/
 });
 
 $(document).on('keydown',function(evt)
