@@ -55,6 +55,9 @@ div#inventory *
 	position: relative;
 	margin: 5px;
 	margin-top: 10px;
+	top: 0;
+	left: 0;
+	z-index: 0;
 }
 div#camera_movement *
 {
@@ -146,10 +149,11 @@ div#test_obstacle3
 }
 div#test_obstacle4
 {
-	top: 350px;
-	left: 700px;
-	background-color: green;
-	width: 384px;
+    top: 373px;
+    left: 700px;
+    background-color: green;
+    width: 384px;
+    height: 177px
 }
 div#test_obstacle5
 {
@@ -227,8 +231,8 @@ div#box
 }
 #sword
 {
-	width: 64px;
-	height: 49px;
+	width: 40px;
+	height: 40px;
 	top: 630px;
 	left: 650px;
 	background-image: url('sword.png');
