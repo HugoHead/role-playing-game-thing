@@ -236,16 +236,16 @@ var animate = function()
 }
 function makeElements()
 {
-	var terain1 = new componet(384, 192, 700, 99, "green", $("#game_elements"), "darn_obstacle");
-	var terain2 = new componet(384, 192, 1150, 300, "green", $("#game_elements"), "darn_obstacle");
-	var terain3 = new componet(384, 169, 350, 372, "green", $("#game_elements"), "darn_obstacle");
-	var terain4 = new componet(384, 168, 700, 373, "green", $("#game_elements"), "darn_obstacle");
-	var terain5 = new componet(335, 192, 311, 246, "green", $("#game_elements"), "darn_obstacle");
-	var terain6 = new componet(384, 192, 404, 732, "green", $("#game_elements"), "darn_obstacle");
-	var terain7 = new componet(384, 192, 1149, 545, "green", $("#game_elements"), "darn_obstacle");
-	var terain8 = new componet(384, 192, 766, 595, "green", $("#game_elements"), "darn_obstacle");
-	var terain9 = new componet(384, 195, 174, 540, "green", $("#game_elements"), "darn_obstacle");
-	var terain10 = new componet(384, 192, 337, -6, "green", $("#game_elements"), "darn_obstacle");
+	var terain1 = new componet(384, 192, 700, 99, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain2 = new componet(384, 192, 1150, 300, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain3 = new componet(384, 169, 350, 372, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain4 = new componet(384, 168, 700, 373, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain5 = new componet(335, 192, 311, 246, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain6 = new componet(384, 192, 404, 732, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain7 = new componet(384, 192, 1149, 545, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain8 = new componet(384, 192, 766, 595, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain9 = new componet(384, 195, 174, 540, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain10 = new componet(384, 192, 337, -6, "green", $("#game_elements"), ["darn_obstacle"]);
 	terain1.update();
 	terain2.update();
 	terain3.update();
