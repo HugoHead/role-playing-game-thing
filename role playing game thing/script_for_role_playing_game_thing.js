@@ -246,16 +246,6 @@ function makeElements()
 	var terain8 = new componet(384, 192, 766, 595, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain9 = new componet(384, 195, 174, 540, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain10 = new componet(384, 192, 337, -6, "green", $("#game_elements"), ["darn_obstacle"]);
-	terain1.update();
-	terain2.update();
-	terain3.update();
-	terain4.update();
-	terain5.update();
-	terain6.update();
-	terain7.update();
-	terain8.update();
-	terain9.update();
-	terain10.update();
 }
 $(document).ready(function()
 {

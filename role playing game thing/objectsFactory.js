@@ -33,4 +33,5 @@ function componet(width, height, x, y, colorOrURL, parant, classes)
             this.element.style.backgroundColor = this.colorOrURL;
         }
     }
+    this.update();
 }
