@@ -1,4 +1,4 @@
-function componet(width, height, x, y, colorOrURL, parant, classes)
+function componet(width, height, x, y, colorOrURL, parant, classes, id)
 {
     this.width = width.toString(10) + "px";
     this.height = height.toString(10) + "px";
@@ -7,7 +7,7 @@ function componet(width, height, x, y, colorOrURL, parant, classes)
     this.colorOrURL = colorOrURL;
     this.classes = classes;
     this.parant = parant;
-    this.element;
+    this.element;this.id;
     this.update = function()
     {
         this.element = document.createElement("DIV");
@@ -22,6 +22,10 @@ function componet(width, height, x, y, colorOrURL, parant, classes)
             {
                 this.element.classList.add(classes[i]);
             }
+        }
+        if (this.id != undefined)
+        {
+            this.element.setAttribute("id",this.id)
         }
         this.parant.append(this.element);
         if (this.colorOrURL.search("."))//the colorOrUrl is a url

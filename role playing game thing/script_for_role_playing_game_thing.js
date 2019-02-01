@@ -1,6 +1,6 @@
 var frame_counter=0;
 var sprite_position = 0;
-
+var terrain;
 function count_frames()
 {
 	if(frame_counter<59)
@@ -246,10 +246,11 @@ function makeElements()
 	var terain8 = new componet(384, 192, 766, 595, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain9 = new componet(384, 195, 174, 540, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain10 = new componet(384, 192, 337, -6, "green", $("#game_elements"), ["darn_obstacle"]);
+    return [terain1,terain2,terain3,terain4,terain5,terain6,terain7,terain8,terain9,terain10];
 }
 $(document).ready(function()
 {
-	makeElements()
+	terrain = makeElements();
 	hideInventory();
 	animate();
 
