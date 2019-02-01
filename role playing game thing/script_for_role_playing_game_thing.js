@@ -1,5 +1,6 @@
 var frame_counter=0;
 var sprite_position = 0;
+
 function count_frames()
 {
 	if(frame_counter<59)
@@ -93,7 +94,7 @@ function togglecave()
 		{
 			$("#cave").css("background-color","green");
 		}
-	
+
 }
 
 function moving()
@@ -233,14 +234,35 @@ var animate = function()
 	count_frames();
 
 }
+function makeElements()
+{
+	var terain1 = new componet(384, 192, 700, 99, "green", $("#game_elements"), "darn_obstacle");
+	var terain2 = new componet(384, 192, 1150, 300, "green", $("#game_elements"), "darn_obstacle");
+	var terain3 = new componet(384, 169, 350, 372, "green", $("#game_elements"), "darn_obstacle");
+	var terain4 = new componet(384, 168, 700, 373, "green", $("#game_elements"), "darn_obstacle");
+	var terain5 = new componet(335, 192, 311, 246, "green", $("#game_elements"), "darn_obstacle");
+	var terain6 = new componet(384, 192, 404, 732, "green", $("#game_elements"), "darn_obstacle");
+	var terain7 = new componet(384, 192, 1149, 545, "green", $("#game_elements"), "darn_obstacle");
+	var terain8 = new componet(384, 192, 766, 595, "green", $("#game_elements"), "darn_obstacle");
+	var terain9 = new componet(384, 195, 174, 540, "green", $("#game_elements"), "darn_obstacle");
+	var terain10 = new componet(384, 192, 337, -6, "green", $("#game_elements"), "darn_obstacle");
+	terain1.update();
+	terain2.update();
+	terain3.update();
+	terain4.update();
+	terain5.update();
+	terain6.update();
+	terain7.update();
+	terain8.update();
+	terain9.update();
+	terain10.update();
+}
 $(document).ready(function()
 {
+	makeElements()
 	hideInventory();
 	animate();
-	//move the sword into the cave
-	/*move("left", 650, document.getElementById("sword"));
-	move("top", 630, document.getElementById("sword"));
-*/
+
 });
 
 $(document).on('keydown',function(evt)
