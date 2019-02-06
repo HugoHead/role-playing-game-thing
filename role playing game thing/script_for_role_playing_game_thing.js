@@ -210,6 +210,22 @@ function hideInventory()
 {
 	$("#inventory").hide();
 }
+var itemHeld;
+function hold() 
+{
+	//get all css rules applyed to the itemHeld
+	var style = window.getComputedStyle(itemHeld);
+	//grab the backgroundImage
+	var image = style.backgroundImage;
+	
+	var shadow = document.getElementById("shadow");
+	//try to make the shadow div visable so we can give it a backgrondImage
+	shadow.style.backgroundColor = "transparant";
+	shadow.style.opacity = "1";
+	//apply the background image
+	shadow.style.backgroundImage = image;
+	console.log("End of Hold");
+}
 function pickupitem()
 {
 	var a = touching("#you", "#game_elements .item");
@@ -218,6 +234,17 @@ function pickupitem()
 		a.remove();
 		custoalert("You have picked up a " + a.attr("id"));
 		$("#inventory").append(a);
+		//touched is a variable created to dodge the mutiple type output of the touching function
+		//writen to by the touching function
+		//is the last object to be identiied as touched
+		console.log(touched[0].classList);
+		if (touched[0].classList.contains("holdable"))
+		{
+			//for whatever reason, jquery constructs its own object type.
+			//elem[0] is the eseast way to parse the element object from the jquery object.
+			itemHeld = touched[0];
+			hold();
+		}
 	}
 	return a;
 }
@@ -232,7 +259,6 @@ var animate = function()
 	}
 	pickupitem();
 	count_frames();
-
 }
 function makeElements()
 {

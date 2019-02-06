@@ -82,22 +82,14 @@ function isBetween(n, t, b)
 		return false;
 	}
 }
+var touched = "none";
 function touching(thing1, thing2)
 {
 	var isThereATouch = false;
 	var thing1Aspects = get_aspects(thing1);
 
 	$(thing2).each(function(){
-
 		var bad = get_aspects(this);
-
-		// if(thing1 == '#you' && thing2 == '.item')
-		// {
-			// console.log(bad)
-			// console.log(blast)
-
-		// }
-
 		var hor = false;
 		var ver = false;
 		//if(blast['right']	>=bad['left'] 		&& blast['right']	<=bad['right'])
@@ -142,17 +134,18 @@ function touching(thing1, thing2)
 			ver = true;
 			//console.log('ver4')
 		}
-
-
+		
 		if(hor && ver)
 		{
 			isThereATouch = $(this);
-			//isThereATouch = bad;
+			touched = $(this);
+		}
+		else 
+		{
+			touched = "none";
 		}
 	});
-
-		return isThereATouch;
-
+	return isThereATouch;
 }
 function get_px(toporleft,guy)
 {
@@ -169,13 +162,13 @@ function move(toporleft,speed,guy)
 	var oldvalpx = guyasp[toporleft];
 	if(
 		//CAN WE move up
-		(toporleft=='top' && speed<0 && oldvalpx>0) ||
+		(toporleft == 'top' && speed < 0 && oldvalpx > 0) ||
 		//CAN WE move down
-		(toporleft=='top' && speed>0 && oldvalpx<maxheight) ||
+		(toporleft == 'top' && speed > 0 && oldvalpx < maxheight) ||
 		//CAN WE move left
-		(toporleft=='left' && speed<0 && oldvalpx>0) ||
+		(toporleft == 'left' && speed < 0 && oldvalpx > 0) ||
 		//CAN WE move right
-		(toporleft=='left' && speed>0 && oldvalpx<maxwidth)
+		(toporleft == 'left' && speed > 0 && oldvalpx<maxwidth)
 	)
 	{
 		$(guy).css(toporleft,(oldvalpx+speed)+'px')
