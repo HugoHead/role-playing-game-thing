@@ -1,6 +1,21 @@
 var frame_counter=0;
 var sprite_position = 0;
 var terrain;
+var state = true;
+$( function() {
+    $( "#bar" ).on( "click", function() {
+      if ( state ) {
+        $("#slider" ).animate({
+          left: "75px"
+        }, 1000 );
+      } else {
+        $("#slider" ).animate({
+          left: "0"
+        }, 1000 );
+      }
+      state = !state;
+    });
+} );
 function count_frames()
 {
 	if(frame_counter<59)
@@ -99,10 +114,25 @@ function togglecave()
 
 function moving()
 {
-	//move foward
-	//if you are touching darn_obstacle
-	//move back
-	if(key.up)
+	var up
+	var down
+	var left
+	var right
+	if(state)
+	{
+		up = key.up
+		down = key.down
+		left = key.left
+		right = key.right
+	}
+	else
+	{
+		up = key.w
+		down = key.s
+		left = key.a
+		right = key.d	
+	}
+	if(up)
 	{
 		move2('top',-5,'#you');
 		move2('top',-5,'#shadow');
@@ -125,7 +155,7 @@ function moving()
 			// move2('top',5,'#you')
 		}
 	}
-	if(key.down)
+	if(down)
 	{
 		move2('top',5,'#you');
 		move2('top',5,'#shadow');
@@ -147,7 +177,7 @@ function moving()
 			// move2('top',-5,'#you')
 		}
 	}
-	if(key.left)
+	if(left)
 	{
 		move2('left',-5,'#you')
 		move2('left',-5,'#shadow')
@@ -169,7 +199,7 @@ function moving()
 			// move2('left',5,'#you')
 		}
 	}
-	if(key.right)
+	if(right)
 	{
 		move2('left',5,'#you');
 		move2('left',5,'#shadow');
