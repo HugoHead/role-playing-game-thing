@@ -1,17 +1,17 @@
 var frame_counter=0;
 var sprite_position = 0;
-var terrain;
 var state = true;
 $( function() {
-    $( "#bar" ).on( "click", function() {
+	
+    $("#bar").on( "click", function() {
       if ( state ) {
         $("#slider" ).animate({
           left: "75px"
-        }, 1000 );
+        }, 700 );
       } else {
         $("#slider" ).animate({
           left: "0"
-        }, 1000 );
+        }, 700 );
       }
       state = !state;
     });
@@ -101,17 +101,24 @@ function change_sprite()
 }
 function togglecave()
 {
-	 if(touching("#you","#cave"))
-		{
-			$("#cave").css("background-color","rgba(20,20,20,0.4)");
-		}
+	var thisCave = touching("#you",".cave")
+	if(thisCave)
+	{
+			thisCave.css("background-color","rgba(20,20,20,0.4)");
+	}
 	else
-		{
-			$("#cave").css("background-color","green");
-		}
+	{
+			$(".cave").css("background-color","green");
+	}
 
 }
-
+function repeated()
+{
+	if(touching("#you","#weirdo"))
+	{
+		talk(true);
+	}
+}
 function moving()
 {
 	var up
@@ -140,11 +147,7 @@ function moving()
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
-			if(touching("#you","#weirdo"))
-			{
-				talk(true);
-			}
-
+			repeated();
 			move2('top',5,'#you');
 			move2('top',5,'#shadow');
 		}
@@ -163,10 +166,7 @@ function moving()
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
-			if(touching("#you","#weirdo"))
-			{
-				talk(true);
-			}
+			repeated();
 			move2('top',-5,'#you');
 			move2('top',-5,'#shadow');
 		}
@@ -185,15 +185,12 @@ function moving()
 		change_sprite()
 		if(touching("#you",".darn_obstacle"))
 		{
-			if(touching("#you","#weirdo"))
-			{
-				talk(true);
-			}
 			move2('left',5,'#you');
 			move2('left',5,'#shadow');
 		}
 		if(touching("#shadow","#left"))
 		{
+			repeated();
 			move2('left',5,'#game_elements*');
 			move2('left',5,'#shadow');
 			// move2('left',5,'#you')
@@ -207,10 +204,7 @@ function moving()
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
-			if(touching("#you","#weirdo"))
-			{
-				talk(true);
-			}
+			repeated();
 			move2('left',-5,'#you');
 			move2('left',-5,'#shadow');
 		}
@@ -286,6 +280,7 @@ var animate = function()
 	{
 		moving();
 		togglecave();
+		
 	}
 	pickupitem();
 	count_frames();
@@ -302,6 +297,8 @@ function makeElements()
 	var terain8 = new componet(384, 192, 766, 595, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain9 = new componet(384, 195, 174, 540, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain10 = new componet(384, 192, 337, -6, "green", $("#game_elements"), ["darn_obstacle"]);
+	var cave1 = new componet(635, 198, 449, 539, "green", $("#game_elements"), ["cave"]);
+	var cave2 = new componet(363, 198, 721, -6, "green", $("#game_elements"), ["cave"]);
     return [terain1,terain2,terain3,terain4,terain5,terain6,terain7,terain8,terain9,terain10];
 }
 $(document).ready(function()
