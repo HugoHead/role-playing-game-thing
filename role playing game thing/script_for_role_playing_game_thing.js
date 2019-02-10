@@ -121,10 +121,7 @@ function repeated()
 }
 function moving()
 {
-	var up
-	var down
-	var left
-	var right
+	var up, down, left, right;
 	if(state)
 	{
 		up = key.up
@@ -144,6 +141,7 @@ function moving()
 		move2('top',-5,'#you');
 		move2('top',-5,'#shadow');
 		$('#you').css('transform','rotate(180deg)');
+		$('#shadow').css('transform','rotate(-45deg)');
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
@@ -155,7 +153,6 @@ function moving()
 		{
 			move2('top',5,'#game_elements*');
 			move2('top',5,'#shadow');
-			// move2('top',5,'#you')
 		}
 	}
 	if(down)
@@ -163,6 +160,7 @@ function moving()
 		move2('top',5,'#you');
 		move2('top',5,'#shadow');
 		$('#you').css('transform','rotate(0deg)');
+		$('#shadow').css('transform','rotate(135deg)');
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
@@ -179,10 +177,11 @@ function moving()
 	}
 	if(left)
 	{
-		move2('left',-5,'#you')
-		move2('left',-5,'#shadow')
-		$('#you').css('transform','rotate(90deg)')
-		change_sprite()
+		move2('left',-5,'#you');
+		move2('left',-5,'#shadow');
+		$('#you').css('transform','rotate(90deg)');
+		$('#shadow').css('transform','rotate(-135deg)');
+		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
 			move2('left',5,'#you');
@@ -201,6 +200,7 @@ function moving()
 		move2('left',5,'#you');
 		move2('left',5,'#shadow');
 		$('#you').css('transform','rotate(270deg)');
+		$('#shadow').css('transform','rotate(45deg)');
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
@@ -246,8 +246,13 @@ function hold()
 	//try to make the shadow div visable so we can give it a backgrondImage
 	shadow.style.backgroundColor = "transparant";
 	shadow.style.opacity = "1";
+	
 	//apply the background image
 	shadow.style.backgroundImage = image;
+	//enusre that the image fits in the div
+	shadow.style.backgroundSize = "contain";
+	//prevent the image from reapeating.
+	shadow.style.backgroundRepeat = "no-repeat";
 	console.log("End of Hold");
 }
 function pickupitem()
@@ -289,7 +294,7 @@ function makeElements()
 {
 	var terain1 = new componet(384, 192, 700, 99, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain2 = new componet(384, 192, 1150, 300, "green", $("#game_elements"), ["darn_obstacle"]);
-	var terain3 = new componet(384, 169, 350, 372, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain3 = new componet(384, 168, 350, 373, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain4 = new componet(384, 168, 700, 373, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain5 = new componet(335, 192, 311, 246, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain6 = new componet(384, 192, 404, 732, "green", $("#game_elements"), ["darn_obstacle"]);
@@ -299,7 +304,7 @@ function makeElements()
 	var terain10 = new componet(384, 192, 337, -6, "green", $("#game_elements"), ["darn_obstacle"]);
 	var cave1 = new componet(635, 198, 449, 539, "green", $("#game_elements"), ["cave"]);
 	var cave2 = new componet(363, 198, 721, -6, "green", $("#game_elements"), ["cave"]);
-    return [terain1,terain2,terain3,terain4,terain5,terain6,terain7,terain8,terain9,terain10];
+    return [terain1,terain2,terain3,terain4,terain5,terain6,terain7,terain8,terain9,terain10,cave1,cave2];
 }
 $(document).ready(function()
 {

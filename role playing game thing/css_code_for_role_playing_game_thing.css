@@ -70,7 +70,7 @@ div#inventory *
 }
 div#frame *
 {
-	background-color: rgba(20,20,20,0.0);
+	background-color: rgba(20,20,20,0);
 }
 div#top
 {
@@ -110,7 +110,6 @@ div#bottom
 }
 div#shadow
 {
-    opacity: 0;
     position: absolute;
     top: 315px;
     left: 721px;
