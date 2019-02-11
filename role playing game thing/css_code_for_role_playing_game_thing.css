@@ -46,6 +46,7 @@ div#Hairdude
     top: 51px;
     left: 721px;
 	z-index: -3;
+	display: inline-block;S
 }
 div#weirdoguy
 {
@@ -57,6 +58,7 @@ div#weirdoguy
 	height: 245px;
 	padding-top: 54px;
 	padding-left: 134px;
+	z-index: 9;
 }
 
 div#inventory *
@@ -116,7 +118,6 @@ div#shadow
     width: 48px;
     height: 48px;
 }
-
 div.darn_obstacle
 {
 	width: 384px;
@@ -182,6 +183,15 @@ div#square
 	height: 40;
 	display: inline-block;
 	background-color: pink;
+}
+div#hairspray
+{
+	width: 40;
+	height: 40;
+	display: inline-block;
+	background-image: url('conditionar.png');
+	background-size: cover;
+	display: inline-block;
 }
 div#talkingguy
 {

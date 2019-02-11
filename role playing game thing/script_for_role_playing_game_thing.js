@@ -48,36 +48,45 @@ function talk(check)
 		weirdoscript[3]= "weirdo: There is only one <br>guy with conditioner";
 		weirdoscript[4]= "weirdo: He'll trade a square<br> and a box for conditioner";
 		weirdoscript[5]= "weirdo: Could you help me";
-	if(check)
+	var hasSpray = $("#hairspray").hasClass("inInv");
+	if(hasSpray)
 	{
-		custoalert(weirdoscript[0]);
-		window.setTimeout(function()
+		custoalert("Thank you so much");
+		$("#weirdo").css("left", "1094px")
+	}
+	else
+	{
+		if(check)
 		{
-
-			custoalert(weirdoscript[1]);
+			custoalert(weirdoscript[0]);
 			window.setTimeout(function()
 			{
 
-				custoalert(weirdoscript[2]);
+				custoalert(weirdoscript[1]);
 				window.setTimeout(function()
 				{
 
-					custoalert(weirdoscript[3]);
+					custoalert(weirdoscript[2]);
 					window.setTimeout(function()
 					{
 
-						custoalert(weirdoscript[4]);
+						custoalert(weirdoscript[3]);
 						window.setTimeout(function()
 						{
 
-							custoalert(weirdoscript[5]);
+							custoalert(weirdoscript[4]);
+							window.setTimeout(function()
+							{
 
+								custoalert(weirdoscript[5]);
+
+							}, 2000);
 						}, 2000);
 					}, 2000);
 				}, 2000);
 			}, 2000);
-		}, 2000);
-  }
+		}
+  	}
 }
 function change_sprite()
 {
@@ -112,11 +121,41 @@ function togglecave()
 	}
 
 }
+function trade(inputs, output)
+{
+	
+	var length = inputs.length;
+	var enough = true;
+	var inven = document.getElementById("inventory")
+    for (var i = 0; i < length; i++)
+    {
+		var obj = inputs[i]
+        if(!obj.hasClass("inInv"))
+		{
+			enough = false;
+		}
+    }
+	if(enough)
+	{
+		for (var h = 0; h < length; h++)
+    	{
+			var obj = inputs[h]
+			obj.remove();
+    	}
+		$("#inventory").append(output)
+		
+	}
+}
 function repeated()
 {
 	if(touching("#you","#weirdo"))
 	{
 		talk(true);
+	}
+	else if(touching("#you","#Hairdude"))
+	{
+		trade([$("#square"), $("#box")], "<div Id='hairspray'></div>");
+		$("#hairspray").addClass("inInv");
 	}
 }
 function moving()
@@ -184,12 +223,13 @@ function moving()
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
+			repeated();
 			move2('left',5,'#you');
 			move2('left',5,'#shadow');
 		}
 		if(touching("#shadow","#left"))
 		{
-			repeated();
+			
 			move2('left',5,'#game_elements*');
 			move2('left',5,'#shadow');
 			// move2('left',5,'#you')
@@ -209,24 +249,25 @@ function moving()
 			move2('left',-5,'#shadow');
 		}
 		if(touching("#shadow","#right"))
-		{
+		{	
 			move2('left',-5,'#game_elements*');
-			move2('left',-5,'#shadow')
+			move2('left',-5,'#shadow');
 			// move2('left',-5,'#you')
 		}
 	}
-
 }
 function toggleInventory()
 {
 	if($("#game_elements").hasClass("blurFilter"))
 	{
 		$("#game_elements").removeClass("blurFilter");
+		$("#shadow").removeClass("blurFilter");
 		$("#inventory").hide();
 	}
 	else
 	{
 		$("#game_elements").addClass("blurFilter");
+		$("#shadow").addClass("blurFilter");
 		$("#inventory").show();
 	}
 }
@@ -243,16 +284,12 @@ function hold()
 	var image = style.backgroundImage;
 	
 	var shadow = document.getElementById("shadow");
-	//try to make the shadow div visable so we can give it a backgrondImage
-	shadow.style.backgroundColor = "transparant";
-	shadow.style.opacity = "1";
-	
-	//apply the background image
-	shadow.style.backgroundImage = image;
 	//enusre that the image fits in the div
 	shadow.style.backgroundSize = "contain";
 	//prevent the image from reapeating.
 	shadow.style.backgroundRepeat = "no-repeat";
+	//apply the background image
+	shadow.style.backgroundImage = image;
 	console.log("End of Hold");
 }
 function pickupitem()
@@ -261,8 +298,10 @@ function pickupitem()
 	if(a)
 	{
 		a.remove();
+		a.addClass("inInv")
 		custoalert("You have picked up a " + a.attr("id"));
 		$("#inventory").append(a);
+		
 		//touched is a variable created to dodge the mutiple type output of the touching function
 		//writen to by the touching function
 		//is the last object to be identiied as touched
@@ -292,9 +331,10 @@ var animate = function()
 }
 function makeElements()
 {
+	//componet(width, height, x, y, colorOrURL, parant, classes, id)
 	var terain1 = new componet(384, 192, 700, 99, "green", $("#game_elements"), ["darn_obstacle"]);
-	var terain2 = new componet(384, 192, 1150, 300, "green", $("#game_elements"), ["darn_obstacle"]);
-	var terain3 = new componet(384, 168, 350, 373, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain2 = new componet(384, 292, 1150, 200, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain3 = new componet(384, 169, 350, 372, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain4 = new componet(384, 168, 700, 373, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain5 = new componet(335, 192, 311, 246, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain6 = new componet(384, 192, 404, 732, "green", $("#game_elements"), ["darn_obstacle"]);
