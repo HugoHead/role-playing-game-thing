@@ -1,4 +1,7 @@
 var key = new Object();
+var keysPressed = {};
+window.onkeyup = function(e) { keysPressed[e.keyCode] = false; }
+window.onkeydown = function(e) { keysPressed[e.keyCode] = true; }
 function set_key(k,d)
 {
 	switch(k)

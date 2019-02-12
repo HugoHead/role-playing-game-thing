@@ -3,7 +3,6 @@ var frame_counter=0;
 var sprite_position = 0;
 var state = true;
 $( function() {
-	
     $("#bar").on( "click", function() {
       if ( state ) {
         $("#slider" ).animate({
@@ -152,7 +151,15 @@ function trade(inputs, output)
 			obj.remove();
     	}
 		$("#inventory").append(output);
-		
+	}
+	return enough;
+}
+function checkForE()
+{
+	console.log("here");
+	if (keysPressed[69])//e
+	{
+		buyHairConditioner();
 	}
 }
 function repeated()
@@ -163,11 +170,27 @@ function repeated()
 	}
 	else if(touching("#you","#Hairdude"))
 	{
-		/*if (merchantSpeak())
-		{*/
-			trade([$("#square"), $("#box")], "<div Id='hairspray'></div>");
-			$("#hairspray").addClass("inInv");
-		//}
+		//super sorray about the mess
+		//-Adithya
+		custoalert("Merchant: Hi! I am selling hair <br> conditioner for a bargin <br> price of one box <br>and one square.");
+		var eListener;
+		window.setTimeout(function()
+		{
+			custoalert("Press <button onclick=\"buyHairConditioner();\">Here</button><br> to buy.");
+		}, 2000);
+	}
+}
+function buyHairConditioner()
+{
+	console.log("here");
+	if(trade([$("#square"), $("#box")], "<div Id='hairspray'></div>"))
+	{
+		$("#hairspray").addClass("inInv")
+		custoalert("Merchant: Here you are.<br>Have a nice day.");
+	}
+	else 
+	{
+		custoalert("Mechant: Sorry, <br>you don't have the right items.");
 	}
 }
 function moving()
