@@ -1,3 +1,4 @@
+var level = 0;
 var frame_counter=0;
 var sprite_position = 0;
 var state = true;
@@ -27,7 +28,19 @@ function count_frames()
 		frame_counter=0;
 	}
 }
-
+// FOR DIRE SITUATIONS ONLY
+// This thing guzzles ram at an unimaginable rate.
+// unless you are using for less than 60 millies, browser WILL crash.
+// lags if longer than 10
+// FOR DIRE SITUATIONS ONLY
+/*function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}*/
 function custoalert(message)
 {
 	var milliseconds = (new Date).getTime();
@@ -42,51 +55,47 @@ function custoalert(message)
 function talk(check)
 {
 	var weirdoscript = new Array();
-		weirdoscript[0]= "weirdo: Good'ay person,<br> what yo' name";
-		weirdoscript[1]= "weirdo: I am very hairy";
-		weirdoscript[2]= "weirdo: I need conditioner";
-		weirdoscript[3]= "weirdo: There is only one <br>guy with conditioner";
-		weirdoscript[4]= "weirdo: He'll trade a square<br> and a box for conditioner";
-		weirdoscript[5]= "weirdo: Could you help me";
+		weirdoscript[0]= "Weirdo: Good'ay person,<br> what yo' name?";
+		weirdoscript[1]= "Weirdo: I am very hairy";
+		weirdoscript[2]= "Weirdo: I need conditioner";
+		weirdoscript[3]= "Weirdo: There is only one <br>guy with conditioner";
+		weirdoscript[4]= "Weirdo: He'll trade a square<br> and a box for conditioner";
+		weirdoscript[5]= "Weirdo: Could you help me?";
 	var hasSpray = $("#hairspray").hasClass("inInv");
-	if(hasSpray)
+	if(hasSpray && level == 0)
 	{
-		custoalert("Thank you so much");
-		$("#weirdo").css("left", "1094px")
+		console.log("had spray");
+		custoalert("Weirdo: Thank you so much!");
+		//remove the hairspray from your inventory
+		document.getElementById("hairspray").remove();
+		$("#weirdo").css("left", "1144px");
+		level = 1;
 	}
-	else
+	else if (level == 0 && check)
 	{
-		if(check)
+		custoalert(weirdoscript[0]);
+		window.setTimeout(function()
 		{
-			custoalert(weirdoscript[0]);
+			custoalert(weirdoscript[1]);
 			window.setTimeout(function()
 			{
-
-				custoalert(weirdoscript[1]);
+				custoalert(weirdoscript[2]);
 				window.setTimeout(function()
 				{
-
-					custoalert(weirdoscript[2]);
+					custoalert(weirdoscript[3]);
 					window.setTimeout(function()
 					{
-
-						custoalert(weirdoscript[3]);
+						custoalert(weirdoscript[4]);
 						window.setTimeout(function()
 						{
+							custoalert(weirdoscript[5]);
 
-							custoalert(weirdoscript[4]);
-							window.setTimeout(function()
-							{
-
-								custoalert(weirdoscript[5]);
-
-							}, 2000);
 						}, 2000);
 					}, 2000);
 				}, 2000);
 			}, 2000);
-		}
-  	}
+		}, 2000);
+	}
 }
 function change_sprite()
 {
@@ -99,11 +108,11 @@ function change_sprite()
 		$('#you').css('backgroundPosition',(sprite_position-4)*-48+'px -48px');
 	}
 
-	if(sprite_position<7 && frame_counter%10===0)
+	if (sprite_position<7 && frame_counter%10===0)
 	{
 		sprite_position++;
 	}
-	else if(frame_counter%10===0)
+	else if (frame_counter%10===0)
 	{
 		sprite_position=0;
 	}
@@ -113,11 +122,11 @@ function togglecave()
 	var thisCave = touching("#you",".cave")
 	if(thisCave)
 	{
-			thisCave.css("background-color","rgba(20,20,20,0.4)");
+		thisCave.css("background-color","rgba(20,20,20,0.4)");
 	}
 	else
 	{
-			$(".cave").css("background-color","green");
+		$(".cave").css("background-color","green");
 	}
 
 }
@@ -129,7 +138,7 @@ function trade(inputs, output)
 	var inven = document.getElementById("inventory")
     for (var i = 0; i < length; i++)
     {
-		var obj = inputs[i]
+		var obj = inputs[i];
         if(!obj.hasClass("inInv"))
 		{
 			enough = false;
@@ -139,10 +148,10 @@ function trade(inputs, output)
 	{
 		for (var h = 0; h < length; h++)
     	{
-			var obj = inputs[h]
+			var obj = inputs[h];
 			obj.remove();
     	}
-		$("#inventory").append(output)
+		$("#inventory").append(output);
 		
 	}
 }
@@ -154,8 +163,11 @@ function repeated()
 	}
 	else if(touching("#you","#Hairdude"))
 	{
-		trade([$("#square"), $("#box")], "<div Id='hairspray'></div>");
-		$("#hairspray").addClass("inInv");
+		/*if (merchantSpeak())
+		{*/
+			trade([$("#square"), $("#box")], "<div Id='hairspray'></div>");
+			$("#hairspray").addClass("inInv");
+		//}
 	}
 }
 function moving()
@@ -276,7 +288,7 @@ function hideInventory()
 	$("#inventory").hide();
 }
 var itemHeld;
-function hold() 
+function hold()
 {
 	//get all css rules applyed to the itemHeld
 	var style = window.getComputedStyle(itemHeld);
@@ -334,9 +346,9 @@ function makeElements()
 	//componet(width, height, x, y, colorOrURL, parant, classes, id)
 	var terain1 = new componet(384, 192, 700, 99, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain2 = new componet(384, 292, 1150, 200, "green", $("#game_elements"), ["darn_obstacle"]);
-	var terain3 = new componet(384, 169, 350, 372, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain3 = new componet(367, 168, 333, 373, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain4 = new componet(384, 168, 700, 373, "green", $("#game_elements"), ["darn_obstacle"]);
-	var terain5 = new componet(335, 192, 311, 246, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain5 = new componet(313, 190, 333, 245, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain6 = new componet(384, 192, 404, 732, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain7 = new componet(384, 192, 1149, 545, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain8 = new componet(384, 192, 766, 595, "green", $("#game_elements"), ["darn_obstacle"]);
