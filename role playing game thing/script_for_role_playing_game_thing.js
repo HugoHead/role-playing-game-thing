@@ -45,6 +45,7 @@ function custoalert(message)
 	var milliseconds = (new Date).getTime();
 	$("body").append('<div ID="talkingguy" data-num="'+milliseconds+'"></div>');
 	$("#talkingguy[data-num='"+milliseconds+"']").append("<p>"+message+"</p>");
+	$("#talkingguy[data-num='"+milliseconds+"']").css("z-index", 3);
 	setTimeout(function()
 	{
 		$("#talkingguy[data-num='"+milliseconds+"']").hide(500,function(){$("#talkingguy[data-num='"+milliseconds+"']").remove()});
@@ -67,7 +68,7 @@ function talk(check)
 		custoalert("Weirdo: Thank you so much!");
 		//remove the hairspray from your inventory
 		document.getElementById("hairspray").remove();
-		$("#weirdo").css("left", "1144px");
+		$("#weirdo").css("left", "1154px");
 		level = 1;
 	}
 	else if (level == 0 && check)

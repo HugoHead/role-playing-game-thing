@@ -37,6 +37,7 @@ div#weirdo
 	transform: rotate(0deg);
 	display: inline-block;
 	background-position: -48px 48px;
+	z-index: 2;
 }
 div#Hairdude
 {
