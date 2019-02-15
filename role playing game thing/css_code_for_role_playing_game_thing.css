@@ -46,7 +46,7 @@ div#Hairdude
     top: 51px;
     left: 721px;
 	z-index: -3;
-	display: inline-block;S
+	display: inline-block;
 }
 div#weirdoguy
 {
@@ -136,10 +136,10 @@ div.cave
 
 div#edge_left
 {
-	top: 0;
-	left: 20px;
+	top: -160;
+	left: 10px;
 	width: 10px;
-	height: 1000px;
+	height: 1084px;
 	background-color: green;
 }
 
