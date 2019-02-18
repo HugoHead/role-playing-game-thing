@@ -2,6 +2,7 @@ var level = 0;
 var frame_counter=0;
 var sprite_position = 0;
 var state = true;
+var armed = true;
 $( function() {
     $("#bar").on( "click", function() {
       if ( state ) {
@@ -16,6 +17,7 @@ $( function() {
       state = !state;
     });
 } );
+
 function count_frames()
 {
 	if(frame_counter<59)
@@ -130,6 +132,54 @@ function togglecave()
 	}
 
 }
+function swingSword()
+{
+
+if(armed == true)
+{
+	speed = 100;
+	console.log("swung")
+	armed = false;
+	$("#shadow").css("background-position", "0px 0px")
+		window.setTimeout(function()
+		{
+			$("#shadow").css("background-position", "0px "+48*1+"px")
+			window.setTimeout(function()
+			{
+				$("#shadow").css("background-position", "0px "+48*2+"px")
+				window.setTimeout(function()
+				{
+					$("#shadow").css("background-position", "0px "+48*3+"px")
+					window.setTimeout(function()
+					{
+						$("#shadow").css("background-position", "0px "+48*4+"px")
+						window.setTimeout(function()
+						{
+							$("#shadow").css("background-position", "0px "+48*3+"px")
+							window.setTimeout(function()
+							{
+								$("#shadow").css("background-position", "0px "+48*2+"px")
+								window.setTimeout(function()
+								{
+									$("#shadow").css("background-position", "0px "+48*1+"px")
+									window.setTimeout(function()
+									{
+										$("#shadow").css("background-position", "0px 0px")
+										window.setTimeout(function()
+										{
+											armed = true
+										}, 300);
+									}, speed);
+								}, speed);
+							}, speed);
+						}, speed);
+					}, speed);
+				}, speed);
+			}, speed);
+		}, speed);
+	
+}
+}
 function trade(inputs, output)
 {
 	
@@ -158,7 +208,7 @@ function trade(inputs, output)
 function checkForE()
 {
 	console.log("here");
-	if (keysPressed[69])//e
+	if (key.e)
 	{
 		buyHairConditioner();
 	}
@@ -180,6 +230,7 @@ function repeated()
 			custoalert("Press <button onclick=\"buyHairConditioner();\">Here</button><br> to buy.");
 		}, 2000);
 	}
+
 }
 function buyHairConditioner()
 {
@@ -216,7 +267,7 @@ function moving()
 		move2('top',-5,'#you');
 		move2('top',-5,'#shadow');
 		$('#you').css('transform','rotate(180deg)');
-		$('#shadow').css('transform','rotate(-45deg)');
+		$('#shadow').css('transform','rotate(0deg)');
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
@@ -235,7 +286,7 @@ function moving()
 		move2('top',5,'#you');
 		move2('top',5,'#shadow');
 		$('#you').css('transform','rotate(0deg)');
-		$('#shadow').css('transform','rotate(135deg)');
+		$('#shadow').css('transform','rotate(180deg)');
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
@@ -255,7 +306,7 @@ function moving()
 		move2('left',-5,'#you');
 		move2('left',-5,'#shadow');
 		$('#you').css('transform','rotate(90deg)');
-		$('#shadow').css('transform','rotate(-135deg)');
+		$('#shadow').css('transform','rotate(-90deg)');
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
@@ -276,7 +327,7 @@ function moving()
 		move2('left',5,'#you');
 		move2('left',5,'#shadow');
 		$('#you').css('transform','rotate(270deg)');
-		$('#shadow').css('transform','rotate(45deg)');
+		$('#shadow').css('transform','rotate(90deg)');
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
@@ -311,19 +362,25 @@ function hideInventory()
 {
 	$("#inventory").hide();
 }
-var itemHeld;
-function hold()
+function hold(itemheld)
 {
+	var thisImage = 0;
+	switch(itemheld) {
+  		case $("#sword"):
+    		thisImage = "url('swing.png')"
+		break;
+  		default:
+    		thisImage = "url('swing.png')"
+}
 	//get all css rules applyed to the itemHeld
-	var style = window.getComputedStyle(itemHeld);
 	//grab the backgroundImage
-	var image = style.backgroundImage;
+	var image = thisImage;
 	
 	var shadow = document.getElementById("shadow");
 	//enusre that the image fits in the div
-	shadow.style.backgroundSize = "contain";
+	//shadow.style.backgroundSize = "";
 	//prevent the image from reapeating.
-	shadow.style.backgroundRepeat = "no-repeat";
+	//shadow.style.backgroundRepeat = "no-repeat";
 	//apply the background image
 	shadow.style.backgroundImage = image;
 	console.log("End of Hold");
@@ -346,8 +403,8 @@ function pickupitem()
 		{
 			//for whatever reason, jquery constructs its own object type.
 			//elem[0] is the eseast way to parse the element object from the jquery object.
-			itemHeld = touched[0];
-			hold();
+			var itemHeld = touched[0];
+			hold(itemHeld);
 		}
 	}
 	return a;
@@ -360,6 +417,10 @@ var animate = function()
 	{
 		moving();
 		togglecave();
+		if(key.space)
+		{
+			swingSword();
+		}
 		
 	}
 	pickupitem();
