@@ -117,7 +117,9 @@ div#shadow
     top: 310px;
     left: 718px;
     width: 48px;
-    height: 48px;
+    height: 30px;
+    background-position: 0px 0px;
+    /*background-repeat: no-repeat;*/
 }
 div.darn_obstacle
 {
@@ -133,8 +135,6 @@ div.cave
     background-color: green;
     display: inline-block;
 }
-
-
 div#edge_left
 {
 	top: -160;

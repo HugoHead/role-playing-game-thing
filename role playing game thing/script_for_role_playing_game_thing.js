@@ -17,7 +17,11 @@ $( function() {
       state = !state;
     });
 } );
-
+function devMotion()
+{
+    document.getElementById("frame").style.opacity = "1";
+    document.getElementById("shadow").style.backgroundColor = "rgba(0,0,0,0.2)";
+}
 function count_frames()
 {
 	if(frame_counter<59)
@@ -138,48 +142,44 @@ function swingSword()
 if(armed == true)
 {
 	speed = 100;
-	console.log("swung")
 	armed = false;
+    const frameDiffernce = 30;//the hieght in px of each frame on the sprite sheet
+    const shadow = $("#shadow");
 	$("#shadow").css("background-position", "0px 0px")
-		window.setTimeout(function()
-		{
-			$("#shadow").css("background-position", "0px "+48*1+"px")
-			window.setTimeout(function()
-			{
-				$("#shadow").css("background-position", "0px "+48*2+"px")
-				window.setTimeout(function()
-				{
-					$("#shadow").css("background-position", "0px "+48*3+"px")
-					window.setTimeout(function()
-					{
-						$("#shadow").css("background-position", "0px "+48*4+"px")
-						window.setTimeout(function()
-						{
-							$("#shadow").css("background-position", "0px "+48*3+"px")
-							window.setTimeout(function()
-							{
-								$("#shadow").css("background-position", "0px "+48*2+"px")
-								window.setTimeout(function()
-								{
-									$("#shadow").css("background-position", "0px "+48*1+"px")
-									window.setTimeout(function()
-									{
-										$("#shadow").css("background-position", "0px 0px")
-										window.setTimeout(function()
-										{
-											armed = true
-										}, 300);
-									}, speed);
-								}, speed);
-							}, speed);
-						}, speed);
-					}, speed);
-				}, speed);
-			}, speed);
-		}, speed);
-	
-}
-}
+    window.setTimeout(function()
+    {
+        shadow.css("background-position", "0px "+frameDiffernce*1+"px")
+        window.setTimeout(function()
+        {
+            console.log(shadow[0].style.backgroundPosition);
+            shadow.css("background-position", "0px "+frameDiffernce*2+"px");
+            console.log(shadow[0].style.backgroundPosition);
+            window.setTimeout(function()
+            {
+                shadow.css("background-position", "0px "+frameDiffernce*3+"px");
+                console.log(shadow[0].style.backgroundPosition);
+                window.setTimeout(function()
+                {
+                    shadow.css("background-position", "0px "+frameDiffernce*2+"px");
+                    console.log(shadow[0].style.backgroundPosition);
+                    window.setTimeout(function()
+                    {
+                        shadow.css("background-position", "0px "+frameDiffernce*1+"px");
+                        console.log(shadow[0].style.backgroundPosition);
+                        window.setTimeout(function()
+                        {
+                            shadow.css("background-position", "0px 0px");
+                            window.setTimeout(function()
+                            {
+                                armed = true;
+                            }, 300);
+                        }, speed);
+                    }, speed);
+                }, speed);
+            }, speed);
+        }, speed);
+    }, speed);
+}}
 function trade(inputs, output)
 {
 	
@@ -250,17 +250,17 @@ function moving()
 	var up, down, left, right;
 	if(state)
 	{
-		up = key.up
-		down = key.down
-		left = key.left
-		right = key.right
+		up = key.up;
+		down = key.down;
+		left = key.left;
+		right = key.right;
 	}
 	else
 	{
-		up = key.w
-		down = key.s
-		left = key.a
-		right = key.d	
+		up = key.w;
+		down = key.s;
+		left = key.a;
+		right = key.d;	
 	}
 	if(up)
 	{
@@ -420,8 +420,7 @@ var animate = function()
 		if(key.space)
 		{
 			swingSword();
-		}
-		
+        }
 	}
 	pickupitem();
 	count_frames();
