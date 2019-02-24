@@ -17,6 +17,39 @@ $( function() {
       state = !state;
     });
 } );
+function callOffset(direction){
+	//this finds the top pos of shadow then slices the "px" so math can be applied
+	var distup = $("#shadow").css("top").replace("px", "") - 24;
+	var distdown = $("#shadow").css("top").replace("px", "");
+	var distleft = $("#shadow").css("top").replace("px", "") - 12;
+	var distright = Number($("#shadow").css("top").replace("px", "")) - 12;
+	switch(direction){
+		case "up":
+			$("#weapon").css("top",  distup +"px")
+			$("#weapon").css("left",  $("#shadow").css("left"))
+			console.log('offset')
+			break;
+		case "down":
+			$("#weapon").css("top",  distdown +"px")
+			$("#weapon").css("left",  $("#shadow").css("left"))
+			console.log('offset')
+			break;
+		case "left":
+			$("#weapon").css("top",  distleft +"px")
+			console.log('offset')
+			$("#weapon").css("left",  Number($("#shadow").css("left").replace("px", ""))-12 +"px")
+			break;
+		case "right":
+			$("#weapon").css("top",  distright +"px")
+			$("#weapon").css("left",  Number($("#shadow").css("left").replace("px", ""))+12 +"px")
+			console.log('offset')
+			break;
+		default:
+			$("#weapon").css("top",  distup +"px")
+			console.log('offset')
+			break;
+	}
+}
 function devMotion()
 {
     document.getElementById("frame").style.opacity = "1";
@@ -143,9 +176,9 @@ if(armed == true)
 {
 	speed = 100;
 	armed = false;
-    const frameDiffernce = 30;//the hieght in px of each frame on the sprite sheet
-    const shadow = $("#shadow");
-	$("#shadow").css("background-position", "0px 0px")
+    const frameDiffernce = 72;//the hieght in px of each frame on the sprite sheet
+    const shadow = $("#weapon");
+	shadow.css("background-position", "0px 0px")
     window.setTimeout(function()
     {
         shadow.css("background-position", "0px "+frameDiffernce*1+"px")
@@ -247,6 +280,7 @@ function buyHairConditioner()
 }
 function moving()
 {
+	
 	var up, down, left, right;
 	if(state)
 	{
@@ -265,80 +299,92 @@ function moving()
 	if(up)
 	{
 		move2('top',-5,'#you');
-		move2('top',-5,'#shadow');
+		move2('top',-5,'.follow');
+		callOffset("up");
 		$('#you').css('transform','rotate(180deg)');
-		$('#shadow').css('transform','rotate(0deg)');
+		$('.follow').css('transform','rotate(0deg)');
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
 			repeated();
 			move2('top',5,'#you');
-			move2('top',5,'#shadow');
+			move2('top',5,'.follow');
+			callOffset("up");
 		}
 		if(touching("#shadow","#top"))
 		{
 			move2('top',5,'#game_elements*');
-			move2('top',5,'#shadow');
+			move2('top',5,'.follow');
+			callOffset("up");
 		}
 	}
 	if(down)
 	{
 		move2('top',5,'#you');
-		move2('top',5,'#shadow');
+		move2('top',5,'.follow');
+		callOffset("down");
 		$('#you').css('transform','rotate(0deg)');
-		$('#shadow').css('transform','rotate(180deg)');
+		$('.follow').css('transform','rotate(180deg)');
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
 			repeated();
 			move2('top',-5,'#you');
-			move2('top',-5,'#shadow');
+			move2('top',-5,'.follow');
+			callOffset("down");
 		}
 		if(touching("#shadow","#bottom"))
 		{
 			move2('top',-5,'#game_elements*');
-			move2('top',-5,'#shadow');
+			move2('top',-5,'.follow');
+			callOffset("down");
 			// move2('top',-5,'#you')
 		}
 	}
 	if(left)
 	{
 		move2('left',-5,'#you');
-		move2('left',-5,'#shadow');
+		move2('left',-5,'.follow');
+		callOffset("left");
 		$('#you').css('transform','rotate(90deg)');
-		$('#shadow').css('transform','rotate(-90deg)');
+		$('.follow').css('transform','rotate(-90deg)');
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
 			repeated();
 			move2('left',5,'#you');
-			move2('left',5,'#shadow');
+			move2('left',5,'.follow');
+			callOffset("left");
 		}
 		if(touching("#shadow","#left"))
 		{
 			
 			move2('left',5,'#game_elements*');
-			move2('left',5,'#shadow');
+			move2('left',5,'.follow');
+			callOffset("left");
 			// move2('left',5,'#you')
 		}
 	}
 	if(right)
 	{
 		move2('left',5,'#you');
-		move2('left',5,'#shadow');
+		move2('left',5,'.follow');
+		callOffset("right");
 		$('#you').css('transform','rotate(270deg)');
-		$('#shadow').css('transform','rotate(90deg)');
+		$('.follow').css('transform','rotate(90deg)');
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
 			repeated();
 			move2('left',-5,'#you');
-			move2('left',-5,'#shadow');
+			move2('left',-5,'.follow');
+			callOffset("right");
 		}
 		if(touching("#shadow","#right"))
 		{	
 			move2('left',-5,'#game_elements*');
-			move2('left',-5,'#shadow');
+			move2('left',-5,'.follow');
+			callOffset("right");
 			// move2('left',-5,'#you')
 		}
 	}
@@ -376,7 +422,7 @@ function hold(itemheld)
 	//grab the backgroundImage
 	var image = thisImage;
 	
-	var shadow = document.getElementById("shadow");
+	var shadow = document.getElementById("weapon");
 	//enusre that the image fits in the div
 	//shadow.style.backgroundSize = "";
 	//prevent the image from reapeating.
