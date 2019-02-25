@@ -39,3 +39,65 @@ function componet(width, height, x, y, colorOrURL, parant, classes, id)
     }
     this.update();
 }
+function entity (width, height, x, y, colorOrURL, classes, type, health)
+{
+    this.width = width.toString(10) + "px";
+    this.height = height.toString(10) + "px";
+    this.x = x.toString(10) + "px";
+    this.y = y.toString(10) + "px";
+    this.colorOrURL = colorOrURL;
+    this.type = type;
+    this.element;this.health;
+    this.orintation;
+    this.update = function()
+    {
+        this.element = document.createElement("DIV");
+        this.element.style.width = this.width;
+        this.element.style.height = this.height;
+        this.element.style.top = this.y;
+        this.element.style.left = this.x;
+        if (this.classes != undefined)
+        {
+            var length = classes.length;
+            for (var i = 0; i < length; i++)
+            {
+                this.element.classList.add(classes[i]);
+            }
+        }
+        if (this.id != undefined)
+        {
+            this.element.setAttribute("id", this.id);
+        }
+        if (this.colorOrURL.search("."))//the colorOrUrl is a url
+        {
+            this.element.style.backgroundImage = colorOrURL;
+        }
+        else
+        {
+            this.element.style.backgroundColor = this.colorOrURL;
+        }
+    }
+    this.spawn = function()
+    {
+         body.append(this.element);
+    }
+    this.move = function(xarr, yarr)
+    {
+        var xDistance = xarr[0],
+        xRate = xarr[1],
+        yDistance = yarr[0], 
+        yRate = yarr[1];
+    }
+    this.update();
+    /*
+    *methods needed: 
+    *Die
+    *Change image/color
+    *move (inpendent of player/toards player)
+    *input/output damage
+    *check for death
+    *Attack
+    *spawn
+    *
+    */
+}
