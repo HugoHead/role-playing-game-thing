@@ -22,31 +22,31 @@ function callOffset(direction){
 	var distup = $("#shadow").css("top").replace("px", "") - 24;
 	var distdown = $("#shadow").css("top").replace("px", "");
 	var distleft = $("#shadow").css("top").replace("px", "") - 12;
-	var distright = Number($("#shadow").css("top").replace("px", "")) - 12;
+	var distright = $("#shadow").css("top").replace("px", "") - 12;
 	switch(direction){
 		case "up":
 			$("#weapon").css("top",  distup +"px")
 			$("#weapon").css("left",  $("#shadow").css("left"))
-			console.log('offset')
+			
 			break;
 		case "down":
 			$("#weapon").css("top",  distdown +"px")
 			$("#weapon").css("left",  $("#shadow").css("left"))
-			console.log('offset')
+			
 			break;
 		case "left":
 			$("#weapon").css("top",  distleft +"px")
-			console.log('offset')
+			
 			$("#weapon").css("left",  Number($("#shadow").css("left").replace("px", ""))-12 +"px")
 			break;
 		case "right":
 			$("#weapon").css("top",  distright +"px")
 			$("#weapon").css("left",  Number($("#shadow").css("left").replace("px", ""))+12 +"px")
-			console.log('offset')
+			
 			break;
 		default:
 			$("#weapon").css("top",  distup +"px")
-			console.log('offset')
+			
 			break;
 	}
 }
@@ -394,13 +394,13 @@ function toggleInventory()
 	if($("#game_elements").hasClass("blurFilter"))
 	{
 		$("#game_elements").removeClass("blurFilter");
-		$("#shadow").removeClass("blurFilter");
+		$(".follow").removeClass("blurFilter");
 		$("#inventory").hide();
 	}
 	else
 	{
 		$("#game_elements").addClass("blurFilter");
-		$("#shadow").addClass("blurFilter");
+		$(".follow").addClass("blurFilter");
 		$("#inventory").show();
 	}
 }

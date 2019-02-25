@@ -43,7 +43,7 @@ div#Hairdude
 {
     width: 48px;
     height: 48px;
-    background-color: aqua;
+    background-image: url('Spriteshampoo.png');
     top: 51px;
     left: 721px;
 	z-index: -3;
