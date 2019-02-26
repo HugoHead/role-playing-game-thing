@@ -32,13 +32,15 @@ function componet(width, height, x, y, colorOrURL, parant, classes, id)
         {
             this.element.style.backgroundImage = colorOrURL;
         }
-        else 
+        else
         {
             this.element.style.backgroundColor = this.colorOrURL;
         }
     }
     this.update();
 }
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
 function entity (width, height, x, y, colorOrURL, classes, type, health)
 {
     this.width = width.toString(10) + "px";
@@ -81,16 +83,37 @@ function entity (width, height, x, y, colorOrURL, classes, type, health)
     {
          body.append(this.element);
     }
-    this.move = function(xarr, yarr)
+    this.move = function(rotarr, distarr)
     {
-        var xDistance = xarr[0],
-        xRate = xarr[1],
-        yDistance = yarr[0], 
-        yRate = yarr[1];
+        var rotDist = rotarr[0],
+        rotRate = rotarr[1],
+        dist = distarr[0],
+        rate = distarr[1];
+
+        const reps = rotarr.length;
+        var currentVals = get_aspects(this.element);
+        var currentLeft = currentVals.left;
+        var currentTop = currentVals.top;
+        this.orintation = parseInt(this.element.style.transform.replace("rotate(", "").replace("deg)", ""));
+
+        var rotAmm = rotarr.length;
+        var distAmm = distarr.lenght;
+
+        for (var r = 0; r < reps; r++)
+        {
+              //execute rotarr[r]
+              this.orintation += rotarr[r];
+              //execute disarr[r]
+
+        }
+        if (distAmm != rotAmm)//the number of linear motions requested is greater than the number of
+        {
+            //execute distarr[distAmm]
+        }
     }
     this.update();
     /*
-    *methods needed: 
+    *methods needed:
     *Die
     *Change image/color
     *move (inpendent of player/toards player)
