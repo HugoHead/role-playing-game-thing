@@ -1,3 +1,6 @@
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 var level = 0;
 var frame_counter=0;
 var sprite_position = 0;
@@ -66,19 +69,6 @@ function count_frames()
 		frame_counter=0;
 	}
 }
-// FOR DIRE SITUATIONS ONLY
-// This thing guzzles ram at an unimaginable rate.
-// unless you are using for less than 60 millies, browser WILL crash.
-// lags if longer than 10
-// FOR DIRE SITUATIONS ONLY
-/*function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-}*/
 function custoalert(message)
 {
 	var milliseconds = (new Date).getTime();
@@ -169,7 +159,7 @@ function togglecave()
 	}
 
 }
-function swingSword()
+async function swingSword()
 {
 
 if(armed == true)
@@ -179,43 +169,22 @@ if(armed == true)
     const frameDiffernce = 72;//the hieght in px of each frame on the sprite sheet
     const shadow = $("#weapon");
 	shadow.css("background-position", "0px 0px")
-    window.setTimeout(function()
-    {
-        shadow.css("background-position", "0px "+frameDiffernce*1+"px")
-        window.setTimeout(function()
-        {
-            console.log(shadow[0].style.backgroundPosition);
-            shadow.css("background-position", "0px "+frameDiffernce*2+"px");
-            console.log(shadow[0].style.backgroundPosition);
-            window.setTimeout(function()
-            {
-                shadow.css("background-position", "0px "+frameDiffernce*3+"px");
-                console.log(shadow[0].style.backgroundPosition);
-                window.setTimeout(function()
-                {
-                    shadow.css("background-position", "0px "+frameDiffernce*2+"px");
-                    console.log(shadow[0].style.backgroundPosition);
-                    window.setTimeout(function()
-                    {
-                        shadow.css("background-position", "0px "+frameDiffernce*1+"px");
-                        console.log(shadow[0].style.backgroundPosition);
-                        window.setTimeout(function()
-                        {
-                            shadow.css("background-position", "0px 0px");
-                            window.setTimeout(function()
-                            {
-                                armed = true;
-                            }, 300);
-                        }, speed);
-                    }, speed);
-                }, speed);
-            }, speed);
-        }, speed);
-    }, speed);
+    await sleep(speed);
+    shadow.css("background-position", "0px "+frameDiffernce*1+"px")
+    await sleep(speed);
+    shadow.css("background-position", "0px "+frameDiffernce*2+"px");
+    await sleep(speed);
+    shadow.css("background-position", "0px "+frameDiffernce*3+"px");
+    await sleep(speed);
+    shadow.css("background-position", "0px "+frameDiffernce*2+"px");
+    await sleep(speed);
+    shadow.css("background-position", "0px "+frameDiffernce*1+"px");
+    await sleep(speed);
+    shadow.css("background-position", "0px 0px");
+    armed = true;
 }}
 function trade(inputs, output)
 {
-	
 	var length = inputs.length;
 	var enough = true;
 	var inven = document.getElementById("inventory")
