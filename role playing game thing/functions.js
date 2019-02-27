@@ -26,10 +26,13 @@ function clog(g)
 {
 	$('#console').text(g);
 }
-function getRadian(degrees)
+function radians(degrees)
 {
   return degrees * Math.PI / 180;
-};
+}
+function degrees(angle) {
+  return angle * (180 / Math.PI);
+}
 function getRotationDegrees(obj)
 {
   var matrix = obj.css("-webkit-transform") ||

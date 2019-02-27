@@ -94,6 +94,7 @@ function entity (width, height, x, y, colorOrURL, classes, type, health)
         var currentVals = get_aspects(this.element);
         var currentLeft = currentVals.left;
         var currentTop = currentVals.top;
+        //upate the orientatoin property
         this.orintation = parseInt(this.element.style.transform.replace("rotate(", "").replace("deg)", ""));
 
         var rotAmm = rotarr.length;
@@ -103,8 +104,18 @@ function entity (width, height, x, y, colorOrURL, classes, type, health)
         {
               //execute rotarr[r]
               this.orintation += rotarr[r];
+              this.element.style.transform = "rotate(" + this.orintation % 360 + "deg)";
+              
               //execute disarr[r]
-
+              var xdist = Math.cos(this.orintation) * distarr[r];
+              var ydist = Math.sin(this.orintation) * distarr[r];
+              this.element.animate({
+                  left: "+=" + xdist,
+                  top: "+=" + ydist
+              }, 5000, function() {
+                    clog("Animation complete.");
+              });
+              
         }
         if (distAmm != rotAmm)//the number of linear motions requested is greater than the number of
         {
