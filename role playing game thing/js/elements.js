@@ -1,11 +1,11 @@
 function makeElements()
 {
 	//componet(width, height, x, y, colorOrURL, parant, classes, id)
-	var terain1 = new componet(384, 192, 700, 99, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain1 = new componet(484, 192, 600, 99, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain2 = new componet(387, 400, 1150, 200, "green", $("#game_elements"), ["darn_obstacle"]);
-	var terain3 = new componet(367, 168, 333, 373, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain3 = new componet(367, 168, 343, 373, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain4 = new componet(384, 168, 700, 373, "green", $("#game_elements"), ["darn_obstacle"]);
-	var terain5 = new componet(313, 190, 333, 245, "green", $("#game_elements"), ["darn_obstacle"]);
+	var terain5 = new componet(190, 500, 340, 255, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain6 = new componet(384, 192, 404, 732, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain7 = new componet(387, 192, 1150, 545, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain8 = new componet(384, 192, 766, 595, "green", $("#game_elements"), ["darn_obstacle"]);

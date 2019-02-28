@@ -1,7 +1,6 @@
-//spawn the test bee
-//enem1 = new entity(50,50,50,50,"url(sprites/bee.png)",[],"test",0);enem1.spawn();
-//test move
-//enem1.move([90],[100],700);
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 function componet(width, height, x, y, colorOrURL, parant, classes, id)
 {
     this.width = width.toString(10) + "px";
@@ -55,9 +54,9 @@ function entity (width, height, x, y, url, classes, type, health)
     this.type = type;
     this.element;this.health;
     this.orintation;
+    this.element = document.createElement("DIV");
     this.update = function()
     {
-        this.element = document.createElement("DIV");
         this.element.style.width = this.width;
         this.element.style.height = this.height;
         this.element.style.top = this.y;
@@ -75,14 +74,20 @@ function entity (width, height, x, y, url, classes, type, health)
             this.element.setAttribute("id", this.id);
         }
         this.element.style.backgroundImage = url;
+        this.element.style.transform = "rotate(0deg)";
     }
-    this.spawn = function()
+    this.spawn = function(title)
     {
-        $("#npcs").append(this.element);
+         this.element.id = title;
+         document.getElementById("npcs").append(this.element);
+         this.title = title;
+         this.element = document.getElementById(title);
          this.update();
     }
-    this.move = function(rotarr, distarr, speed)
+    this.move = async function(rotarr, distarr, speed)
     {
+        var element = document.getElementById(this.title);
+        element.style.transition = speed + "ms";
         var rotDist = rotarr[0],
         rotRate = rotarr[1],
         dist = distarr[0],
@@ -93,7 +98,7 @@ function entity (width, height, x, y, url, classes, type, health)
         var currentLeft = currentVals.left;
         var currentTop = currentVals.top;
         //upate the orientatoin property
-        this.orintation = parseInt(this.element.style.transform.replace("rotate(", "").replace("deg)", ""));
+        this.orintation = parseInt(element.style.transform.replace("rotate(", "").replace("deg)", ""));
 
         var rotAmm = rotarr.length;
         var distAmm = distarr.lenght;
@@ -102,20 +107,28 @@ function entity (width, height, x, y, url, classes, type, health)
         {
               //execute rotarr[r]
               this.orintation += rotarr[r];
-              this.element.style.transform = "rotate(" + this.orintation % 360 + "deg)";
-              top = parseInt(this.element.style.top,10);
-              left = parseInt(this.element.style.left,10);
+              this.orintation = this.orintation % 360;
+              if (this.orintation > 180)
+              {
+                  this.orintation = -1 * (this.orintation - 180);
+              }
+              else if (this.orintation < - 180)
+              {
+                  this.orintation = -1 * (this.orintation + 180);
+              }
+              element.style.transform = "rotate(" + this.orintation % 360 + "deg)";
+            
+              //wait for the rotation to finish
+              await sleep(speed);
+              top = parseInt(element.style.top,10);
+              left = parseInt(element.style.left,10);
               
               //execute disarr[r]
               var xdist = Math.cos(this.orintation) * distarr[r];
               var ydist = Math.sin(this.orintation) * distarr[r];
               var xchnage = xdist + left;
-              this.element.animate({
-                  left: xdist + left,
-                  top: ydist + top
-              }, speed, function() {
-                    clog("Animation complete.");
-              });
+              element.style.left = xdist + left + "px";
+              element.style.top = ydist + top + "px";
 
         }
         if (distAmm != rotAmm)//the number of linear motions requested is greater than the number of
@@ -136,3 +149,8 @@ function entity (width, height, x, y, url, classes, type, health)
     *
     */
 }
+//spawn the test bee
+enem1 = new entity(50,50,50,50,"url(sprites/bee.png)",[],"test",0);
+enem1.spawn("test");
+//test move
+enem1.move([90],[100],700);
