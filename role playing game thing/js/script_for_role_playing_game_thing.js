@@ -397,24 +397,27 @@ function hold(itemheld)
 function pickupitem()
 {
 	var a = touching("#you", "#game_elements .item");
-	if(a)
-	{
-		a.remove();
-		a.addClass("inInv")
-		custoalert("You have picked up a " + a.attr("id"));
-		$("#inventory").append(a);
-		
-		//touched is a variable created to dodge the mutiple type output of the touching function
-		//writen to by the touching function
-		//is the last object to be identiied as touched
-		console.log(touched[0].classList);
-		if (touched[0].classList.contains("holdable"))
+	try {
+		if(a)
 		{
-			//for whatever reason, jquery constructs its own object type.
-			//elem[0] is the easiest way to parse the element object from the jquery object.
-			var itemHeld = touched[0];
-			hold(itemHeld);
+			a.remove();
+			a.addClass("inInv")
+			custoalert("You have picked up a " + a.attr("id"));
+			$("#inventory").append(a);
+
+			//touched is a variable created to dodge the mutiple type output of the touching function
+			//writen to by the touching function
+			//is the last object to be identiied as touched
+			if (touched[0].classList.contains("holdable"))
+			{
+				//for whatever reason, jquery constructs its own object type.
+				//elem[0] is the easiest way to parse the element object from the jquery object.
+				var itemHeld = touched[0];
+				hold(itemHeld);
+			}
 		}
+	} catch (e) {
+		var x = 5;
 	}
 	return a;
 }
