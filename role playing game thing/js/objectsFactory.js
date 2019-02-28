@@ -78,7 +78,7 @@ function entity (width, height, x, y, url, classes, type, health)
     }
     this.spawn = function()
     {
-         document.getElementById("npcs").append(this.element);
+        $("#npcs").append(this.element);
          this.update();
     }
     this.move = function(rotarr, distarr, speed)
@@ -97,19 +97,22 @@ function entity (width, height, x, y, url, classes, type, health)
 
         var rotAmm = rotarr.length;
         var distAmm = distarr.lenght;
-
+        var left,top;
         for (var r = 0; r < reps; r++)
         {
               //execute rotarr[r]
               this.orintation += rotarr[r];
               this.element.style.transform = "rotate(" + this.orintation % 360 + "deg)";
-
+              top = parseInt(this.element.style.top,10);
+              left = parseInt(this.element.style.left,10);
+              
               //execute disarr[r]
               var xdist = Math.cos(this.orintation) * distarr[r];
               var ydist = Math.sin(this.orintation) * distarr[r];
+              var xchnage = xdist + left;
               this.element.animate({
-                  left: "+=" + xdist,
-                  top: "+=" + ydist
+                  left: xdist + left,
+                  top: ydist + top
               }, speed, function() {
                     clog("Animation complete.");
               });
