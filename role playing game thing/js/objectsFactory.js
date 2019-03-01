@@ -80,6 +80,7 @@ function entity (width, height, x, y, url, classes, type, health)
     this.spawn = function(title)
     {
          this.element.id = title;
+         this.element.classList.add("darn_obstacle")
          document.getElementById("npcs").append(this.element);
          this.title = title;
          this.element = document.getElementById(title);
@@ -88,6 +89,7 @@ function entity (width, height, x, y, url, classes, type, health)
     this.move = async function(rotarr, distarr, speed)
     {
         var element = document.getElementById(this.title);
+        console.log(element);
         element.style.transition = speed + "ms";
         var rotDist = rotarr[0],
         rotRate = rotarr[1],
@@ -95,9 +97,11 @@ function entity (width, height, x, y, url, classes, type, health)
         rate = distarr[1];
 
         const reps = rotarr.length;
+        
         var currentVals = get_aspects(this.element);
         var currentLeft = currentVals.left;
         var currentTop = currentVals.top;
+        
         //upate the orientatoin property
         this.orintation = parseInt(element.style.transform.replace("rotate(", "").replace("deg)", ""));
 
@@ -106,35 +110,31 @@ function entity (width, height, x, y, url, classes, type, health)
         var left,top;
         for (var r = 0; r < reps; r++)
         {
-              //execute rotarr[r]
-              this.orintation += rotarr[r];
-              this.orintation = this.orintation % 360;
-              if (this.orintation > 180)
-              {
-                  this.orintation = -1 * (this.orintation - 180);
-              }
-              else if (this.orintation < - 180)
-              {
-                  this.orintation = -1 * (this.orintation + 180);
-              }
-              element.style.transform = "rotate(" + this.orintation % 360 + "deg)";
-            
-              //wait for the rotation to finish
-              await sleep(speed);
-              top = parseInt(element.style.top,10);
-              left = parseInt(element.style.left,10);
-              
-              //execute disarr[r]
-              var xdist = Math.cos(this.orintation + (90*this.front)) * distarr[r];
-              var ydist = Math.sin(this.orintation + (90*this.front)) * distarr[r];
-              var xchnage = xdist + left;
-              element.style.left = xdist + left + "px";
-              element.style.top = ydist + top + "px";
+            //execute rotarr[r]
+            this.orintation += rotarr[r];
+            this.orintation = this.orintation % 360;
+            if (this.orintation > 180)
+            {
+              this.orintation = -1 * (this.orintation - 180);
+            }
 
-        }
-        if (distAmm != rotAmm)//the number of linear motions requested is greater than the number of
-        {
-            //execute distarr[distAmm]
+            element.style.transform = "rotate(" + this.orintation + "deg)";
+
+            //wait for the rotation to finish
+            await sleep(speed);
+            top = parseInt(element.style.top, 10);
+            left = parseInt(element.style.left, 10);
+
+            console.log(this.orintation);
+            //execute disarr[r]
+            var xdist = Math.cos(this.orintation * Math.PI / 180) * distarr[r];
+            var ydist = Math.sin(this.orintation * Math.PI / 180) * distarr[r];
+
+            console.log(xdist + " " + ydist);
+            var xchnage = xdist + left;
+            element.style.left = xdist + left + "px";
+            element.style.top = ydist + top + "px";
+            await sleep(speed)
         }
     }
     this.update();
@@ -150,9 +150,3 @@ function entity (width, height, x, y, url, classes, type, health)
     *
     */
 }
-//spawn the test bee
-enem1 = new entity(50,50,50,50,"url(sprites/bee.png)",[],"test",0);
-enem1.spawn("test");
-enem1.front = 2;
-//test move
-enem1.move([90],[100],700);
