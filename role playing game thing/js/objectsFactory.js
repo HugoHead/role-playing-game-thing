@@ -54,6 +54,7 @@ function entity (width, height, x, y, url, classes, type, health)
     this.type = type;
     this.element;this.health;
     this.orintation;
+    this.front = 1;
     this.element = document.createElement("DIV");
     this.update = function()
     {
@@ -124,8 +125,8 @@ function entity (width, height, x, y, url, classes, type, health)
               left = parseInt(element.style.left,10);
               
               //execute disarr[r]
-              var xdist = Math.cos(this.orintation) * distarr[r];
-              var ydist = Math.sin(this.orintation) * distarr[r];
+              var xdist = Math.cos(this.orintation + (90*this.front)) * distarr[r];
+              var ydist = Math.sin(this.orintation + (90*this.front)) * distarr[r];
               var xchnage = xdist + left;
               element.style.left = xdist + left + "px";
               element.style.top = ydist + top + "px";
@@ -152,5 +153,6 @@ function entity (width, height, x, y, url, classes, type, health)
 //spawn the test bee
 enem1 = new entity(50,50,50,50,"url(sprites/bee.png)",[],"test",0);
 enem1.spawn("test");
+enem1.front = 2;
 //test move
 enem1.move([90],[100],700);
