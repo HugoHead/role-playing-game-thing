@@ -154,9 +154,11 @@ function togglecave()
 	}
 
 }
+var swinging = false;
 async function swingSword()
 {
-	if(armed == true)
+	swinging = true;
+	if(armed == true && swinging)
 	{
 		speed = 100;
 		armed = false;
@@ -164,18 +166,34 @@ async function swingSword()
 		const shadow = $("#weapon");
 		shadow.css("background-position", "0px 0px")
 		await sleep(speed);
-		shadow.css("background-position", "0px "+frameDiffernce*1+"px")
+		shadow.css("background-position", "0px " + frameDiffernce * 1 + "px")
 		await sleep(speed);
-		shadow.css("background-position", "0px "+frameDiffernce*2+"px");
+		shadow.css("background-position", "0px " + frameDiffernce * 2 + "px");
 		await sleep(speed);
-		shadow.css("background-position", "0px "+frameDiffernce*3+"px");
+		shadow.css("background-position", "0px " + frameDiffernce * 3 + "px");
 		await sleep(speed);
-		shadow.css("background-position", "0px "+frameDiffernce*2+"px");
+		shadow.css("background-position", "0px " + frameDiffernce * 2 + "px");
 		await sleep(speed);
-		shadow.css("background-position", "0px "+frameDiffernce*1+"px");
+		shadow.css("background-position", "0px " + frameDiffernce * 1 + "px");
 		await sleep(speed);
 		shadow.css("background-position", "0px 0px");
 		armed = true;
+		var sword = document.getElementById("weapon");
+		var currentElement;
+		for (var i in monsterList)
+		{
+			if (touching(sword, document.getElementById(monsterList[i].title)))
+			{
+				monsterList[i].damage(1);
+				console.log(monsterList[i].health)
+			}
+			else if (touching(sword, document.getElementById("Hairdude")) || touching (sword, document.getElementById("weirdo")))
+			{
+				console.log("here");
+				custoalert("Ouch, what was that for?");
+			}
+		}
+		swinging = false;
 	}
 }
 function trade(inputs, output)

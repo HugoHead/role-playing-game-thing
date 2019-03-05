@@ -52,10 +52,13 @@ function entity (width, height, x, y, url, classes, type, health)
     this.y = y.toString(10) + "px";
     this.url = url;
     this.type = type;
-    this.element;this.health;
+    this.element;
+	this.health = health;
     this.orintation;
     this.front = 1;
     this.element = document.createElement("DIV");
+	this.lifeStatus = true;
+	this.deathImage = "/sprites/splat.png";
     this.update = function()
     {
         this.element.style.width = this.width;
@@ -134,9 +137,22 @@ function entity (width, height, x, y, url, classes, type, health)
             var xchnage = xdist + left;
             element.style.left = xdist + left + "px";
             element.style.top = ydist + top + "px";
-            await sleep(speed)
+            await sleep(speed);
         }
     }
+	this.damage = function (amm)
+	{
+		this.health -= amm;
+		this.checkForDeath();
+	}
+	this.checkForDeath = function()
+	{
+		if (this.health < 0)
+		{
+			console.log("Here");
+			document.getElementById(this.title).remove();
+		}
+	}
     this.update();
     /*
     *methods needed:
