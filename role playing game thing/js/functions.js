@@ -86,6 +86,73 @@ function isBetween(n, t, b)
 	}
 }
 var touched = "none";
+function syntheticTouching (thing1, topLeft, widthHeight)
+{
+    //syntheticTouching ("you", [710, 300], [48, 48])
+    var quad = new componet(48, 48, 710, 300, "green", $("#game_elements"), ["darn_obstacle"]);
+    var bad = 
+    {
+        left: topLeft[0],
+        right: topLeft[0] + widthHeight[0],
+        top: topLeft[1],
+        bottom: topLeft[1] + widthHeight[1]
+    }
+	var isThereATouch = false;
+	var thing1Aspects = get_aspects(thing1);
+    var hor = false;
+    var ver = false;
+    //if(blast['right']	>=bad['left'] 		&& blast['right']	<=bad['right'])
+    if(isBetween(thing1Aspects['right'], bad['right'], bad['left']))
+    {
+        hor = true;
+        //console.log('hor1')
+    }
+    if(isBetween(thing1Aspects['left'], bad['right'], bad['left']))
+    {
+        hor = true;
+        //console.log('hor2')
+    }
+    if(isBetween(bad['right'], thing1Aspects['right'], thing1Aspects['left']))
+    {
+        hor = true;
+        //console.log('hor3')
+    }
+    if(isBetween(bad['left'], thing1Aspects['right'], thing1Aspects['left']))
+    {
+        hor = true;
+        //console.log('hor4')
+    }
+    if(isBetween(thing1Aspects['bottom'], bad['bottom'], bad['top']))
+    {
+        ver = true;
+        //console.log('ver1')
+    }
+    if(isBetween(thing1Aspects['top'], bad['bottom'], bad['top']))
+    {
+        ver = true;
+        //console.log('ver2')
+    }
+    if(isBetween(bad['bottom'], thing1Aspects['bottom'], thing1Aspects['top']))
+    {
+        ver = true;
+        //console.log('ver3')
+    }
+    if(isBetween(bad['top'], thing1Aspects['bottom'], thing1Aspects['top']))
+    {
+        ver = true;
+        //console.log('ver4')
+    }
+    if(hor && ver)
+    {
+        isThereATouch = $(this);
+        touched = $(this);
+    }
+    else 
+    {
+        touched = "none";
+    }
+	return isThereATouch;
+}
 function touching(thing1, thing2)
 {
 	var isThereATouch = false;
