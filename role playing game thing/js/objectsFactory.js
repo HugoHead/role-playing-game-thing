@@ -105,7 +105,7 @@ function entity (width, height, x, y, url, classes, type, health)
         var currentLeft = currentVals.left;
         var currentTop = currentVals.top;
         
-        //upate the orientatoin property
+        //update the orientation property
         this.orintation = parseInt(element.style.transform.replace("rotate(", "").replace("deg)", ""));
 
         var rotAmm = rotarr.length;
@@ -149,6 +149,55 @@ function entity (width, height, x, y, url, classes, type, health)
 		{
 			console.log("Here");
 			document.getElementById(this.title).remove();
+		}
+	}
+	this.moveAt = function(object, speed)
+	{
+		//a list of the places that could potentially be incuded in the route. 
+		var checkSpots = [];
+		
+		//To assemble an array of spots to check, we have to divide the entire space into boxes the size of the thing pathfinding.
+		//It will be a list of upperLeft corners, in the for [top, left]
+		//more information need not be gathered, as the other four corners can be calculated
+		var corrners = [];
+		
+		//the location on the diagonal dimension that we are acting upon. 
+		var actingLayer = 0;
+		
+		//we know that (0,0) will always be a part of the array.
+		corners.push([0,0]);
+		actingLayer = 1;
+		
+		//To get the remaining points, some mental contortion is required.
+		/*
+		. represents the first "layer"
+		* the second
+		x the third
+		
+		. * x
+		* * x
+		x x x 
+		
+		As you can see, each time we go the next "layer", the number of additional coroners increases by two.
+		This means that given the total number of layers on the board, we can calculate the position of each corner.
+		*/
+		
+		//just as an example, the second layer is created like this.
+		corners.push([this.width, 0]);
+		corners.push([0, this.height]);
+		corners.push([this.width, this.height]);
+		actingLayer = 2;
+		
+		//layers left the work with.
+		var layersIncomplete = boardSize - actingLayer;
+		
+		var numberOfCorrnersThisLayer; 
+		
+		for (layersIncomplete = boardSize; layersIncomplete > 0; layersIncomplete--)
+		{
+			actingLayer = boardSize - actingLayer;
+			numberOfCorrnersThisLayer = 2 * actingLayer + 1;
+			//for (){}
 		}
 	}
     this.update();

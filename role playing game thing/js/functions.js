@@ -83,7 +83,7 @@ function isBetween(n, t, b)
 }
 var touched = "none";
 function syntheticTouching (thing1, topLeft, widthHeight)
-{
+{	
     var quad = new componet(widthHeight[0], widthHeight[1], topLeft[0], topLeft[1], "red", $("#game_elements"), ["darn_obstacle"]);
 	//console.log(touching(quad, thing1))
     var bad = 
