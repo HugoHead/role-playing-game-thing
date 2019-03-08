@@ -24,7 +24,7 @@ function rand(min,max)
 }
 function clog(g)
 {
-	$('#console').text(g);
+	console.log(g);
 }
 function radians(degrees)
 {
@@ -55,25 +55,21 @@ function getRotationDegrees(obj)
 
 function get_aspects(ubject)
 {
-	var aspre = new Object();
-		aspre['width'] = $(ubject).outerWidth();
-		aspre['height'] = $(ubject).outerHeight();
-		//aspre['deg'] = getRotationDegrees($(ubject))
-		aspre['top'] = parseInt($(ubject).css('top')); + parseInt($(ubject).parent().css('top'));
-		aspre['left'] = parseInt($(ubject).css('left')); + parseInt($(ubject).parent().css('left'));
-		aspre['bottom'] = aspre['top']+aspre['height'];
-		aspre['right'] = aspre['left']+aspre['width'];
+	var aspre = {};
+	aspre['width'] = $(ubject).outerWidth();
+	aspre['height'] = $(ubject).outerHeight();
+	aspre['top'] = parseInt($(ubject).css('top')); + parseInt($(ubject).parent().css('top'));
+	aspre['left'] = parseInt($(ubject).css('left')); + parseInt($(ubject).parent().css('left'));
+	aspre['bottom'] = aspre['top']+aspre['height'];
+	aspre['right'] = aspre['left']+aspre['width'];
 
 	return aspre;
 }
-
 function outputAspects(object, aspect)
 {
-		var character = get_aspects(object);
-		console.log(character[aspect]);
-
+	var character = get_aspects(object);
+	console.log(character[aspect]);
 }
-
 function isBetween(n, t, b)
 {
 	if(n <= t && n >= b)
@@ -88,15 +84,15 @@ function isBetween(n, t, b)
 var touched = "none";
 function syntheticTouching (thing1, topLeft, widthHeight)
 {
-    //syntheticTouching ("you", [710, 300], [48, 48])
-    var quad = new componet(48, 48, 710, 300, "green", $("#game_elements"), ["darn_obstacle"]);
+    var quad = new componet(widthHeight[0], widthHeight[1], topLeft[0], topLeft[1], "red", $("#game_elements"), ["darn_obstacle"]);
+	//console.log(touching(quad, thing1))
     var bad = 
     {
         left: topLeft[0],
         right: topLeft[0] + widthHeight[0],
         top: topLeft[1],
         bottom: topLeft[1] + widthHeight[1]
-    }
+    };
 	var isThereATouch = false;
 	var thing1Aspects = get_aspects(thing1);
     var hor = false;
@@ -105,7 +101,6 @@ function syntheticTouching (thing1, topLeft, widthHeight)
     if(isBetween(thing1Aspects['right'], bad['right'], bad['left']))
     {
         hor = true;
-        //console.log('hor1')
     }
     if(isBetween(thing1Aspects['left'], bad['right'], bad['left']))
     {
@@ -142,10 +137,10 @@ function syntheticTouching (thing1, topLeft, widthHeight)
         ver = true;
         //console.log('ver4')
     }
+	clog(hor + " " + ver)
     if(hor && ver)
     {
-        isThereATouch = $(this);
-        touched = $(this);
+        isThereATouch = true;
     }
     else 
     {
@@ -162,49 +157,38 @@ function touching(thing1, thing2)
 		var bad = get_aspects(this);
 		var hor = false;
 		var ver = false;
-		//if(blast['right']	>=bad['left'] 		&& blast['right']	<=bad['right'])
 		if(isBetween(thing1Aspects['right'], bad['right'], bad['left']))
 		{
 			hor = true;
-			//console.log('hor1')
 		}
 		if(isBetween(thing1Aspects['left'], bad['right'], bad['left']))
 		{
 			hor = true;
-			//console.log('hor2')
 		}
 		if(isBetween(bad['right'], thing1Aspects['right'], thing1Aspects['left']))
 		{
 			hor = true;
-			//console.log('hor3')
 		}
 		if(isBetween(bad['left'], thing1Aspects['right'], thing1Aspects['left']))
 		{
 			hor = true;
-			//console.log('hor4')
 		}
-
 		if(isBetween(thing1Aspects['bottom'], bad['bottom'], bad['top']))
 		{
 			ver = true;
-			//console.log('ver1')
 		}
 		if(isBetween(thing1Aspects['top'], bad['bottom'], bad['top']))
 		{
 			ver = true;
-			//console.log('ver2')
 		}
 		if(isBetween(bad['bottom'], thing1Aspects['bottom'], thing1Aspects['top']))
 		{
 			ver = true;
-			//console.log('ver3')
 		}
 		if(isBetween(bad['top'], thing1Aspects['bottom'], thing1Aspects['top']))
 		{
 			ver = true;
-			//console.log('ver4')
 		}
-		
 		if(hor && ver)
 		{
 			isThereATouch = $(this);
@@ -231,7 +215,7 @@ function move(toporleft,speed,guy)
 
 	var oldvalpx = guyasp[toporleft];
 	if(
-		//CAN WE move up
+		//CAN WE move top
 		(toporleft == 'top' && speed < 0 && oldvalpx > 0) ||
 		//CAN WE move down
 		(toporleft == 'top' && speed > 0 && oldvalpx < maxheight) ||

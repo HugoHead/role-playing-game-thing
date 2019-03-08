@@ -92,7 +92,7 @@ function entity (width, height, x, y, url, classes, type, health)
     this.move = async function(rotarr, distarr, speed)
     {
         var element = document.getElementById(this.title);
-        console.log(element);
+        (element);
         element.style.transition = speed + "ms";
         var rotDist = rotarr[0],
         rotRate = rotarr[1],
@@ -128,12 +128,10 @@ function entity (width, height, x, y, url, classes, type, health)
             top = parseInt(element.style.top, 10);
             left = parseInt(element.style.left, 10);
 
-            console.log(this.orintation);
             //execute disarr[r]
             var xdist = Math.cos(this.orintation * Math.PI / 180) * distarr[r];
             var ydist = Math.sin(this.orintation * Math.PI / 180) * distarr[r];
 
-            console.log(xdist + " " + ydist);
             var xchnage = xdist + left;
             element.style.left = xdist + left + "px";
             element.style.top = ydist + top + "px";
