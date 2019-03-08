@@ -1,6 +1,7 @@
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+var boardSize = 7000000000;
 function componet(width, height, x, y, colorOrURL, parant, classes, id)
 {
     this.width = width.toString(10) + "px";
@@ -128,7 +129,7 @@ function entity (width, height, x, y, url, classes, type, health)
             top = parseInt(element.style.top, 10);
             left = parseInt(element.style.left, 10);
 
-            //execute disarr[r]
+            //execute distarr[r]
             var xdist = Math.cos(this.orintation * Math.PI / 180) * distarr[r];
             var ydist = Math.sin(this.orintation * Math.PI / 180) * distarr[r];
 
@@ -151,9 +152,13 @@ function entity (width, height, x, y, url, classes, type, health)
 			document.getElementById(this.title).remove();
 		}
 	}
-	this.moveAt = function(object, speed)
+	this.gridField = [];
+	this.initNewGridField = function()
 	{
-		//a list of the places that could potentially be incuded in the route. 
+		var width = parseInt(this.width),
+		height = parseInt(this.height);
+		
+		//a list of the places that could potentially be induced in the route. 
 		var checkSpots = [];
 		
 		//To assemble an array of spots to check, we have to divide the entire space into boxes the size of the thing pathfinding.
@@ -165,7 +170,7 @@ function entity (width, height, x, y, url, classes, type, health)
 		var actingLayer = 0;
 		
 		//we know that (0,0) will always be a part of the array.
-		corners.push([0,0]);
+		corrners.push([0,0]);
 		actingLayer = 1;
 		
 		//To get the remaining points, some mental contortion is required.
@@ -183,29 +188,49 @@ function entity (width, height, x, y, url, classes, type, health)
 		*/
 		
 		//just as an example, the second layer is created like this.
-		corners.push([this.width, 0]);
-		corners.push([0, this.height]);
-		corners.push([this.width, this.height]);
+		corrners.push([width, 0]);
+		corrners.push([0, height]);
+		corrners.push([width, height]);
 		actingLayer = 2;
 		
 		//layers left the work with.
 		var layersIncomplete = boardSize - actingLayer;
 		
-		var numberOfCorrnersThisLayer; 
+		var numberOfCorrnersThisLayer, colmnSize; 
 		
-		for (layersIncomplete = boardSize; layersIncomplete > 0; layersIncomplete--)
+		for (layersIncomplete = boardSize - actingLayer; layersIncomplete > 0; layersIncomplete--)
 		{
-			actingLayer = boardSize - actingLayer;
-			numberOfCorrnersThisLayer = 2 * actingLayer + 1;
-			//for (){}
-		}
+			numberOfCorrnersThisLayer = (2 * actingLayer);
+			
+			//add the column exuding the diagonal point
+			for (var actingDot = 0; actingDot < (numberOfCorrnersThisLayer--); actingDot++)
+			{
+				corrners.push([width * (actingLayer), actingDot * height]);
+			}
+			
+			//now add the row.	
+			for (var actingDot = 0; actingDot < (numberOfCorrnersThisLayer--); actingDot++)
+			{
+				corrners.push([width * (actingDot), actingLayer * height]);
+			}
+			
+			//and the diagonal piece
+			corrners.push([width * (actingLayer), height * (actingLayer)]);
+			
+			actingLayer++;
+		 }
+		this.gridField = corrners;
+	}
+	this.moveAt = function(object, speed)
+	{
+		var placholder;
 	}
     this.update();
     /*
     *methods needed:
     *Die
     *Change image/color
-    *move (inpendent of player/toards player)
+    *move (independent of player/towards player)
     *input/output damage
     *check for death
     *Attack
