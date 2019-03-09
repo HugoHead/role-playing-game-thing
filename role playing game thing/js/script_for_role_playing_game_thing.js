@@ -88,6 +88,7 @@ function talk(check)
 	var hasSpray = $("#hairspray").hasClass("inInv");
 	if(hasSpray && level == 0)
 	{
+		console.log("had spray");
 		custoalert("Weirdo: Thank you so much!");
 		//remove the hairspray from your inventory
 		document.getElementById("hairspray").remove();
@@ -184,9 +185,11 @@ async function swingSword()
 			if (touching(sword, document.getElementById(monsterList[i].title)))
 			{
 				monsterList[i].damage(1);
+				console.log(monsterList[i].health)
 			}
 			else if (touching(sword, document.getElementById("Hairdude")) || touching (sword, document.getElementById("weirdo")))
 			{
+				console.log("here");
 				custoalert("Ouch, what was that for?");
 			}
 		}
@@ -219,6 +222,7 @@ function trade(inputs, output)
 }
 function checkForE()
 {
+	console.log("here");
 	if (key.e)
 	{
 		buyHairConditioner();
@@ -245,6 +249,7 @@ function repeated()
 }
 function buyHairConditioner()
 {
+	console.log("here");
 	if(trade([$("#square"), $("#box")], "<div Id='hairspray'></div>"))
 	{
 		$("#hairspray").addClass("inInv")
@@ -405,6 +410,7 @@ function hold(itemheld)
 	//shadow.style.backgroundRepeat = "no-repeat";
 	//apply the background image
 	shadow.style.backgroundImage = image;
+	console.log("End of Hold");
 }
 function pickupitem()
 {
