@@ -137,7 +137,6 @@ function syntheticTouching (thing1, topLeft, widthHeight)
         ver = true;
         //console.log('ver4')
     }
-	clog(hor + " " + ver)
     if(hor && ver)
     {
         isThereATouch = true;

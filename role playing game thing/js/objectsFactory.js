@@ -202,45 +202,46 @@ function entity (width, height, x, y, url, classes, type, health)
 	}
 	this.pathfind = function(smarts, speed)
 	{
-		var okspots = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
-		var checknow = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
-		var checknext = [];
-		for (var g = 0; g < smarts; g++)
-		{
-			for (var j = 0; j < checknow.length; j++)
-			{
-				for (var h = 0; h < 8; h++)
-				{
-          var booltouching = false;
-					var widthcheck = parseInt(this.width, 10);
-					var heightcheck = parseInt(this.height, 10);
-					var xcheck = Math.cos(h * 45 * Math.PI / 180) * speed + checknow[j][0];
-					var ycheck = Math.sin(h * 45 * Math.PI / 180) * speed + checknow[j][1];
-					//var quad = new componet(this.width, this.height, xcheck, ycheck, "red", $("#game_elements"), ["darn_obstacle"]);
-
-          var game_elementArray = document.getElementsByClassName('darn_obstacle');
-          for (var i = 0; i in game_elementArray; i++)
-          {
-            if (!syntheticTouching($("#" + game_elementArray[i].id), [xcheck, ycheck], [widthcheck, heightcheck]))
+        var okspots = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
+        var checknow = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
+        var checknext = [];
+        for (var g = 0; g < smarts; g++)
+        {
+            for (var j = 0; j < checknow.length; j++)
             {
-                booltouching = true;
+                for (var h = 0; h < 8; h++)
+                {
+                    var booltouching = false;
+                    var widthcheck = parseInt(this.width, 10);
+                    var heightcheck = parseInt(this.height, 10);
+                    var xcheck = (Math.cos(h * 45 * (Math.PI / 180)) * speed) + checknow[j][0];
+                    var ycheck = (Math.sin(h * 45 * (Math.PI / 180)) * speed) + checknow[j][1];
+                    //var quad = new componet(this.width, this.height, xcheck, ycheck, "red", $("#game_elements"), ["darn_obstacle"]);
+
+                    var game_elementArray = document.getElementsByClassName('darn_obstacle');
+                    for (var i = 0; i in game_elementArray; i++)
+                    {
+                        if (!syntheticTouching(game_elementArray, [xcheck, ycheck], [widthcheck, heightcheck]))
+                        {
+                            booltouching = true;
+                            break;
+                        }
+                    }
+                    if (booltouching)
+                    {
+                        okspots.push([xcheck, ycheck]);
+                        checknext.push([xcheck, ycheck]);
+                        console.log("[xcheck, ycheck]");
+                        var quad = new componet(widthcheck, heightcheck, xcheck, ycheck, "red", $("#game_elements"), ["darn_obstacle"]);
+                    }
+                    else
+                    {
+                        console.error("fail");
+                        console.log(xcheck + "," + ycheck);
+                    }
+                }
             }
-          }
-          if (booltouching)
-          {
-              okspots.push([xcheck, ycheck]);
-              checknext.push([xcheck, ycheck]);
-              console.log("[xcheck, ycheck]");
-              var quad = new componet(widthcheck, heightcheck, xcheck, ycheck, "red", $("#game_elements"), ["darn_obstacle"]);
-          }
-          else
-          {
-            console.error("fail")
-            console.log(xcheck + "," + ycheck)
-          }
-				}
-			}
-		}
+        }
 	}
     this.update();
     /*
