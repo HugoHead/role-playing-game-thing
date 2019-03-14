@@ -84,9 +84,7 @@ function isBetween(n, t, b)
 var touched = "none";
 function syntheticTouching (thing1, topLeft, widthHeight)
 {
-	//uncomment this line for cool stuff
-    //var quad = new componet(widthHeight[0], widthHeight[1], topLeft[0], topLeft[1], "red", $("#game_elements"), ["darn_obstacle"]);
-	
+    //var quad = new componet(widthHeight[0], widthHeight[1], topLeft[0], topLeft[1], "rgba(20,20,20,0.1);", $("#game_elements"), ["darn_obstacle"]);
 	//console.log(touching(quad, thing1))
     var bad =
     {
@@ -99,7 +97,7 @@ function syntheticTouching (thing1, topLeft, widthHeight)
 	var thing1Aspects = get_aspects(thing1);
     var hor = false;
     var ver = false;
-    //if(blast['right']	>=bad['left'] && blast['right']	<=bad['right'])
+    //if(blast['right']	>=bad['left'] 		&& blast['right']	<=bad['right'])
     if(isBetween(thing1Aspects['right'], bad['right'], bad['left']))
     {
         hor = true;
@@ -139,6 +137,7 @@ function syntheticTouching (thing1, topLeft, widthHeight)
         ver = true;
         //console.log('ver4')
     }
+	clog(hor + " " + ver)
     if(hor && ver)
     {
         isThereATouch = true;

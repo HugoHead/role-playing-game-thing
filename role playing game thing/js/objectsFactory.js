@@ -202,6 +202,15 @@ function entity (width, height, x, y, url, classes, type, health)
 	}
 	this.pathfind = function(smarts, speed)
 	{
+        //before we do any pathfinding, we should find all the darn_obstacles that are likly to matter
+        var game_elementArray = document.getElementsByClassName('darn_obstacle');
+        var game_elementsInWorld = game_elementArray.length;
+        const boxWidth = speed * smarts * 2, boxTop = parseInt(this.y, 10) - (speed * smarts), boxLeft = parseInt(this.x, 10) - (speed * smarts);
+        for (var i = 0; i < game_elementsInWorld; i++)
+        {
+            syntheticTouching (jQuery(game_elementArray[i]), [boxTop, boxLeft], [boxWidth, boxWidth])
+        }
+
         var okspots = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
         var checknow = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
         var checknext = [], booltouching = false, arrayLength;
@@ -209,61 +218,53 @@ function entity (width, height, x, y, url, classes, type, health)
         {
             for (var j = 0; j < checknow.length; j++)
             {
-				console.log("j"+j)
+				        console.log("j"+j)
                 for (var h = 0; h < 8; h++)
                 {
                     booltouching = false;
                     var widthcheck = parseInt(this.width, 10);
                     var heightcheck = parseInt(this.height, 10);
-					console.log(widthcheck + " " + heightcheck);
+					          console.log(widthcheck + " " + heightcheck);
                     var xcheck = (Math.cos(h * 45 * (Math.PI / 180)) * speed) + checknow[j][0];
                     var ycheck = (Math.sin(h * 45 * (Math.PI / 180)) * speed) + checknow[j][1];
 
-                    var game_elementArray = document.getElementsByClassName('darn_obstacle');
-					var i = 0;
-					//see if the checkpoints are touching member of the 'darn_obstacle' css class
-					arrayLength = game_elementArray.length;
+
+					           var i = 0;
+					           //see if the checkpoints are touching member of the 'darn_obstacle' css class
+					           arrayLength = game_elementArray.length;
                     for (i = 0; i < arrayLength; i++)
                     {
-						  console.log(i);
-						  booltouching = false;
-						  //attempt to catch the case where game_elementArray[i] is the entity itself
+						              console.log(i);
+						              booltouching = false;
+						              //attempt to catch the case where game_elementArray[i] is the entity itself
                           if (game_elementArray[i] == this.element)
                           {
-							  booltouching = false;
+				                       booltouching = false;
                           }
-						  //the regular case
-                          else if (syntheticTouching(
-							  	  	jQuery(game_elementArray[i]),
-							  		[xcheck, ycheck],
-							  		[widthcheck, heightcheck])
-						  		  )
-						  {
+						              //the regular case
+                          else if (syntheticTouching(jQuery(game_elementArray[i]), [xcheck, ycheck], [widthcheck, heightcheck]))
+						              {
                               booltouching = true;
-							  console.log("The cool case");
+                              break;
+							                console.log("The cool case");
                           }
-						  if (booltouching)
-						  {
-							  console.error("fail");
-							  break;
-						  }
-						  else
-						  {
-							console.log("Not Touching")
-							var quad = new componet(widthcheck, heightcheck, xcheck, ycheck, "red", $("#game_elements"), []);
-						  }
-						  
                     }
-					if (booltouching)
-					{console.log(xcheck + "," + ycheck);}
-					else 
-					{
-						okspots.push([xcheck, ycheck]);
-						checknext.push([xcheck, ycheck]);
-						console.log(xcheck + "," + ycheck);
-					}
+                    if (booltouching)
+                    {
+                        console.error("fail");
+                    }
+                    else
+                    {
+                        console.log("Not Touching")
+                        var quad = new componet(widthcheck, heightcheck, xcheck, ycheck, "red", $("#game_elements"), []);
+                        okspots.push([xcheck, ycheck]);
+						            checknext.push([xcheck, ycheck]);
+                    }
                 }
             }
+            checknow = [];
+            checknow = checknext;
+            checknext = [];
         }
 	}
     this.update();
