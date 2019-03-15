@@ -205,15 +205,17 @@ function entity (width, height, x, y, url, classes, type, health)
         //before we do any pathfinding, we should find all the darn_obstacles that are likly to matter
         var game_elementArray = document.getElementsByClassName('darn_obstacle');
         var game_elementsInWorld = game_elementArray.length;
-        const boxWidth = speed * smarts * 2, boxTop = parseInt(this.y, 10) - (speed * smarts), boxLeft = parseInt(this.x, 10) - (speed * smarts);
+        const boxWidth = speed * smarts * 2 + speed, boxTop = parseInt(this.y, 10) - (speed * smarts), boxLeft = parseInt(this.x, 10) - (speed * smarts);
+        var shape = new componet (boxWidth, boxWidth, boxLeft, boxTop, "rgba(155,155,155,0.1)", $("#game_elements"), []);
+        var obstaclesWeCareAbout= [];
         for (var i = 0; i < game_elementsInWorld; i++)
         {
-            if (!syntheticTouching(jQuery(game_elementArray[i]), [boxTop, boxLeft], [boxWidth, boxWidth]))
+            if (syntheticTouching(jQuery(game_elementArray[i]), [boxLeft, boxTop], [boxWidth, boxWidth]))
             {
-                game_elementArray.splice(i, 1);
+                obstaclesWeCareAbout.push(game_elementArray[i]);
             }
         }
-
+        
         var okspots = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
         var checknow = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
         var checknext = [], booltouching = false, arrayLength;
@@ -227,25 +229,25 @@ function entity (width, height, x, y, url, classes, type, health)
                     booltouching = false;
                     var widthcheck = parseInt(this.width, 10);
                     var heightcheck = parseInt(this.height, 10);
-					          console.log(widthcheck + " " + heightcheck);
+				    console.log(widthcheck + " " + heightcheck);
                     var xcheck = (Math.cos(h * 45 * (Math.PI / 180)) * speed) + checknow[j][0];
                     var ycheck = (Math.sin(h * 45 * (Math.PI / 180)) * speed) + checknow[j][1];
 
                    if (!okspots.includes([xcheck, ycheck])) {
                        var i = 0;
                        //see if the checkpoints are touching member of the 'darn_obstacle' css class
-                       arrayLength = game_elementArray.length;
+                       arrayLength = obstaclesWeCareAbout.length;
                        for (i = 0; i < arrayLength; i++)
                        {
                            console.log(i);
                            booltouching = false;
                            //attempt to catch the case where game_elementArray[i] is the entity itself
-                           if (game_elementArray[i] == this.element)
+                           if (obstaclesWeCareAbout[i] == this.element)
                            {
                                booltouching = false;
                            }
                            //the regular case
-                           else if (syntheticTouching(jQuery(game_elementArray[i]), [xcheck, ycheck], [widthcheck, heightcheck]))
+                           else if (syntheticTouching(jQuery(obstaclesWeCareAbout[i]), [xcheck, ycheck], [widthcheck, heightcheck]))
                            {
                                booltouching = true;
                                break;
