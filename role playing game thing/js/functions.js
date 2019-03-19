@@ -137,7 +137,6 @@ function syntheticTouching (thing1, topLeft, widthHeight)
         ver = true;
         //console.log('ver4')
     }
-	clog(hor + " " + ver)
     if(hor && ver)
     {
         isThereATouch = true;
@@ -206,6 +205,13 @@ function get_px(toporleft,guy)
 	var oldval = $(guy).css(toporleft);
 	var oldvalpx = parseInt(oldval);
 	return oldvalpx;
+}
+function disT (point1x, point1y, point2x, point2y)
+{
+	var xdist = point1x-point2x;
+	var ydist = point1y-point2y;
+	var finaldist = Math.hypot(Math.abs(xdist), Math.abs(ydist));
+	return finaldist;
 }
 function move(toporleft,speed,guy)
 {
