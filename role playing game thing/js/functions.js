@@ -83,10 +83,10 @@ function isBetween(n, t, b)
 }
 var touched = "none";
 function syntheticTouching (thing1, topLeft, widthHeight)
-{	
-    var quad = new componet(widthHeight[0], widthHeight[1], topLeft[0], topLeft[1], "red", $("#game_elements"), ["darn_obstacle"]);
+{
+    //var quad = new componet(widthHeight[0], widthHeight[1], topLeft[0], topLeft[1], "rgba(20,20,20,0.1);", $("#game_elements"), ["darn_obstacle"]);
 	//console.log(touching(quad, thing1))
-    var bad = 
+    var bad =
     {
         left: topLeft[0],
         right: topLeft[0] + widthHeight[0],
@@ -137,12 +137,11 @@ function syntheticTouching (thing1, topLeft, widthHeight)
         ver = true;
         //console.log('ver4')
     }
-	clog(hor + " " + ver)
     if(hor && ver)
     {
         isThereATouch = true;
     }
-    else 
+    else
     {
         touched = "none";
     }
@@ -194,7 +193,7 @@ function touching(thing1, thing2)
 			isThereATouch = $(this);
 			touched = $(this);
 		}
-		else 
+		else
 		{
 			touched = "none";
 		}
@@ -206,6 +205,13 @@ function get_px(toporleft,guy)
 	var oldval = $(guy).css(toporleft);
 	var oldvalpx = parseInt(oldval);
 	return oldvalpx;
+}
+function disT (point1x, point1y, point2x, point2y)
+{
+	var xdist = point1x-point2x;
+	var ydist = point1y-point2y;
+	var finaldist = Math.hypot(Math.abs(xdist), Math.abs(ydist));
+	return finaldist;
 }
 function move(toporleft,speed,guy)
 {

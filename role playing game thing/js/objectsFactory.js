@@ -1,7 +1,6 @@
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-var boardSize = 7000000000;
 function componet(width, height, x, y, colorOrURL, parant, classes, id)
 {
     this.width = width.toString(10) + "px";
@@ -101,11 +100,11 @@ function entity (width, height, x, y, url, classes, type, health)
         rate = distarr[1];
 
         const reps = rotarr.length;
-        
+
         var currentVals = get_aspects(this.element);
         var currentLeft = currentVals.left;
         var currentTop = currentVals.top;
-        
+
         //update the orientation property
         this.orintation = parseInt(element.style.transform.replace("rotate(", "").replace("deg)", ""));
 
@@ -129,7 +128,7 @@ function entity (width, height, x, y, url, classes, type, health)
             top = parseInt(element.style.top, 10);
             left = parseInt(element.style.left, 10);
 
-            //execute distarr[r]
+            //execute disarr[r]
             var xdist = Math.cos(this.orintation * Math.PI / 180) * distarr[r];
             var ydist = Math.sin(this.orintation * Math.PI / 180) * distarr[r];
 
@@ -148,89 +147,147 @@ function entity (width, height, x, y, url, classes, type, health)
 	{
 		if (this.health < 0)
 		{
-			console.log("Here");
 			document.getElementById(this.title).remove();
 		}
 	}
-	this.gridField = [];
-	this.initNewGridField = function()
+	this.moveAt = function(object, speed)
 	{
-		var width = parseInt(this.width),
-		height = parseInt(this.height);
-		
-		//a list of the places that could potentially be induced in the route. 
+		//a list of the places that could potentially be incuded in the route.
 		var checkSpots = [];
-		
+
 		//To assemble an array of spots to check, we have to divide the entire space into boxes the size of the thing pathfinding.
 		//It will be a list of upperLeft corners, in the for [top, left]
 		//more information need not be gathered, as the other four corners can be calculated
 		var corrners = [];
-		
-		//the location on the diagonal dimension that we are acting upon. 
+
+		//the location on the diagonal dimension that we are acting upon.
 		var actingLayer = 0;
-		
+
 		//we know that (0,0) will always be a part of the array.
-		corrners.push([0,0]);
+		corners.push([0,0]);
 		actingLayer = 1;
-		
+
 		//To get the remaining points, some mental contortion is required.
 		/*
 		. represents the first "layer"
 		* the second
 		x the third
-		
+
 		. * x
 		* * x
-		x x x 
-		
+		x x x
+
 		As you can see, each time we go the next "layer", the number of additional coroners increases by two.
 		This means that given the total number of layers on the board, we can calculate the position of each corner.
 		*/
-		
+
 		//just as an example, the second layer is created like this.
-		corrners.push([width, 0]);
-		corrners.push([0, height]);
-		corrners.push([width, height]);
+		corners.push([this.width, 0]);
+		corners.push([0, this.height]);
+		corners.push([this.width, this.height]);
 		actingLayer = 2;
-		
+
 		//layers left the work with.
 		var layersIncomplete = boardSize - actingLayer;
-		
-		var numberOfCorrnersThisLayer, colmnSize; 
-		
-		for (layersIncomplete = boardSize - actingLayer; layersIncomplete > 0; layersIncomplete--)
+
+		var numberOfCorrnersThisLayer;
+
+		for (layersIncomplete = boardSize; layersIncomplete > 0; layersIncomplete--)
 		{
-			numberOfCorrnersThisLayer = (2 * actingLayer);
-			
-			//add the column exuding the diagonal point
-			for (var actingDot = 0; actingDot < (numberOfCorrnersThisLayer--); actingDot++)
-			{
-				corrners.push([width * (actingLayer), actingDot * height]);
-			}
-			
-			//now add the row.	
-			for (var actingDot = 0; actingDot < (numberOfCorrnersThisLayer--); actingDot++)
-			{
-				corrners.push([width * (actingDot), actingLayer * height]);
-			}
-			
-			//and the diagonal piece
-			corrners.push([width * (actingLayer), height * (actingLayer)]);
-			
-			actingLayer++;
-		 }
-		this.gridField = corrners;
+			actingLayer = boardSize - actingLayer;
+			numberOfCorrnersThisLayer = 2 * actingLayer + 1;
+			//for (){}
+		}
 	}
-	this.moveAt = function(object, speed)
+	this.pathfind = async function(smarts, speed)
 	{
-		var placholder;
+        //before we do any pathfinding, we should find all the darn_obstacles that are likly to matter
+        var game_elementArray = document.getElementsByClassName('darn_obstacle');
+        var game_elementsInWorld = game_elementArray.length;
+        const boxWidth = speed * smarts * 2 + speed, boxTop = parseInt(this.y, 10) - (speed * smarts), boxLeft = parseInt(this.x, 10) - (speed * smarts);
+        var shape = new componet (boxWidth, boxWidth, boxLeft, boxTop, "rgba(155,155,155,0.1)", $("#game_elements"), []);
+        var obstaclesWeCareAbout= [];
+        for (var i = 0; i < game_elementsInWorld; i++)
+        {
+            if (syntheticTouching(jQuery(game_elementArray[i]), [boxLeft, boxTop], [boxWidth, boxWidth]))
+            {
+                obstaclesWeCareAbout.push(game_elementArray[i]);
+            }
+        }
+
+        //var okspots = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
+        var okspots = [];
+        var checknow = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
+        var checknext = [], booltouching = false, arrayLength;
+        for (var g = 0; g < smarts; g++)
+        {
+            for (var j = 0; j < checknow.length; j++)
+            {
+                for (var h = 0; h < 8; h++)
+                {
+                    booltouching = false;
+                    var widthcheck = parseInt(this.width, 10);
+                    var heightcheck = parseInt(this.height, 10);
+                    var xcheck = (Math.cos(h * 45 * (Math.PI / 180)) * speed) + checknow[j][0];
+                    var ycheck = (Math.sin(h * 45 * (Math.PI / 180)) * speed) + checknow[j][1];
+
+                    //if (!okspots.includes([xcheck, ycheck])) {
+                       var i = 0;
+                       //see if the checkpoints are touching member of the 'darn_obstacle' css class
+                       arrayLength = obstaclesWeCareAbout.length;
+                       for (i = 0; i < arrayLength; i++)
+                       {
+                           booltouching = false;
+                           //attempt to catch the case where game_elementArray[i] is the entity itself
+                           if (obstaclesWeCareAbout[i] == this.element)
+                           {
+                               booltouching = false;
+                           }
+                           //the regular case
+                           else if (syntheticTouching(jQuery(obstaclesWeCareAbout[i]), [xcheck, ycheck], [widthcheck, heightcheck]))
+                           {
+                               booltouching = true;
+                               break;
+                           }
+                       }
+                       if (booltouching)
+                       {
+                         console.error("fail");
+                       }
+                       else
+                       {
+                           var quad = new componet(widthcheck, heightcheck, xcheck, ycheck, "blue", $("#game_elements"), []);
+                           okspots.push([xcheck, ycheck, checknow[j][0], checknow[j][1], disT(xcheck, ycheck, get_px("left", "#you"), get_px("top", "#you"))]);
+                           checknext.push([xcheck, ycheck]);
+                       }
+                   //}//
+                }
+            }
+            checknow = [];
+            checknow = checknext;
+            checknext = [];
+        }//this is the end of the ourter-most for loop
+        var okspotsLength = okspots.length;
+        var okspotsDistFromPlayer = [];
+
+        //add the distance from the player of each index of the okspots array to another array so we can access them later.
+        for (i = 1; i < okspotsLength; i++) {//we start on index one INTENTIONALY so as to avoid accessing index 0 DO NOT CHANGE THIS
+            okspotsDistFromPlayer.push(okspots[i][4]);
+        }
+
+        var closestDistToPlayer = Math.min.apply(null, okspotsDistFromPlayer);
+        var indexOfClosestDistToPlayer = okspotsDistFromPlayer.indexOf(closestDistToPlayer);
+        var closestOkSpotToPlayer = okspots[indexOfClosestDistToPlayer];
+		console.log(this.width + "" + this.height + okspots[indexOfClosestDistToPlayer][0] + okspots[indexOfClosestDistToPlayer][1])
+        var quad = new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][0], okspots[indexOfClosestDistToPlayer][1], "papayawhip", $("#npcs"));
+		quad.element.style.zIndex = "5";
 	}
     this.update();
     /*
     *methods needed:
     *Die
     *Change image/color
-    *move (independent of player/towards player)
+    *move (inpendent of player/toards player)
     *input/output damage
     *check for death
     *Attack

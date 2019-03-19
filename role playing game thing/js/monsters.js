@@ -7,6 +7,6 @@ function moveBee()
 {
     enem1.move([90, -90, -90, -90],[100, 250, 100, 250], 700);
 }
-moveBee();
+//moveBee();
 
 var monsterList = [enem1];
