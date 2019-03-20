@@ -205,7 +205,6 @@ function entity (width, height, x, y, url, classes, type, health)
         var game_elementArray = document.getElementsByClassName('darn_obstacle');
         var game_elementsInWorld = game_elementArray.length;
         const boxWidth = speed * smarts * 2 + speed, boxTop = parseInt(this.y, 10) - (speed * smarts), boxLeft = parseInt(this.x, 10) - (speed * smarts);
-        var shape = new componet (boxWidth, boxWidth, boxLeft, boxTop, "rgba(155,155,155,0.1)", $("#game_elements"), []);
         var obstaclesWeCareAbout= [];
         for (var i = 0; i < game_elementsInWorld; i++)
         {
@@ -216,7 +215,7 @@ function entity (width, height, x, y, url, classes, type, health)
         }
 
         //var okspots = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
-        var okspots = [];
+        var okspots = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
         var checknow = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
         var checknext = [], booltouching = false, arrayLength;
         for (var g = 0; g < smarts; g++)
@@ -250,16 +249,11 @@ function entity (width, height, x, y, url, classes, type, health)
                                break;
                            }
                        }
-                       if (booltouching)
-                       {
-                         console.error("fail");
-                       }
-                       else
-                       {
+                    if (!booltouching){
                            var quad = new componet(widthcheck, heightcheck, xcheck, ycheck, "blue", $("#game_elements"), []);
                            okspots.push([xcheck, ycheck, checknow[j][0], checknow[j][1], disT(xcheck, ycheck, get_px("left", "#you"), get_px("top", "#you"))]);
                            checknext.push([xcheck, ycheck]);
-                       }
+                    }
                    //}//
                 }
             }
@@ -268,19 +262,20 @@ function entity (width, height, x, y, url, classes, type, health)
             checknext = [];
         }//this is the end of the ourter-most for loop
         var okspotsLength = okspots.length;
-        var okspotsDistFromPlayer = [];
-
+        var okspotsDistFromPlayer = [disT(parseInt(this.x), parseInt(this.y), get_px("left", "#you"), get_px("top", "#you"))];
+        var quad1 = new componet(widthcheck, heightcheck, okspots[0][0], okspots[0][1], "papayawhip", $("#game_elements"), []);
         //add the distance from the player of each index of the okspots array to another array so we can access them later.
         for (i = 1; i < okspotsLength; i++) {//we start on index one INTENTIONALY so as to avoid accessing index 0 DO NOT CHANGE THIS
             okspotsDistFromPlayer.push(okspots[i][4]);
         }
-
-        var closestDistToPlayer = Math.min.apply(null, okspotsDistFromPlayer);
+        var closestDistToPlayer = Math.min(...okspotsDistFromPlayer);
+        //clog (okspotsDistFromPlayer);
         var indexOfClosestDistToPlayer = okspotsDistFromPlayer.indexOf(closestDistToPlayer);
+        console.log(indexOfClosestDistToPlayer);
         var closestOkSpotToPlayer = okspots[indexOfClosestDistToPlayer];
-		console.log(this.width + "" + this.height + okspots[indexOfClosestDistToPlayer][0] + okspots[indexOfClosestDistToPlayer][1])
-        var quad = new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][0], okspots[indexOfClosestDistToPlayer][1], "papayawhip", $("#npcs"));
-		quad.element.style.zIndex = "5";
+		console.log(indexOfClosestDistToPlayer);
+        var quad2 = new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][0], okspots[indexOfClosestDistToPlayer][1], "rebeccaPurple", $("#npcs"));
+		quad2.element.style.zIndex = "5";
 	}
     this.update();
     /*
