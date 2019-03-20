@@ -276,6 +276,13 @@ function entity (width, height, x, y, url, classes, type, health)
 		console.log(indexOfClosestDistToPlayer);
         var quad2 = new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][0], okspots[indexOfClosestDistToPlayer][1], "rebeccaPurple", $("#npcs"));
 		quad2.element.style.zIndex = "5";
+        var path = new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][2], okspots[indexOfClosestDistToPlayer][3], "red", $("#npcs"));
+        path.element.style.zIndex = "5";
+        /*checkbackNext = okspots[indexOfClosestDistToPlayer]
+        for(var tb = 0; tb < smarts+1; tb++)
+        {
+            
+        }*/
 	}
     this.update();
     /*
