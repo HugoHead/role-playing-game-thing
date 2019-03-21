@@ -231,8 +231,8 @@ function entity (width, height, x, y, url, classes, type, health)
 		    quad2.element.style.zIndex = "5";
 
         var path = [];
-		    path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][2], okspots[indexOfClosestDistToPlayer][3], "red", $("#npcs")));
-        path[0].element.style.zIndex = "5";
+		    //path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][2], okspots[indexOfClosestDistToPlayer][3], "red", $("#npcs")));
+        //path[0].element.style.zIndex = "5";
 
         var idtraceback = [indexOfClosestDistToPlayer],
         idtochecknext = okspots[indexOfClosestDistToPlayer][3],
@@ -245,7 +245,7 @@ function entity (width, height, x, y, url, classes, type, health)
            path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[spot][0], okspots[spot][1], "red", $("#npcs")));
            idtraceback.push(spot);
            idtochecknext = okspots[spot][3];
-           path[y+1].element.style.zIndex = "5";
+           path[y].element.style.zIndex = "5";
            if(spot == 0)
            {
              y = smarts;
