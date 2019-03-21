@@ -362,6 +362,21 @@ function moving()
 			callOffset("right");
 		}
 	}
+    if(key.k)
+    {
+        $(".killme").remove();
+    }
+    if(key.p)
+    {
+        clog("help")
+        if(ramsaver==true)
+        {
+            
+            ramsaver = false;
+            enem1.pathfind(4, 50);
+            setTimeout(function(){ramsaver=true},5000)
+        }
+    }
 }
 function toggleInventory()
 {
