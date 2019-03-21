@@ -240,3 +240,11 @@ function move2(toporleft,speed,guy)
 	var oldvalpx = guyasp[toporleft];
 	$(guy).css(toporleft,(oldvalpx+speed)+'px')
 };
+function getCol(matrix, col){
+	var column = [];
+	for(var i=0; i<matrix.length; i++)
+	{
+		column.push(matrix[i][col]);
+	}
+	return column;
+}

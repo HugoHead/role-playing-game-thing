@@ -150,55 +150,6 @@ function entity (width, height, x, y, url, classes, type, health)
 			document.getElementById(this.title).remove();
 		}
 	}
-	this.moveAt = function(object, speed)
-	{
-		//a list of the places that could potentially be incuded in the route.
-		var checkSpots = [];
-
-		//To assemble an array of spots to check, we have to divide the entire space into boxes the size of the thing pathfinding.
-		//It will be a list of upperLeft corners, in the for [top, left]
-		//more information need not be gathered, as the other four corners can be calculated
-		var corrners = [];
-
-		//the location on the diagonal dimension that we are acting upon.
-		var actingLayer = 0;
-
-		//we know that (0,0) will always be a part of the array.
-		corners.push([0,0]);
-		actingLayer = 1;
-
-		//To get the remaining points, some mental contortion is required.
-		/*
-		. represents the first "layer"
-		* the second
-		x the third
-
-		. * x
-		* * x
-		x x x
-
-		As you can see, each time we go the next "layer", the number of additional coroners increases by two.
-		This means that given the total number of layers on the board, we can calculate the position of each corner.
-		*/
-
-		//just as an example, the second layer is created like this.
-		corners.push([this.width, 0]);
-		corners.push([0, this.height]);
-		corners.push([this.width, this.height]);
-		actingLayer = 2;
-
-		//layers left the work with.
-		var layersIncomplete = boardSize - actingLayer;
-
-		var numberOfCorrnersThisLayer;
-
-		for (layersIncomplete = boardSize; layersIncomplete > 0; layersIncomplete--)
-		{
-			actingLayer = boardSize - actingLayer;
-			numberOfCorrnersThisLayer = 2 * actingLayer + 1;
-			//for (){}
-		}
-	}
 	this.pathfind = async function(smarts, speed)
 	{
         //before we do any pathfinding, we should find all the darn_obstacles that are likly to matter
@@ -213,10 +164,9 @@ function entity (width, height, x, y, url, classes, type, health)
                 obstaclesWeCareAbout.push(game_elementArray[i]);
             }
         }
-
-        //var okspots = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
-        var okspots = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
-        var checknow = [[parseInt(this.x, 10),parseInt(this.y, 10)]];
+        var idcounter = 1;
+        var okspots = [[parseInt(this.x, 10),parseInt(this.y, 10),0]];
+        var checknow = [[parseInt(this.x, 10),parseInt(this.y, 10),0]];
         var checknext = [], booltouching = false, arrayLength;
         for (var g = 0; g < smarts; g++)
         {
@@ -224,6 +174,7 @@ function entity (width, height, x, y, url, classes, type, health)
             {
                 for (var h = 0; h < 8; h++)
                 {
+                    var previusID = checknow[j][2]
                     booltouching = false;
                     var widthcheck = parseInt(this.width, 10);
                     var heightcheck = parseInt(this.height, 10);
@@ -251,38 +202,56 @@ function entity (width, height, x, y, url, classes, type, health)
                        }
                     if (!booltouching){
                            var quad = new componet(widthcheck, heightcheck, xcheck, ycheck, "blue", $("#game_elements"), []);
-                           okspots.push([xcheck, ycheck, checknow[j][0], checknow[j][1], disT(xcheck, ycheck, get_px("left", "#you"), get_px("top", "#you"))]);
-                           checknext.push([xcheck, ycheck]);
+                           okspots.push([xcheck, ycheck, idcounter, previusID, disT(xcheck, ycheck, get_px("left", "#you"), get_px("top", "#you")), g*j*h]);
+                           checknext.push([xcheck, ycheck, idcounter]);
+                           idcounter++;
                     }
-                   //}//
                 }
             }
             checknow = [];
             checknow = checknext;
             checknext = [];
         }//this is the end of the ourter-most for loop
+
         var okspotsLength = okspots.length;
         var okspotsDistFromPlayer = [disT(parseInt(this.x), parseInt(this.y), get_px("left", "#you"), get_px("top", "#you"))];
-        var quad1 = new componet(widthcheck, heightcheck, okspots[0][0], okspots[0][1], "papayawhip", $("#game_elements"), []);
         //add the distance from the player of each index of the okspots array to another array so we can access them later.
         for (i = 1; i < okspotsLength; i++) {//we start on index one INTENTIONALY so as to avoid accessing index 0 DO NOT CHANGE THIS
             okspotsDistFromPlayer.push(okspots[i][4]);
         }
+		     //we have created an array of all of the distances of all the okspots, now we need to find the closest to the player
         var closestDistToPlayer = Math.min(...okspotsDistFromPlayer);
-        //clog (okspotsDistFromPlayer);
+		    //now, in order to begin even thinking about finding the okspot closest to the player, we need to find the index of the closest distance to the player
         var indexOfClosestDistToPlayer = okspotsDistFromPlayer.indexOf(closestDistToPlayer);
-        console.log(indexOfClosestDistToPlayer);
+         //then just index okspots on index found in the previos line.
         var closestOkSpotToPlayer = okspots[indexOfClosestDistToPlayer];
-		console.log(indexOfClosestDistToPlayer);
+		    //draw this okspot in purple
         var quad2 = new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][0], okspots[indexOfClosestDistToPlayer][1], "rebeccaPurple", $("#npcs"));
-		quad2.element.style.zIndex = "5";
-        var path = new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][2], okspots[indexOfClosestDistToPlayer][3], "red", $("#npcs"));
-        path.element.style.zIndex = "5";
-        /*checkbackNext = okspots[indexOfClosestDistToPlayer]
-        for(var tb = 0; tb < smarts+1; tb++)
+		    //ensure that we can see the closest spot to the player (it may be concealed by another componet)
+		    quad2.element.style.zIndex = "5";
+
+        var path = [];
+		    path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][2], okspots[indexOfClosestDistToPlayer][3], "red", $("#npcs")));
+        path[0].element.style.zIndex = "5";
+
+        var idtraceback = [indexOfClosestDistToPlayer],
+        idtochecknext = okspots[indexOfClosestDistToPlayer][3],
+        spot;
+
+        for(var y = 0; y < smarts; y++)
         {
-            
-        }*/
+           spot = getCol(okspots, 2).indexOf(idtochecknext);
+           console.log(spot);
+           path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[spot][0], okspots[spot][1], "red", $("#npcs")));
+           idtraceback.push(spot);
+           idtochecknext = okspots[spot][3];
+           path[y+1].element.style.zIndex = "5";
+           if(spot == 0)
+           {
+             y = smarts;
+           }
+        }
+        //clog(idtraceback);
 	}
     this.update();
     /*
