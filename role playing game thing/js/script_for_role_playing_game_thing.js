@@ -362,6 +362,15 @@ function moving()
 			callOffset("right");
 		}
 	}
+    if(key.k)
+    {
+        $(".killme").remove();
+    }
+    if(key.p)
+    {
+        enem1.pathfind(3, 50);
+        setTimeout(function(){ramsaver=true},5000);
+    }
 }
 function toggleInventory()
 {

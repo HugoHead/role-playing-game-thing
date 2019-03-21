@@ -201,7 +201,7 @@ function entity (width, height, x, y, url, classes, type, health)
                            }
                        }
                     if (!booltouching){
-                           var quad = new componet(widthcheck, heightcheck, xcheck, ycheck, "blue", $("#game_elements"), []);
+                           var quad = new componet(widthcheck, heightcheck, xcheck, ycheck, "blue", $("#game_elements"), ["killme"]);
                            okspots.push([xcheck, ycheck, idcounter, previusID, disT(xcheck, ycheck, get_px("left", "#you"), get_px("top", "#you")), g*j*h]);
                            checknext.push([xcheck, ycheck, idcounter]);
                            idcounter++;
@@ -226,7 +226,7 @@ function entity (width, height, x, y, url, classes, type, health)
          //then just index okspots on index found in the previos line.
         var closestOkSpotToPlayer = okspots[indexOfClosestDistToPlayer];
 		    //draw this okspot in purple
-        var quad2 = new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][0], okspots[indexOfClosestDistToPlayer][1], "rebeccaPurple", $("#npcs"));
+        var quad2 = new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][0], okspots[indexOfClosestDistToPlayer][1], "rebeccaPurple", $("#npcs"), ["killme"]);
 		    //ensure that we can see the closest spot to the player (it may be concealed by another componet)
 		    quad2.element.style.zIndex = "5";
 
@@ -242,7 +242,7 @@ function entity (width, height, x, y, url, classes, type, health)
         {
            spot = getCol(okspots, 2).indexOf(idtochecknext);
            console.log(spot);
-           path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[spot][0], okspots[spot][1], "red", $("#npcs")));
+           path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[spot][0], okspots[spot][1], "red", $("#npcs"), ["killme"]));
            idtraceback.push(spot);
            idtochecknext = okspots[spot][3];
            path[y].element.style.zIndex = "5";
