@@ -133,8 +133,10 @@ function entity (width, height, x, y, url, classes, type, health)
             var ydist = Math.sin(this.orintation * Math.PI / 180) * distarr[r];
 
             var xchnage = xdist + left;
-            element.style.left = xdist + left + "px";
-            element.style.top = ydist + top + "px";
+            this.x = xdist + left;
+            this.y = ydist + top
+            element.style.left = this.x + "px";
+            element.style.top = this.y + "px";
             await sleep(speed);
         }
     }
@@ -241,7 +243,6 @@ function entity (width, height, x, y, url, classes, type, health)
         for(var y = 0; y < smarts; y++)
         {
            spot = getCol(okspots, 2).indexOf(idtochecknext);
-           console.log(spot);
            path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[spot][0], okspots[spot][1], "red", $("#npcs"), ["killme"]));
            idtraceback.push(spot);
            idtochecknext = okspots[spot][3];
@@ -251,7 +252,8 @@ function entity (width, height, x, y, url, classes, type, health)
              y = smarts;
            }
         }
-        //clog(idtraceback);
+
+
 	}
     this.update();
     /*
