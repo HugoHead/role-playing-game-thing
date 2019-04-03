@@ -253,7 +253,7 @@ function entity (width, height, x, y, url, classes, type, health)
              y = smarts;
            }
         }
-        const xdif = this.x - okspots[okspots.length - 2][0], ydif = this.y - okspots[okspots.length - 2][1];
+        const xdif = this.x - okspots[idtraceback[idtraceback.length-2]][0], ydif = this.y - okspots[idtraceback[idtraceback.length-2]][1];
         var angle;
         if (xdif == 0 && ydif > 0)
         {
@@ -283,7 +283,8 @@ function entity (width, height, x, y, url, classes, type, health)
         {
             angle = 270;
         }
-        this.move([angle-135], [speed], this.speed)
+        clog(okspots[okspots.length - 2][1])
+        this.move([angle+180], [speed], this.speed)
         
 	}
     this.update();

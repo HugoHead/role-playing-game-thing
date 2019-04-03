@@ -6,6 +6,7 @@ var frame_counter=0;
 var sprite_position = 0;
 var state = true;
 var armed = false;
+var ramsaver = true;
 $( function() {
     $("#bar").on( "click", function() {
       if ( state ) {
@@ -368,8 +369,16 @@ function moving()
     }
     if(key.p)
     {
-        enem1.pathfind(3, 50);
-        setTimeout(function(){ramsaver=true},5000);
+        if(ramsaver)
+        {
+            ramsaver = false;
+            enem1.pathfind(3, 50);
+            setTimeout(function(){ramsaver=true},5000);
+        }
+    }
+    if (key.r)
+    {
+        location.reload()
     }
 }
 function toggleInventory()
