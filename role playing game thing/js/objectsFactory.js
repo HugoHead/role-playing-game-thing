@@ -51,6 +51,7 @@ function entity (width, height, x, y, url, classes, type, health)
     this.x = x.toString(10) + "px";
     this.y = y.toString(10) + "px";
     this.url = url;
+    this.speed = 5;
     this.type = type;
     this.element;
 	this.health = health;
@@ -133,8 +134,10 @@ function entity (width, height, x, y, url, classes, type, health)
             var ydist = Math.sin(this.orintation * Math.PI / 180) * distarr[r];
 
             var xchnage = xdist + left;
-            element.style.left = xdist + left + "px";
-            element.style.top = ydist + top + "px";
+            this.x = xdist + left;
+            this.y = ydist + top
+            element.style.left = this.x + "px";
+            element.style.top = this.y + "px";
             await sleep(speed);
         }
     }
@@ -201,7 +204,7 @@ function entity (width, height, x, y, url, classes, type, health)
                            }
                        }
                     if (!booltouching){
-                           var quad = new componet(widthcheck, heightcheck, xcheck, ycheck, "blue", $("#game_elements"), ["killme"]);
+                           //var quad = new componet(widthcheck, heightcheck, xcheck, ycheck, "blue", $("#game_elements"), ["killme"]);
                            okspots.push([xcheck, ycheck, idcounter, previusID, disT(xcheck, ycheck, get_px("left", "#you"), get_px("top", "#you")), g*j*h]);
                            checknext.push([xcheck, ycheck, idcounter]);
                            idcounter++;
@@ -226,9 +229,9 @@ function entity (width, height, x, y, url, classes, type, health)
          //then just index okspots on index found in the previos line.
         var closestOkSpotToPlayer = okspots[indexOfClosestDistToPlayer];
 		    //draw this okspot in purple
-        var quad2 = new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][0], okspots[indexOfClosestDistToPlayer][1], "rebeccaPurple", $("#npcs"), ["killme"]);
+        //var quad2 = new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][0], okspots[indexOfClosestDistToPlayer][1], "rebeccaPurple", $("#npcs"), ["killme"]);
 		    //ensure that we can see the closest spot to the player (it may be concealed by another componet)
-		    quad2.element.style.zIndex = "5";
+		    //quad2.element.style.zIndex = "5";
 
         var path = [];
 		    //path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][2], okspots[indexOfClosestDistToPlayer][3], "red", $("#npcs")));
@@ -241,17 +244,47 @@ function entity (width, height, x, y, url, classes, type, health)
         for(var y = 0; y < smarts; y++)
         {
            spot = getCol(okspots, 2).indexOf(idtochecknext);
-           console.log(spot);
            path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[spot][0], okspots[spot][1], "red", $("#npcs"), ["killme"]));
            idtraceback.push(spot);
            idtochecknext = okspots[spot][3];
-           path[y].element.style.zIndex = "5";
+           //path[y].element.style.zIndex = "5";
            if(spot == 0)
            {
              y = smarts;
            }
         }
-        //clog(idtraceback);
+        const xdif = this.x - okspots[okspots.length - 2][0], ydif = this.y - okspots[okspots.length - 2][1];
+        var angle;
+        if (xdif == 0 && ydif > 0)
+        {
+            angle = 0;
+        }
+        else if (xdif > 0 && ydif > 0)
+        {
+            angle = 45;
+        }
+        else if (xdif > 0 && ydif == 0)
+        {
+            angle = 90;
+        }
+        else if (xdif > 0 && ydif < 0)
+        {
+            angle = 135;
+        }
+        else if (xdif == 0 && ydif < 0)
+        {
+            angle = 180;
+        }
+        else if (xdif < 0 && ydif < 0)
+        {
+            angle = 225;
+        }
+        else if (xdif < 0 && ydif == 0)
+        {
+            angle = 270;
+        }
+        this.move([angle-135], [speed], this.speed)
+        
 	}
     this.update();
     /*

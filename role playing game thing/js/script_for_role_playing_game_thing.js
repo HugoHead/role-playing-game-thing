@@ -5,7 +5,7 @@ var level = 0;
 var frame_counter=0;
 var sprite_position = 0;
 var state = true;
-var armed = true;
+var armed = false;
 $( function() {
     $("#bar").on( "click", function() {
       if ( state ) {
@@ -368,14 +368,8 @@ function moving()
     }
     if(key.p)
     {
-        clog("help")
-        if(ramsaver==true)
-        {
-            
-            ramsaver = false;
-            enem1.pathfind(4, 50);
-            setTimeout(function(){ramsaver=true},5000)
-        }
+        enem1.pathfind(3, 50);
+        setTimeout(function(){ramsaver=true},5000);
     }
 }
 function toggleInventory()
@@ -399,27 +393,23 @@ function hideInventory()
 }
 function hold(itemheld)
 {
+    //this function is DOM function no JQ allowed.
 	var thisImage = 0;
+    var sword = document.getElementById("sword");
 	switch(itemheld) {
-  		case $("#sword"):
-			clog("sword");
-    		thisImage = "url('sprites/swing.png')"
-		break;
+  		case sword:
+            armed = true;
+    		thisImage = "url('sprites/swing.png')";
+        break;
   		default:
 			clog("deafalt");
-    		thisImage = "url('sprites/swing.png')"
+    		thisImage = "url('sprites/swing.png')";
 	}
-	//get all css rules applyed to the itemHeld
-	//grab the backgroundImage
+
 	var image = thisImage;
 	
-	var shadow = document.getElementById("weapon");
-	//enusre that the image fits in the div
-	//shadow.style.backgroundSize = "";
-	//prevent the image from reapeating.
-	//shadow.style.backgroundRepeat = "no-repeat";
-	//apply the background image
-	shadow.style.backgroundImage = image;
+	var weapon = document.getElementById("weapon");
+	weapon.style.backgroundImage = image;
 }
 function pickupitem()
 {
@@ -428,7 +418,7 @@ function pickupitem()
 		if(a)
 		{
 			a.remove();
-			a.addClass("inInv")
+			a.addClass("inInv");
 			custoalert("You have picked up a " + a.attr("id"));
 			$("#inventory").append(a);
 

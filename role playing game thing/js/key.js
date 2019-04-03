@@ -18,6 +18,7 @@ function set_key(k,d)
 		case 75: key['k'] = d;break;
 		case 76: key['l'] = d;break;
 		case 69: key['e'] = d;break;
+        case 80: key['p'] = d;break;
 	}
 }
 $(document).on('keydown',function(evt)
