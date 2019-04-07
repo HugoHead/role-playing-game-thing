@@ -39,7 +39,7 @@ function componet(width, height, x, y, colorOrURL, parant, classes, id)
         {
             this.element.style.backgroundColor = this.colorOrURL;
         }
-    }
+    }   
     this.update();
 }
 //------------------------------------------------------------------------
@@ -93,34 +93,19 @@ function entity (width, height, x, y, url, classes, type, health)
     this.move = async function(rotarr, distarr, speed)
     {
         var element = document.getElementById(this.title);
-        (element);
         element.style.transition = speed + "ms";
-        var rotDist = rotarr[0],
-        rotRate = rotarr[1],
-        dist = distarr[0],
-        rate = distarr[1];
-
-        const reps = rotarr.length;
-
-        var currentVals = get_aspects(this.element);
-        var currentLeft = currentVals.left;
-        var currentTop = currentVals.top;
 
         //update the orientation property
         this.orintation = parseInt(element.style.transform.replace("rotate(", "").replace("deg)", ""));
+        
+        const reps = rotarr.length;
 
-        var rotAmm = rotarr.length;
-        var distAmm = distarr.lenght;
         var left,top;
         for (var r = 0; r < reps; r++)
         {
+            clog(this.orintation);
             //execute rotarr[r]
             this.orintation += rotarr[r];
-            this.orintation = this.orintation % 360;
-            if (this.orintation > 180)
-            {
-              this.orintation = -1 * (this.orintation - 180);
-            }
 
             element.style.transform = "rotate(" + this.orintation + "deg)";
 
@@ -135,7 +120,7 @@ function entity (width, height, x, y, url, classes, type, health)
 
             var xchnage = xdist + left;
             this.x = xdist + left;
-            this.y = ydist + top
+            this.y = ydist + top;
             element.style.left = this.x + "px";
             element.style.top = this.y + "px";
             await sleep(speed);
@@ -282,6 +267,10 @@ function entity (width, height, x, y, url, classes, type, health)
         else if (xdif < 0 && ydif == 0)
         {
             angle = 270;
+        }
+        else if (xdif < 0 && ydif > 0)
+        {
+            angle = 315;
         }
         clog(okspots[okspots.length - 2][1])
         this.move([angle+180], [speed], this.speed)
