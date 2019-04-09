@@ -218,7 +218,7 @@ function entity (width, height, x, y, url, classes, type, health)
 		    //ensure that we can see the closest spot to the player (it may be concealed by another componet)
 		    //quad2.element.style.zIndex = "5";
 
-
+        var path = [];
 		    //path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][2], okspots[indexOfClosestDistToPlayer][3], "red", $("#npcs")));
         //path[0].element.style.zIndex = "5";
 
@@ -229,6 +229,7 @@ function entity (width, height, x, y, url, classes, type, health)
         for(var y = 0; y < smarts; y++)
         {
            spot = getCol(okspots, 2).indexOf(idtochecknext);
+           path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[spot][0], okspots[spot][1], "red", $("#npcs"), ["killme"]));
            idtraceback.push(spot);
            idtochecknext = okspots[spot][3];
            //path[y].element.style.zIndex = "5";
@@ -272,7 +273,7 @@ function entity (width, height, x, y, url, classes, type, health)
             angle = 315;
         }
         clog(okspots[okspots.length - 2][1]);
-        this.move([-(angle+270)], [speed], this.speed);
+        this.move([-(angle)+90], [speed], this.speed);
 	}
     this.update();
     /*
