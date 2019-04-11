@@ -238,7 +238,9 @@ function entity (width, height, x, y, url, classes, type, health)
              y = smarts;
            }
         }
-        const xdif = this.x - okspots[idtraceback[idtraceback.length-2]][0], ydif = this.y - okspots[idtraceback[idtraceback.length-2]][1];
+        const xdif = this.x - okspots[idtraceback[idtraceback.length-2]][0], 
+              ydif = this.y - okspots[idtraceback[idtraceback.length-2]][1];
+        var test = new componet (10, 10, okspots[idtraceback[idtraceback.length-2]][0], okspots[idtraceback[idtraceback.length-2]][1], "black", document.body, ["game_elements"]);
         var angle;
         if (xdif == 0 && ydif > 0)
         {
@@ -272,8 +274,16 @@ function entity (width, height, x, y, url, classes, type, health)
         {
             angle = 315;
         }
-        clog(okspots[okspots.length - 2][1]);
-        this.move([-(angle)+90], [speed], this.speed);
+        clog(angle);
+        if (this.orintation == angle)
+        {
+            this.move([0], [speed], this.speed);
+        }
+        else
+        {
+            this.move([-((this.orintation + angle)) - 90], [speed], this.speed);
+        }
+        
 	}
     this.update();
     /*
