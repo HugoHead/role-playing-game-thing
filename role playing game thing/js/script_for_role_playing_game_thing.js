@@ -33,26 +33,26 @@ function callOffset(direction){
 		case "up":
 			$("#weapon").css("top",  distup +"px")
 			$("#weapon").css("left",  $("#shadow").css("left"))
-			
+
 			break;
 		case "down":
 			$("#weapon").css("top",  distdown +"px")
 			$("#weapon").css("left",  $("#shadow").css("left"))
-			
+
 			break;
 		case "left":
 			$("#weapon").css("top",  distleft +"px")
-			
+
 			$("#weapon").css("left",  Number($("#shadow").css("left").replace("px", ""))-12 +"px")
 			break;
 		case "right":
 			$("#weapon").css("top",  distright +"px")
 			$("#weapon").css("left",  Number($("#shadow").css("left").replace("px", ""))+12 +"px")
-			
+
 			break;
 		default:
 			$("#weapon").css("top",  distup +"px")
-			
+
 			break;
 	}
 }
@@ -227,7 +227,7 @@ function checkForE()
 		buyHairConditioner();
 	}
 }
-function repeated()
+function repeat()
 {
 	if(touching("#you","#weirdo"))
 	{
@@ -253,14 +253,14 @@ function buyHairConditioner()
 		$("#hairspray").addClass("inInv")
 		custoalert("Merchant: Here you are.<br>Have a nice day.");
 	}
-	else 
+	else
 	{
 		custoalert("Mechant: Sorry, <br>you don't have the right items.");
 	}
 }
 function moving()
 {
-	
+
 	var up, down, left, right;
 	if(state)
 	{
@@ -274,7 +274,7 @@ function moving()
 		up = key.w;
 		down = key.s;
 		left = key.a;
-		right = key.d;	
+		right = key.d;
 	}
 	if(up)
 	{
@@ -286,7 +286,7 @@ function moving()
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
-			repeated();
+			repeat()
 			move2('top',5,'#you');
 			move2('top',5,'.follow');
 			callOffset("up");
@@ -308,7 +308,7 @@ function moving()
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
-			repeated();
+			repeat()
 			move2('top',-5,'#you');
 			move2('top',-5,'.follow');
 			callOffset("down");
@@ -330,14 +330,14 @@ function moving()
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
-			repeated();
+			repeat()
 			move2('left',5,'#you');
 			move2('left',5,'.follow');
 			callOffset("left");
 		}
 		if(touching("#shadow","#left"))
 		{
-			
+
 			move2('left',5,'#game_elements*');
 			move2('left',5,'.follow');
 			callOffset("left");
@@ -353,13 +353,13 @@ function moving()
 		change_sprite();
 		if(touching("#you",".darn_obstacle"))
 		{
-			repeated();
+			repeat()
 			move2('left',-5,'#you');
 			move2('left',-5,'.follow');
 			callOffset("right");
 		}
 		if(touching("#shadow","#right"))
-		{	
+		{
 			move2('left',-5,'#game_elements*');
 			move2('left',-5,'.follow');
 			callOffset("right");
@@ -427,7 +427,7 @@ function hold(itemheld)
 	}
 
 	var image = thisImage;
-	
+
 	var weapon = document.getElementById("weapon");
 	weapon.style.backgroundImage = image;
 }
@@ -489,7 +489,7 @@ $(document).ready(function()
     terrain = makeElements();
 	hideInventory();
 	animate();
-    
+
 
 });
 
