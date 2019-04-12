@@ -4,7 +4,7 @@ function sleep(ms) {
 var level = 0;
 var frame_counter=0;
 var sprite_position = 0;
-var state = true;
+var state = "undecided";
 var armed = false;
 var ramsaver = true;
 $( function() {
@@ -13,12 +13,13 @@ $( function() {
         $("#slider" ).animate({
           left: "75px"
         }, 700 );
+        state = false;
       } else {
         $("#slider" ).animate({
           left: "0"
         }, 700 );
+        state = true;
       }
-      state = !state;
     });
 });
 function callOffset(direction){
@@ -31,26 +32,26 @@ function callOffset(direction){
 		case "up":
 			$("#weapon").css("top",  distup +"px")
 			$("#weapon").css("left",  $("#shadow").css("left"))
-
+			
 			break;
 		case "down":
 			$("#weapon").css("top",  distdown +"px")
 			$("#weapon").css("left",  $("#shadow").css("left"))
-
+			
 			break;
 		case "left":
 			$("#weapon").css("top",  distleft +"px")
-
+			
 			$("#weapon").css("left",  Number($("#shadow").css("left").replace("px", ""))-12 +"px")
 			break;
 		case "right":
 			$("#weapon").css("top",  distright +"px")
 			$("#weapon").css("left",  Number($("#shadow").css("left").replace("px", ""))+12 +"px")
-
+			
 			break;
 		default:
 			$("#weapon").css("top",  distup +"px")
-
+			
 			break;
 	}
 }
@@ -251,14 +252,14 @@ function buyHairConditioner()
 		$("#hairspray").addClass("inInv")
 		custoalert("Merchant: Here you are.<br>Have a nice day.");
 	}
-	else
+	else 
 	{
 		custoalert("Mechant: Sorry, <br>you don't have the right items.");
 	}
 }
 function moving()
 {
-
+	
 	var up, down, left, right;
 	if(state)
 	{
@@ -267,12 +268,12 @@ function moving()
 		left = key.left;
 		right = key.right;
 	}
-	else
+	else if (!state)
 	{
 		up = key.w;
 		down = key.s;
 		left = key.a;
-		right = key.d;
+		right = key.d;	
 	}
 	if(up)
 	{
@@ -335,7 +336,7 @@ function moving()
 		}
 		if(touching("#shadow","#left"))
 		{
-
+			
 			move2('left',5,'#game_elements*');
 			move2('left',5,'.follow');
 			callOffset("left");
@@ -357,7 +358,7 @@ function moving()
 			callOffset("right");
 		}
 		if(touching("#shadow","#right"))
-		{
+		{	
 			move2('left',-5,'#game_elements*');
 			move2('left',-5,'.follow');
 			callOffset("right");
@@ -373,12 +374,19 @@ function moving()
         {
             ramsaver = false;
             enem1.pathfind(3, 50);
-            setTimeout(function(){ramsaver=true},200);
+            setTimeout(function(){ramsaver=true},5000);
         }
     }
     if (key.r)
     {
         location.reload()
+    }
+    if(state=="undecided")
+    {
+        if(key.w || key.a || key.s || key.d)
+        {state = false; $("#slider" ).css("left", 75);}
+        if(key.up || key.left || key.down || key.right)
+        {state = true;}
     }
 }
 function toggleInventory()
@@ -416,7 +424,7 @@ function hold(itemheld)
 	}
 
 	var image = thisImage;
-
+	
 	var weapon = document.getElementById("weapon");
 	weapon.style.backgroundImage = image;
 }
@@ -465,9 +473,11 @@ var animate = function()
 }
 $(document).ready(function()
 {
-	terrain = makeElements();
+	console.log("state")
+    terrain = makeElements();
 	hideInventory();
 	animate();
+    
 
 });
 
