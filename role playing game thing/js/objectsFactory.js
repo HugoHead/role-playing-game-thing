@@ -51,6 +51,7 @@ function entity (width, height, x, y, url, classes, type, health)
     this.x = x.toString(10) + "px";
     this.y = y.toString(10) + "px";
     this.url = url;
+    this.speed = 5;
     this.type = type;
     this.element;
 	this.health = health;
@@ -92,34 +93,19 @@ function entity (width, height, x, y, url, classes, type, health)
     this.move = async function(rotarr, distarr, speed)
     {
         var element = document.getElementById(this.title);
-        (element);
         element.style.transition = speed + "ms";
-        var rotDist = rotarr[0],
-        rotRate = rotarr[1],
-        dist = distarr[0],
-        rate = distarr[1];
-
-        const reps = rotarr.length;
-
-        var currentVals = get_aspects(this.element);
-        var currentLeft = currentVals.left;
-        var currentTop = currentVals.top;
 
         //update the orientation property
         this.orintation = parseInt(element.style.transform.replace("rotate(", "").replace("deg)", ""));
 
-        var rotAmm = rotarr.length;
-        var distAmm = distarr.lenght;
+        const reps = rotarr.length;
+
         var left,top;
         for (var r = 0; r < reps; r++)
         {
+            clog(this.orintation);
             //execute rotarr[r]
             this.orintation += rotarr[r];
-            this.orintation = this.orintation % 360;
-            if (this.orintation > 180)
-            {
-              this.orintation = -1 * (this.orintation - 180);
-            }
 
             element.style.transform = "rotate(" + this.orintation + "deg)";
 
@@ -134,7 +120,7 @@ function entity (width, height, x, y, url, classes, type, health)
 
             var xchnage = xdist + left;
             this.x = xdist + left;
-            this.y = ydist + top
+            this.y = ydist + top;
             element.style.left = this.x + "px";
             element.style.top = this.y + "px";
             await sleep(speed);
@@ -203,7 +189,7 @@ function entity (width, height, x, y, url, classes, type, health)
                            }
                        }
                     if (!booltouching){
-                           var quad = new componet(widthcheck, heightcheck, xcheck, ycheck, "blue", $("#game_elements"), ["killme"]);
+                           //var quad = new componet(widthcheck, heightcheck, xcheck, ycheck, "blue", $("#game_elements"), ["killme"]);
                            okspots.push([xcheck, ycheck, idcounter, previusID, disT(xcheck, ycheck, get_px("left", "#you"), get_px("top", "#you")), g*j*h]);
                            checknext.push([xcheck, ycheck, idcounter]);
                            idcounter++;
@@ -228,9 +214,9 @@ function entity (width, height, x, y, url, classes, type, health)
          //then just index okspots on index found in the previos line.
         var closestOkSpotToPlayer = okspots[indexOfClosestDistToPlayer];
 		    //draw this okspot in purple
-        var quad2 = new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][0], okspots[indexOfClosestDistToPlayer][1], "rebeccaPurple", $("#npcs"), ["killme"]);
+        //var quad2 = new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][0], okspots[indexOfClosestDistToPlayer][1], "rebeccaPurple", $("#npcs"), ["killme"]);
 		    //ensure that we can see the closest spot to the player (it may be concealed by another componet)
-		    quad2.element.style.zIndex = "5";
+		    //quad2.element.style.zIndex = "5";
 
         var path = [];
 		    //path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][2], okspots[indexOfClosestDistToPlayer][3], "red", $("#npcs")));
@@ -243,17 +229,58 @@ function entity (width, height, x, y, url, classes, type, health)
         for(var y = 0; y < smarts; y++)
         {
            spot = getCol(okspots, 2).indexOf(idtochecknext);
-           path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[spot][0], okspots[spot][1], "red", $("#npcs"), ["killme"]));
+           //path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[spot][0], okspots[spot][1], "red", $("#npcs"), ["killme"]));
            idtraceback.push(spot);
            idtochecknext = okspots[spot][3];
-           path[y].element.style.zIndex = "5";
+           //path[y].element.style.zIndex = "5";
            if(spot == 0)
            {
              y = smarts;
            }
         }
-
-
+        const xdif = this.x - okspots[idtraceback[idtraceback.length-2]][0], 
+              ydif = this.y - okspots[idtraceback[idtraceback.length-2]][1];
+        //var test = new componet (10, 10, okspots[idtraceback[idtraceback.length-2]][0], okspots[idtraceback[idtraceback.length-2]][1], "black", document.body, ["game_elements"]);
+        var angle;
+        clog("the idtracback stuff:")
+        console.log(okspots[idtraceback[idtraceback.length-2]][0] + ", " + okspots[idtraceback[idtraceback.length-2]][1]);
+        clog("the cdif and ydif");
+        clog(xdif + ", " + ydif);
+        if ((xdif < 1 && xdif > -1) && ydif > 1)
+        {
+            angle = 0;
+        }
+        else if (xdif > 1 && ydif > 1)
+        {
+            angle = 45;
+        }
+        else if (xdif > 1 && (ydif < 1 && ydif > -1))
+        {
+            angle = 90;
+        }
+        else if (xdif > 1 && ydif < -1)
+        {
+            angle = 135;
+        }
+        else if ((xdif < 1 && xdif > -1) && ydif < -1)
+        {
+            clog("here");
+            angle = 179;
+        }
+        else if (xdif < -1 && ydif < -1)
+        {
+            angle = 225;
+        }
+        else if (xdif < -1 && (ydif < 1 && ydif > -1))
+        {
+            angle = 270;
+        }
+        else if (xdif < -1 && ydif > 1)
+        {
+            angle = 315;
+        }
+        this.move([-((this.orintation + angle)) - 90], [speed], this.speed);
+        
 	}
     this.update();
     /*

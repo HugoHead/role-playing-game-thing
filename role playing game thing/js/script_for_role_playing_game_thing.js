@@ -6,6 +6,7 @@ var frame_counter=0;
 var sprite_position = 0;
 var state = true;
 var armed = false;
+var ramsaver = true;
 $( function() {
     $("#bar").on( "click", function() {
       if ( state ) {
@@ -30,26 +31,26 @@ function callOffset(direction){
 		case "up":
 			$("#weapon").css("top",  distup +"px")
 			$("#weapon").css("left",  $("#shadow").css("left"))
-			
+
 			break;
 		case "down":
 			$("#weapon").css("top",  distdown +"px")
 			$("#weapon").css("left",  $("#shadow").css("left"))
-			
+
 			break;
 		case "left":
 			$("#weapon").css("top",  distleft +"px")
-			
+
 			$("#weapon").css("left",  Number($("#shadow").css("left").replace("px", ""))-12 +"px")
 			break;
 		case "right":
 			$("#weapon").css("top",  distright +"px")
 			$("#weapon").css("left",  Number($("#shadow").css("left").replace("px", ""))+12 +"px")
-			
+
 			break;
 		default:
 			$("#weapon").css("top",  distup +"px")
-			
+
 			break;
 	}
 }
@@ -250,14 +251,14 @@ function buyHairConditioner()
 		$("#hairspray").addClass("inInv")
 		custoalert("Merchant: Here you are.<br>Have a nice day.");
 	}
-	else 
+	else
 	{
 		custoalert("Mechant: Sorry, <br>you don't have the right items.");
 	}
 }
 function moving()
 {
-	
+
 	var up, down, left, right;
 	if(state)
 	{
@@ -271,7 +272,7 @@ function moving()
 		up = key.w;
 		down = key.s;
 		left = key.a;
-		right = key.d;	
+		right = key.d;
 	}
 	if(up)
 	{
@@ -334,7 +335,7 @@ function moving()
 		}
 		if(touching("#shadow","#left"))
 		{
-			
+
 			move2('left',5,'#game_elements*');
 			move2('left',5,'.follow');
 			callOffset("left");
@@ -356,7 +357,7 @@ function moving()
 			callOffset("right");
 		}
 		if(touching("#shadow","#right"))
-		{	
+		{
 			move2('left',-5,'#game_elements*');
 			move2('left',-5,'.follow');
 			callOffset("right");
@@ -368,8 +369,16 @@ function moving()
     }
     if(key.p)
     {
-        enem1.pathfind(3, 50);
-        setTimeout(function(){ramsaver=true},5000);
+        if(ramsaver)
+        {
+            ramsaver = false;
+            enem1.pathfind(3, 50);
+            setTimeout(function(){ramsaver=true},200);
+        }
+    }
+    if (key.r)
+    {
+        location.reload()
     }
 }
 function toggleInventory()
@@ -407,7 +416,7 @@ function hold(itemheld)
 	}
 
 	var image = thisImage;
-	
+
 	var weapon = document.getElementById("weapon");
 	weapon.style.backgroundImage = image;
 }
