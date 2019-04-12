@@ -7,6 +7,7 @@ var sprite_position = 0;
 var state = "undecided";
 var armed = false;
 var ramsaver = true;
+var repeated = false;
 $( function() {
     $("#bar").on( "click", function() {
       if ( state ) {
@@ -377,6 +378,8 @@ function moving()
             setTimeout(function(){ramsaver=true},200);
         }
     }
+    if(key.m)
+    {repeated=!repeated}
     if (key.r)
     {
         location.reload()
@@ -466,6 +469,15 @@ var animate = function()
 		if(key.space)
 		{
 			swingSword();
+        }
+	}
+    if(repeated)
+	{
+		if(ramsaver)
+        {
+            ramsaver = false;
+            enem1.pathfind(3, 50);
+            setTimeout(function(){ramsaver=true},200);
         }
 	}
 	pickupitem();
