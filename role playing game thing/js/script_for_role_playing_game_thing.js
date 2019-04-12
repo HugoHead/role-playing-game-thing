@@ -374,7 +374,7 @@ function moving()
         {
             ramsaver = false;
             enem1.pathfind(3, 50);
-            setTimeout(function(){ramsaver=true},5000);
+            setTimeout(function(){ramsaver=true},200);
         }
     }
     if (key.r)
