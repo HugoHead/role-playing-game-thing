@@ -138,7 +138,7 @@ function entity (width, height, x, y, url, classes, type, health)
 			document.getElementById(this.title).remove();
 		}
 	}
-	this.pathfind = async function(smarts, speed)
+	this.pathfind = function(smarts, speed)
 	{
         //before we do any pathfinding, we should find all the darn_obstacles that are likly to matter
         var game_elementArray = document.getElementsByClassName('darn_obstacle');
@@ -238,7 +238,7 @@ function entity (width, height, x, y, url, classes, type, health)
              y = smarts;
            }
         }
-        const xdif = this.x - okspots[idtraceback[idtraceback.length-2]][0], 
+        const xdif = this.x - okspots[idtraceback[idtraceback.length-2]][0],
               ydif = this.y - okspots[idtraceback[idtraceback.length-2]][1];
         //var test = new componet (10, 10, okspots[idtraceback[idtraceback.length-2]][0], okspots[idtraceback[idtraceback.length-2]][1], "black", document.body, ["game_elements"]);
         var angle;
@@ -280,7 +280,7 @@ function entity (width, height, x, y, url, classes, type, health)
             angle = 315;
         }
         this.move([-((this.orintation + angle)) - 90], [speed], this.speed);
-        
+
 	}
     this.update();
     /*
