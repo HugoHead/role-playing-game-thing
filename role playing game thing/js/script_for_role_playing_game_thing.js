@@ -379,7 +379,12 @@ function moving()
         }
     }
     if(key.m)
-    {repeated=!repeated}
+    {if(ramsaver)
+    {
+        ramsaver = false;
+        repeated=!repeated;
+        setTimeout(function(){ramsaver=true},200);
+    }}
     if (key.r)
     {
         location.reload()
@@ -489,8 +494,6 @@ $(document).ready(function()
     terrain = makeElements();
 	hideInventory();
 	animate();
-
-
 });
 
 $(document).on('keydown',function(evt)
