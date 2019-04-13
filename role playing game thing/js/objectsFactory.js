@@ -138,7 +138,7 @@ function entity (width, height, x, y, url, classes, type, health)
 			document.getElementById(this.title).remove();
 		}
 	}
-	this.pathfind = function(smarts, speed)
+	this.pathfind = async function(smarts, speed)
 	{
         //before we do any pathfinding, we should find all the darn_obstacles that are likly to matter
         var game_elementArray = document.getElementsByClassName('darn_obstacle');
@@ -280,7 +280,7 @@ function entity (width, height, x, y, url, classes, type, health)
             angle = 315;
         }
         this.move([-((this.orintation + angle)) - 90], [speed], this.speed);
-
+        return Promise.resolve(1);
 	}
     this.update();
     /*

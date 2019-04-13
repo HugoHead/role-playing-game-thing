@@ -481,8 +481,9 @@ var animate = function()
 		if(ramsaver)
         {
             ramsaver = false;
-            enem1.pathfind(3, 50);
-            setTimeout(function(){ramsaver=true},200);
+            enem1.pathfind(3, 50).then(
+                setTimeout(function(){ramsaver=true},200)
+            );
         }
 	}
 	pickupitem();
