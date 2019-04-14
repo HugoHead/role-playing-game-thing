@@ -11,10 +11,13 @@ function makeElements()
 	var terain8 = new componet(384, 192, 766, 595, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain9 = new componet(384, 195, 174, 540, "green", $("#game_elements"), ["darn_obstacle"]);
 	var terain10 = new componet(384, 192, 337, -6, "green", $("#game_elements"), ["darn_obstacle"]);
-    var topBar = new componet(1074, 192, 10, -250, "green", $("#game_elements"), ["darn_obstacle", "topBar"]);
-    var bottomBar = new componet(394, 10, 20, 914, "green", $("#game_elements"), ["darn_obstacle"]);
-    var barThatPreventsEscapefromTheMerchantArea = new componet(192, 402, 1074, -269, "green", $("#game_elements"), ["darn_obstacle"])    ;
+  var topBar = new componet(1074, 192, 10, -250, "green", $("#game_elements"), ["darn_obstacle", "topBar"]);
+  var bottomBar = new componet(394, 10, 20, 914, "green", $("#game_elements"), ["darn_obstacle"]);
+  var barThatPreventsEscapefromTheMerchantArea = new componet(192, 402, 1074, -269, "green", $("#game_elements"), ["darn_obstacle"])    ;
 	var cave1 = new componet(635, 198, 449, 539, "green", $("#game_elements"), ["cave"]);
 	var cave2 = new componet(363, 198, 721, -6, "green", $("#game_elements"), ["cave"]);
+	//var chasm = new componet(200, 200, 30, 400, "darkgray", $("#game_elements"), ["chasm"], "chasm1");
+	var chasm = new componet(200, 200, 30, 400, "darkgray", $("#game_elements"), ["chasm"], "chasm1");
+	chasm.element.style.zIndex = -2;
     return [terain1,terain2,terain3,terain4,terain5,terain6,terain7,terain8,terain9,terain10,topBar,barThatPreventsEscapefromTheMerchantArea,cave1,cave2];
 }

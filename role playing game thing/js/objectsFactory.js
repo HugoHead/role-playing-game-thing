@@ -26,9 +26,11 @@ function componet(width, height, x, y, colorOrURL, parant, classes, id)
                 this.element.classList.add(classes[i]);
             }
         }
-        if (this.id != undefined)
+        if (id != undefined)
         {
+            this.id = id;
             this.element.setAttribute("id", this.id);
+
         }
         this.parant.append(this.element);
         if (this.colorOrURL.search("."))//the colorOrUrl is a url

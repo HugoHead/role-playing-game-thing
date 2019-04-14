@@ -123,6 +123,20 @@ function talk(check)
 		}, 2000);
 	}
 }
+function die()
+{
+  //alert("dead");
+  $("#game_elements").addClass("blurFilter");
+  $("body").append("<div id='deathnote'><font size='8' color='red'>You died</font></div>");
+  $("#deathnote").css("z-index", 7);
+  $("#deathnote").css("position","absolute");
+  $("#deathnote").css("top", Math.max(0, (($(window).height() - $("#deathnote").outerHeight()) / 2) + $(window).scrollTop()) + "px");
+  $("#deathnote").css("left", Math.max(0, (($(window).width() - $("#deathnote").outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+  window.setTimeout(function()
+  {
+    location.reload();
+  }, 2000);
+}
 function change_sprite()
 {
 	if(sprite_position<4)
@@ -226,6 +240,32 @@ function checkForE()
 	{
 		buyHairConditioner();
 	}
+}
+function checkforchasm()
+{
+  //wtf is this?
+  var correctchasm = touching("#you", "#game_elements .chasm");
+  //var chasmid = correctchasm.attr("id");
+  //var chasmobject = document.getElementById(chasmid);
+  //console.log(correctchasm)
+  if(correctchasm)
+  {
+    const edge = 40;
+    var chasmid = correctchasm.attr("id");
+    var chasmobject = document.getElementById(chasmid);
+    var top = parseInt(chasmobject.style.top)+edge,
+    left = parseInt(chasmobject.style.left)+edge,
+    width = parseInt(chasmobject.style.width)-2*edge,
+    height = parseInt(chasmobject.style.height)-2*edge;
+    //var chasmbox = new componet(parseInt(chasmobject.style.width)-2*edge, parseInt(chasmobject.style.height)-2*edge, parseInt(chasmobject.style.left)+edge, parseInt(chasmobject.style.top)+edge, "gray", $("#game_elements"), []);
+    //chasmbox.element.style.zIndex = 3;
+    var istouch = syntheticTouching($("#you"), [left, top], [width, height])
+    if(istouch)
+    {
+      die()
+    }
+    return istouch;
+  }
 }
 function repeat()
 {
@@ -470,20 +510,20 @@ var animate = function()
 	if(!($("#game_elements").hasClass("blurFilter")))
 	{
 		moving();
+    checkforchasm();
 		togglecave();
 		if(key.space)
 		{
 			swingSword();
-        }
+    }
 	}
     if(repeated)
-	{
+	  {
 		if(ramsaver)
         {
             ramsaver = false;
             enem1.pathfind(3, 50).then(
-                setTimeout(function(){ramsaver=true},200)
-            );
+            setTimeout(function(){ramsaver=true},200));
         }
 	}
 	pickupitem();
