@@ -19,14 +19,16 @@ function set_key(k,d)
 		case 76: key['l'] = d;break;
 		case 69: key['e'] = d;break;
         case 80: key['p'] = d;break;
-        case 82: key['r'] = d;break;  
-        case 77: key['m'] = d;break;  
+        case 82: key['r'] = d;break;
+        case 77: key['m'] = d;break;
+				case 189: key['minus'] = d;break;
+				case 187: key['plus'] = d;break;  
 	}
 }
 $(document).on('keydown',function(evt)
 {
 	set_key(evt.keyCode,true)
-	
+
 })
 
 $(document).on('keyup',function(evt)

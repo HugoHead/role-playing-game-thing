@@ -148,6 +148,15 @@ function drawHealthBar()
     $("#healthbar").css("z-index", 5)
     $("#healthbar").css("position", "absolute")
 }
+function changeplayerhealth(amount)
+{
+  var string = $("#healthbar").css("backgroundImage");
+  var end = string.indexOf("%");
+  var gp = parseInt(string.slice(32, end))+amount;
+  var rp = gp + 3
+  $("#healthbar").css("backgroundImage", "linear-gradient(to right, green "+ gp +"%, red "+ rp +"%)")
+  return "linear-gradient(to right, green "+ gp +"%, red "+ rp+"%)"
+}
 function change_sprite()
 {
 	if(sprite_position<4)
@@ -439,6 +448,14 @@ function moving()
         {state = false; $("#slider" ).css("left", 75);}
         if(key.up || key.left || key.down || key.right)
         {state = true;}
+    }
+    if (key.plus)
+    {
+        changeplayerhealth(1)
+    }
+    if (key.minus)
+    {
+        changeplayerhealth(-1)
     }
 }
 function toggleInventory()
