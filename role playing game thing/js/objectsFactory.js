@@ -103,7 +103,6 @@ function entity (width, height, x, y, url, classes, type, health)
         var left,top;
         for (var r = 0; r < reps; r++)
         {
-            clog(this.orintation);
             //execute rotarr[r]
             this.orintation += rotarr[r];
 

@@ -8,6 +8,8 @@ var state = "undecided";
 var armed = false;
 var ramsaver = true;
 var repeated = false;
+
+//for the settings in the upper right
 $( function() {
     $("#bar").on( "click", function() {
       if ( state ) {
@@ -182,7 +184,8 @@ async function swingSword()
 		armed = true;
 		var sword = document.getElementById("weapon");
 		var currentElement;
-		for (var i in monsterList)
+		swinging = false;
+                for (var i in monsterList)
 		{
 			if (touching(sword, document.getElementById(monsterList[i].title)))
 			{
@@ -193,7 +196,6 @@ async function swingSword()
 				custoalert("Ouch, what was that for?");
 			}
 		}
-		swinging = false;
 	}
 }
 function trade(inputs, output)
@@ -219,13 +221,6 @@ function trade(inputs, output)
 		$("#inventory").append(output);
 	}
 	return enough;
-}
-function checkForE()
-{
-	if (key.e)
-	{
-		buyHairConditioner();
-	}
 }
 function repeat()
 {
@@ -387,7 +382,7 @@ function moving()
     }}
     if (key.r)
     {
-        location.reload()
+        location.reload();
     }
     if(state=="undecided")
     {
@@ -491,7 +486,6 @@ var animate = function()
 }
 $(document).ready(function()
 {
-	console.log("state")
     terrain = makeElements();
 	hideInventory();
 	animate();

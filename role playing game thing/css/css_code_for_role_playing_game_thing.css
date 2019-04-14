@@ -129,7 +129,20 @@ div#weapon
     width: 48px;
     height: 72px;
     background-position: 0px 0px;
+    /*background-color: aqua;*/
+    /*display: block;*/
     /*background-repeat: no-repeat;*/
+}
+.follow
+{
+    position: absolute;
+}
+div#hitbox
+{
+    width: 72px;
+    height: 100px;
+    top: 260px;
+	left: 710px;
 }
 div.darn_obstacle
 {
