@@ -498,6 +498,14 @@ function pickupitem()
 	}
 	return a;
 }
+function drawHealthBar()
+{
+    //width, height, x, y, colorOrURL, parant, classes, idgreen
+    var drawHealthBar = new componet (250, 20, 5, 5, "linear-gradient(to right, green 75%, red 80%)", document.body, []);
+    drawHealthBar.element.style.border = "2px solid black";
+    drawHealthBar.element.style.borderRadius = ".8rem";
+    drawHealthBar.element.style.zIndex = "4765765";
+}
 var animate = function()
 {
 	requestAnimationFrame(animate);
@@ -526,8 +534,9 @@ var animate = function()
 }
 $(document).ready(function()
 {
-    terrain = makeElements();
+  terrain = makeElements();
 	hideInventory();
+  drawHealthBar();
 	animate();
 });
 

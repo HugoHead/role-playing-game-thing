@@ -33,13 +33,21 @@ function componet(width, height, x, y, colorOrURL, parant, classes, id)
 
         }
         this.parant.append(this.element);
+        clog(colorOrURL);
         if (this.colorOrURL.search("."))//the colorOrUrl is a url
         {
             this.element.style.backgroundImage = colorOrURL;
+            clog("case1")
+        }
+        else if (this.colorOrURL.includes("-"))
+        {
+            this.element.style.backgroundImage = colorOrURL;
+            clog("case2")
         }
         else
         {
             this.element.style.backgroundColor = this.colorOrURL;
+            clog("case3")
         }
     }
     this.update();
