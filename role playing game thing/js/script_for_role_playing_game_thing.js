@@ -139,6 +139,15 @@ function die()
     location.reload();
   }, 2000);
 }
+function drawHealthBar()
+{
+    //width, height, x, y, colorOrURL, parant, classes, idgreen
+    var drawHealthBar = new componet (250, 20, 5, 5, "linear-gradient(to right, green 75%, red 78%)", $("body"), [], "healthbar");
+    drawHealthBar.element.style.border = "2px solid black";
+    drawHealthBar.element.style.borderRadius = ".8rem";
+    $("#healthbar").css("z-index", 5)
+    $("#healthbar").css("position", "absolute")
+}
 function change_sprite()
 {
 	if(sprite_position<4)
@@ -439,12 +448,14 @@ function toggleInventory()
 		$("#game_elements").removeClass("blurFilter");
 		$(".follow").removeClass("blurFilter");
 		$("#inventory").hide();
+    $("#healthbar").css("top", "0px")
 	}
 	else
 	{
 		$("#game_elements").addClass("blurFilter");
 		$(".follow").addClass("blurFilter");
 		$("#inventory").show();
+    $("#healthbar").css("top", "320px")
 	}
 }
 function hideInventory()
@@ -498,14 +509,7 @@ function pickupitem()
 	}
 	return a;
 }
-function drawHealthBar()
-{
-    //width, height, x, y, colorOrURL, parant, classes, idgreen
-    var drawHealthBar = new componet (250, 20, 5, 5, "linear-gradient(to right, green 75%, red 80%)", document.body, []);
-    drawHealthBar.element.style.border = "2px solid black";
-    drawHealthBar.element.style.borderRadius = ".8rem";
-    drawHealthBar.element.style.zIndex = "4765765";
-}
+
 var animate = function()
 {
 	requestAnimationFrame(animate);

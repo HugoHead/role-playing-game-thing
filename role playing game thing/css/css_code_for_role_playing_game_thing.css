@@ -151,6 +151,7 @@ div.darn_obstacle
 	/* background-color: green; */
 	display: inline-block;
 	position: relative;
+	z-index: -1;
 }
 div.cave
 {
@@ -241,7 +242,7 @@ div#talkingguy
 	-ms-filter: blur(10px);
 	/* filter: url(#blur); */
 	filter: progid: DXImageTransform.Microsoft.Blur(PixelRadius='10');
-	overflow: hidden;
+	overflow: visible;
 }
 #inventory
 {
