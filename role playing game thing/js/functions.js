@@ -25,6 +25,7 @@ function rand(min,max)
 function clog(g)
 {
 	console.log(g);
+    console.trace();
 }
 function radians(degrees)
 {
