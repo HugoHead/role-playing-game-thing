@@ -1,27 +1,54 @@
 var player = 
-    {
-        health : 100,
-        inv : [],
-        drawHealthBar : function()
-            {
-                //width, height, x, y, colorOrURL, parant, classes, idgreen
-                var drawHealthBar = new componet (250, 20, 5, 5, "linear-gradient(to right, green 100%, red 103%)", $("body"), [], "healthbar");
-                drawHealthBar.element.style.border = "2px solid black";
-                drawHealthBar.element.style.borderRadius = ".8rem";
-                $("#healthbar").css("z-index", 5)
-                $("#healthbar").css("position", "absolute")
-            },
-        changehealth : function (amount)
-            {
-              //this is the linear gradiaent css property
-              this.health += amount;
-              var gp = this.health;
-              //clog(string.slice(32, end));
-              var rp = gp + 3;
-              if(gp==0){die()}
-              $("#healthbar").css("backgroundImage", "linear-gradient(to right, green "+ gp +"%, red "+ rp +"%)");
-            }
-    }
+{
+	health : 100,
+	inv : [],
+	drawHealthBar : function()
+		{
+			//width, height, x, y, colorOrURL, parant, classes, idgreen
+			var drawHealthBar = new componet (250, 20, 5, 5, "linear-gradient(to right, green 100%, red 97%)", $("body"), [], "healthbar");
+			drawHealthBar.element.style.border = "2px solid black";
+			drawHealthBar.element.style.borderRadius = ".8rem";
+			$("#healthbar").css("z-index", 5)
+			$("#healthbar").css("position", "absolute")
+		},
+	changehealth : function (amount)
+		{
+		  //this is the linear gradiaent css property
+		  this.health += amount;
+		  var gp = this.health;
+		  var rp = gp + 3;
+		  if(gp<0){die()}
+		  $("#healthbar").css("backgroundImage", "linear-gradient(to right, green "+ gp +"%, red "+ rp +"%)");
+		},
+	pickupitem : function()
+		{
+			var a = touching("#you", "#game_elements .item");
+			try {
+				if(a)
+				{
+					a.remove();
+					a.addClass("inInv");
+					custoalert("You have picked up a " + a.attr("id"));
+					$("#inventory").append(a);
+
+					//touched is a variable created to dodge the mutiple type output of the touching function
+					//writen to by the touching function
+					//is the last object to be identiied as touched
+					if (touched[0].classList.contains("holdable"))
+					{
+						//for whatever reason, jquery constructs its own object type.
+						//elem[0] is the easiest way to parse the element object from the jquery object.
+						var itemHeld = touched[0];
+						hold(itemHeld);
+					}
+				}
+			} catch (e) {
+				var x = 5;
+			}
+			return a;
+		}
+
+}
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -262,7 +289,6 @@ function trade(inputs, output)
 }
 function checkforchasm()
 {
-  //wtf is this?
   var correctchasm = touching("#you", "#game_elements .chasm");
   //var chasmid = correctchasm.attr("id");
   //var chasmobject = document.getElementById(chasmid);
@@ -303,7 +329,6 @@ function repeat()
 			custoalert("Press <button onclick=\"buyHairConditioner();\">Here</button><br> to buy.");
 		}, 2000);
 	}
-
 }
 function buyHairConditioner()
 {
@@ -505,34 +530,6 @@ function hold(itemheld)
 	var weapon = document.getElementById("weapon");
 	weapon.style.backgroundImage = image;
 }
-function pickupitem()
-{
-	var a = touching("#you", "#game_elements .item");
-	try {
-		if(a)
-		{
-			a.remove();
-			a.addClass("inInv");
-			custoalert("You have picked up a " + a.attr("id"));
-			$("#inventory").append(a);
-
-			//touched is a variable created to dodge the mutiple type output of the touching function
-			//writen to by the touching function
-			//is the last object to be identiied as touched
-			if (touched[0].classList.contains("holdable"))
-			{
-				//for whatever reason, jquery constructs its own object type.
-				//elem[0] is the easiest way to parse the element object from the jquery object.
-				var itemHeld = touched[0];
-				hold(itemHeld);
-			}
-		}
-	} catch (e) {
-		var x = 5;
-	}
-	return a;
-}
-
 var animate = function()
 {
 	requestAnimationFrame(animate);
@@ -557,7 +554,7 @@ var animate = function()
 			swingSword();
     }
 	}
-	pickupitem();
+	player.pickupitem();
 	count_frames();
 }
 $(document).ready(function()
