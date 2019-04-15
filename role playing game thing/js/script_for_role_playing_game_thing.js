@@ -1,3 +1,27 @@
+var player = 
+    {
+        health : 100,
+        inv : [],
+        drawHealthBar : function()
+            {
+                //width, height, x, y, colorOrURL, parant, classes, idgreen
+                var drawHealthBar = new componet (250, 20, 5, 5, "linear-gradient(to right, green 100%, red 103%)", $("body"), [], "healthbar");
+                drawHealthBar.element.style.border = "2px solid black";
+                drawHealthBar.element.style.borderRadius = ".8rem";
+                $("#healthbar").css("z-index", 5)
+                $("#healthbar").css("position", "absolute")
+            },
+        changehealth : function (amount)
+            {
+              //this is the linear gradiaent css property
+              this.health += amount;
+              var gp = this.health;
+              //clog(string.slice(32, end));
+              var rp = gp + 3;
+              if(gp==0){die()}
+              $("#healthbar").css("backgroundImage", "linear-gradient(to right, green "+ gp +"%, red "+ rp +"%)");
+            }
+    }
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -138,36 +162,6 @@ function die()
   {
     location.reload();
   }, 2000);
-}
-function drawHealthBar()
-{
-    //width, height, x, y, colorOrURL, parant, classes, idgreen
-    var drawHealthBar = new componet (250, 20, 5, 5, "linear-gradient(to right, green 75%, red 78%)", $("body"), [], "healthbar");
-    drawHealthBar.element.style.border = "2px solid black";
-    drawHealthBar.element.style.borderRadius = ".8rem";
-    $("#healthbar").css("z-index", 5)
-    $("#healthbar").css("position", "absolute")
-}
-function changeplayerhealth(amount)
-{
-  //this is the linear gradiaent css property
-  var string = $("#healthbar").css("backgroundImage");
-  var end = string.indexOf("%");
-  //clog(end);
-  if (string.includes("rgb"))
-  {
-      var gp = parseInt(string.slice(41, end), 10) + amount;
-  }
-  else 
-  {
-      var gp = parseInt(string.slice(32, end), 10) + amount;
-  }
-  clog(gp)
-  //clog(string.slice(32, end));
-  var rp = gp + 3;
-  if(gp==0){die()}
-  $("#healthbar").css("backgroundImage", "linear-gradient(to right, green "+ gp +"%, red "+ rp +"%)")
-  return string;
 }
 function change_sprite()
 {
@@ -463,12 +457,11 @@ function moving()
     }
     if (key.plus)
     {
-        clog("=");
-        changeplayerhealth(1)
+        player.changehealth(1)
     }
     if (key.minus)
     {
-        changeplayerhealth(-1)
+        player.changehealth(-1)
     }
 }
 function toggleInventory()
@@ -571,7 +564,7 @@ $(document).ready(function()
 {
   terrain = makeElements();
 	hideInventory();
-  drawHealthBar();
+  player.drawHealthBar();
 	animate();
 });
 
