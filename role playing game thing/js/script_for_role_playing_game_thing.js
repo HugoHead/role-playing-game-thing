@@ -150,13 +150,24 @@ function drawHealthBar()
 }
 function changeplayerhealth(amount)
 {
+  //this is the linear gradiaent css property
   var string = $("#healthbar").css("backgroundImage");
   var end = string.indexOf("%");
-  var gp = parseInt(string.slice(32, end))+amount;
-  var rp = gp + 3
+  //clog(end);
+  if (string.includes("rgb"))
+  {
+      var gp = parseInt(string.slice(41, end), 10) + amount;
+  }
+  else 
+  {
+      var gp = parseInt(string.slice(32, end), 10) + amount;
+  }
+  clog(gp)
+  //clog(string.slice(32, end));
+  var rp = gp + 3;
   if(gp==0){die()}
   $("#healthbar").css("backgroundImage", "linear-gradient(to right, green "+ gp +"%, red "+ rp +"%)")
-  return "linear-gradient(to right, green "+ gp +"%, red "+ rp+"%)"
+  return string;
 }
 function change_sprite()
 {
@@ -452,6 +463,7 @@ function moving()
     }
     if (key.plus)
     {
+        clog("=");
         changeplayerhealth(1)
     }
     if (key.minus)
@@ -534,15 +546,11 @@ var animate = function()
     //check to see if the inventory is toggled by seeing if there is a bluf filter.
 	if(!($("#game_elements").hasClass("blurFilter")))
 	{
+        
 		moving();
     checkforchasm();
 		togglecave();
-		if(key.space)
-		{
-			swingSword();
-    }
-	}
-    if(repeated)
+            if(repeated)
 	  {
 		if(ramsaver)
         {
@@ -550,6 +558,11 @@ var animate = function()
             enem1.pathfind(3, 50).then(
             setTimeout(function(){ramsaver=true},200));
         }
+	}
+		if(key.space)
+		{
+			swingSword();
+    }
 	}
 	pickupitem();
 	count_frames();
