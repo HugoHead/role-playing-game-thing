@@ -37,17 +37,14 @@ function componet(width, height, x, y, colorOrURL, parant, classes, id)
         if (this.colorOrURL.search("."))//the colorOrUrl is a url
         {
             this.element.style.backgroundImage = colorOrURL;
-            clog("case1")
         }
         else if (this.colorOrURL.includes("-"))
         {
             this.element.style.backgroundImage = colorOrURL;
-            clog("case2")
         }
         else
         {
             this.element.style.backgroundColor = this.colorOrURL;
-            clog("case3")
         }
     }
     this.update();
@@ -67,9 +64,11 @@ function entity (width, height, x, y, url, classes, type, health)
 	this.health = health;
     this.orintation;
     this.front = 1;
+	this.attack = 5;
     this.element = document.createElement("DIV");
 	this.lifeStatus = true;
 	this.deathImage = "/sprites/splat.png";
+	this.lastBox;
     this.update = function()
     {
         this.element.style.width = this.width;
@@ -145,6 +144,7 @@ function entity (width, height, x, y, url, classes, type, health)
 		if (this.health < 0)
 		{
 			document.getElementById(this.title).remove();
+			this.lifeStatus = false;
 		}
 	}
 	this.pathfind = async function(smarts, speed)
@@ -231,65 +231,89 @@ function entity (width, height, x, y, url, classes, type, health)
 		    //path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[indexOfClosestDistToPlayer][2], okspots[indexOfClosestDistToPlayer][3], "red", $("#npcs")));
         //path[0].element.style.zIndex = "5";
 
-        var idtraceback = [indexOfClosestDistToPlayer],
-        idtochecknext = okspots[indexOfClosestDistToPlayer][3],
-        spot;
-
+        try {
+			var idtraceback = [indexOfClosestDistToPlayer],
+				idtochecknext = okspots[indexOfClosestDistToPlayer][3],
+				spot;
+		} catch (e) {
+			this.front = this.front;
+		}
+		
+		var touchingPlayer = false;
+		
         for(var y = 0; y < smarts; y++)
         {
-           spot = getCol(okspots, 2).indexOf(idtochecknext);
-           //path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[spot][0], okspots[spot][1], "red", $("#npcs"), ["killme"]));
-           idtraceback.push(spot);
-           idtochecknext = okspots[spot][3];
-           //path[y].element.style.zIndex = "5";
-           if(spot == 0)
-           {
-             y = smarts;
-           }
+           try {
+			   spot = getCol(okspots, 2).indexOf(idtochecknext);
+			   //path.push(new componet(parseInt(this.width,10), parseInt(this.height,10), okspots[spot][0], okspots[spot][1], "red", $("#npcs"), ["killme"]));
+			   idtraceback.push(spot);
+			   idtochecknext = okspots[spot][3];
+			   //path[y].element.style.zIndex = "5";
+			   if(spot == 0)
+			   {
+				   y = smarts;
+			   }
+		   } catch (e) {
+			   touchingPlayer = true;
+		   }
         }
-        const xdif = this.x - okspots[idtraceback[idtraceback.length-2]][0],
+		if (touchingPlayer)
+		{
+		    var xdif = this.x - this.lastBox[0],
+				  ydif = this.y - this.lastBox[1];
+		}
+		else
+		{
+			this.lastBox = okspots[idtraceback[idtraceback.length-2]];
+			var xdif = this.x - okspots[idtraceback[idtraceback.length-2]][0],
               ydif = this.y - okspots[idtraceback[idtraceback.length-2]][1];
+		}
         //var test = new componet (10, 10, okspots[idtraceback[idtraceback.length-2]][0], okspots[idtraceback[idtraceback.length-2]][1], "black", document.body, ["game_elements"]);
         var angle;
-        clog("the idtracback stuff:")
-        console.log(okspots[idtraceback[idtraceback.length-2]][0] + ", " + okspots[idtraceback[idtraceback.length-2]][1]);
-        clog("the cdif and ydif");
-        clog(xdif + ", " + ydif);
-        if ((xdif < 1 && xdif > -1) && ydif > 1)
-        {
-            angle = 0;
-        }
-        else if (xdif > 1 && ydif > 1)
-        {
-            angle = 45;
-        }
-        else if (xdif > 1 && (ydif < 1 && ydif > -1))
-        {
-            angle = 90;
-        }
-        else if (xdif > 1 && ydif < -1)
-        {
-            angle = 135;
-        }
-        else if ((xdif < 1 && xdif > -1) && ydif < -1)
-        {
-            clog("here");
-            angle = 179;
-        }
-        else if (xdif < -1 && ydif < -1)
-        {
-            angle = 225;
-        }
-        else if (xdif < -1 && (ydif < 1 && ydif > -1))
-        {
-            angle = 270;
-        }
-        else if (xdif < -1 && ydif > 1)
-        {
-            angle = 315;
-        }
-        this.move([-((this.orintation + angle)) - 90], [speed], this.speed);
-        return Promise.resolve(1);
+		if ((xdif < 1 && xdif > -1) && ydif > 1)
+		{
+			angle = 0;
+		}
+		else if (xdif > 1 && ydif > 1)
+		{
+			angle = 45;
+		}
+		else if (xdif > 1 && (ydif < 1 && ydif > -1))
+		{
+			angle = 90;
+		}
+		else if (xdif > 1 && ydif < -1)
+		{
+			angle = 135;
+		}
+		else if ((xdif < 1 && xdif > -1) && ydif < -1)
+		{
+			angle = 179;
+		}
+		else if (xdif < -1 && ydif < -1)
+		{
+			angle = 225;
+		}
+		else if (xdif < -1 && (ydif < 1 && ydif > -1))
+		{
+			angle = 270;
+		}
+		else if (xdif < -1 && ydif > 1)
+		{
+			angle = 315;
+		}
+		if (touching(this.element, player.element) && this.lifeStatus)
+		{
+			player.changehealth(-this.attack);
+			this.move([-((this.orintation + angle)) - 90], [speed], (this.speed * 2) / 3);
+			await sleep(this.speed);
+			this.move([-((this.orintation + angle)) - 90], [-speed], (this.speed * 2) / 3);
+		}
+		else
+		{
+			this.move([-((this.orintation + angle)) - 90], [speed], this.speed);
+		}
+		return Promise.resolve(1);
 	}
     this.update();
     /*

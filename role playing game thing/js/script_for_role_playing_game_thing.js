@@ -2,6 +2,8 @@ var player =
 {
 	health : 100,
 	inv : [],
+	element : document.getElementById("you"),
+	jqElement : $("#you"),
 	drawHealthBar : function()
 		{
 			//width, height, x, y, colorOrURL, parant, classes, idgreen
@@ -463,7 +465,7 @@ function moving()
         }
     }
     if(key.m)
-    {if(ramsaver)
+    {if(ramsaver && enem1.lifeStatus)
     {
         ramsaver = false;
         repeated=!repeated;
