@@ -154,6 +154,7 @@ function changeplayerhealth(amount)
   var end = string.indexOf("%");
   var gp = parseInt(string.slice(32, end))+amount;
   var rp = gp + 3
+  if(gp==0){die()}
   $("#healthbar").css("backgroundImage", "linear-gradient(to right, green "+ gp +"%, red "+ rp +"%)")
   return "linear-gradient(to right, green "+ gp +"%, red "+ rp+"%)"
 }
