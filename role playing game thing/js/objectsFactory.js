@@ -93,7 +93,7 @@ function entity (width, height, x, y, url, classes, type, health)
     this.spawn = function(title)
     {
          this.element.id = title;
-         this.element.classList.add("darn_obstacle")
+         //this.element.classList.add("darn_obstacle")
          document.getElementById("npcs").append(this.element);
          this.title = title;
          this.element = document.getElementById(title);
